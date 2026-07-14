@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assemble — Greyscale Direction</title>
+<style>
+  :root{
+    --canvas:#f3f3f5;      /* app background */
+    --surface:#ffffff;      /* cards */
+    --surface-2:#fafafb;    /* inset / subtle */
+    --ink:#232327;          /* primary text (softened from #1c1c1e) */
+    --ink-2:#63636b;        /* secondary */
+    --muted:#98989f;        /* hints */
+    --line:#e7e7ea;         /* card borders */
+    --line-2:#d8d8dd;       /* input borders */
+    --primary:#26262b;      /* dark actions */
+    --sh-1:0 1px 2px rgba(22,22,28,.05);
+    --sh-2:0 2px 10px rgba(22,22,28,.06),0 1px 3px rgba(22,22,28,.05);
+    --sh-3:0 10px 30px rgba(22,22,28,.10);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--canvas);color:var(--ink);
+       -webkit-font-smoothing:antialiased;padding:32px 20px 60px}
+  h1{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0 0 4px}
+  .sub{color:var(--ink-2);font-size:13px;margin:0 0 26px;max-width:640px;line-height:1.5}
+  .lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+
+  /* palette strip */
+  .swatches{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+  .sw{width:96px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);box-shadow:var(--sh-1)}
+  .sw .chip{height:52px}
+  .sw .meta{padding:7px 9px;font-size:10px;line-height:1.35}
+  .sw .meta b{display:block;font-size:10.5px}
+  .sw .meta span{color:var(--muted)}
+
+  .stage{display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
+
+  /* ---- shared UI tokens ---- */
+  .greet{font-size:12px;color:var(--ink-2)}
+  .name{font-size:20px;font-weight:800;letter-spacing:-.02em}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);
+        border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600;box-shadow:var(--sh-1);cursor:pointer}
+  .bell{width:38px;height:38px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
+        display:flex;align-items:center;justify-content:center;position:relative;box-shadow:var(--sh-1);cursor:pointer}
+  .bell .dot{position:absolute;top:9px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--ink);border:2px solid var(--surface)}
+  .cta{background:var(--primary);color:#fff;border-radius:15px;padding:18px;box-shadow:var(--sh-2);cursor:pointer}
+  .cta .t{font-size:16px;font-weight:700}
+  .cta .d{font-size:12px;color:#c9c9cf;margin-top:3px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .qa{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 10px;text-align:center;
+      box-shadow:var(--sh-1);cursor:pointer}
+  .qa .ic{width:34px;height:34px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);
+          display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:15px}
+  .qa .qt{font-size:11.5px;font-weight:600}
+  .sechead{display:flex;justify-content:space-between;align-items:baseline;margin:22px 2px 11px}
+  .sechead .h{font-size:14px;font-weight:700}
+  .sechead .l{font-size:11.5px;color:var(--ink-2);cursor:pointer}
+  .row{display:flex;gap:11px;overflow:auto;padding-bottom:4px}
+  .ocard{flex:none;width:132px;background:var(--surface);border:1px solid var(--line);border-radius:13px;
+         overflow:hidden;box-shadow:var(--sh-1)}
+  .ph{background:linear-gradient(135deg,#ececee,#d9d9de);display:flex;align-items:center;justify-content:center;
+      color:var(--muted);font-size:10px}
+  .ocard .cap{padding:9px 10px}
+  .ocard .ct{font-size:12px;font-weight:600}
+  .ocard .cs{font-size:10.5px;color:var(--muted);margin-top:2px}
+  .closet{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:13px 14px;
+          display:flex;align-items:center;gap:12px;box-shadow:var(--sh-1)}
+  .closet .n{font-size:19px;font-weight:800}
+  .closet .m{font-size:11.5px;color:var(--ink-2)}
+
+  /* ---- phone frame ---- */
+  .phone{width:330px;background:#111114;border-radius:42px;padding:11px;box-shadow:var(--sh-3)}
+  .screen{background:var(--canvas);border-radius:32px;overflow:hidden;height:660px;display:flex;flex-direction:column;position:relative}
+  .statusbar{height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:11px;font-weight:600;color:var(--ink)}
+  .appbar{padding:6px 18px 12px;display:flex;align-items:center;justify-content:space-between}
+  .scroll{flex:1;overflow:auto;padding:2px 18px 90px}
+  .tabbar{position:absolute;left:0;right:0;bottom:0;height:66px;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);
+          border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding-bottom:6px}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;color:var(--muted);flex:1}
+  .tab.on{color:var(--ink);font-weight:700}
+  .tab .ti{font-size:17px}
+  .fab{width:50px;height:50px;border-radius:16px;background:var(--primary);color:#fff;display:flex;align-items:center;
+       justify-content:center;font-size:22px;margin-top:-18px;box-shadow:var(--sh-2)}
+
+  /* ---- desktop frame ---- */
+  .desktop{width:520px;height:660px;background:var(--surface);border:1px solid var(--line);border-radius:16px;
+           overflow:hidden;display:flex;box-shadow:var(--sh-3)}
+  .rail{width:172px;flex:none;background:var(--surface-2);border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:3px}
+  .logo{font-weight:800;font-size:15px;letter-spacing:-.02em;padding:6px 10px 14px}
+  .logo span{font-weight:400;font-size:9px;color:var(--muted)}
+  .rl{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;font-size:12.5px;color:var(--ink-2);cursor:pointer}
+  .rl.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:var(--sh-1);border:1px solid var(--line)}
+  .creditcard{margin-top:auto;border:1px solid var(--line);border-radius:12px;padding:11px;font-size:11.5px;background:var(--surface);box-shadow:var(--sh-1)}
+  .creditcard b{font-size:15px}
+  .creditcard span{color:var(--muted);font-size:10px}
+  .dmain{flex:1;overflow:auto;padding:20px 22px}
+  .note{margin-top:34px;font-size:12px;color:var(--ink-2);max-width:640px;line-height:1.6;border-left:2px solid var(--line-2);padding-left:14px}
+  @media(max-width:760px){.stage{gap:28px}.desktop{width:100%;max-width:520px}}
+</style>
+</head>
+<body>
+  <h1>Assemble — refined greyscale direction</h1>
+  <p class="sub">Same monochrome family (no brand colour yet), but with soft off-white surfaces, layered neutrals, and subtle shadows for depth — so it reads as a designed prototype, not a stark black-and-white sketch. Below: the palette, then the <b>Home</b> screen shown as mobile and desktop.</p>
+
+  <p class="lbl">Tonal palette</p>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#f3f3f5"></div><div class="meta"><b>Canvas</b><span>#f3f3f5</span></div></div>
+    <div class="sw"><div class="chip" style="background:#ffffff;border-bottom:1px solid #e7e7ea"></div><div class="meta"><b>Surface</b><span>#ffffff</span></div></div>
+    <div class="sw"><div class="chip" style="background:#fafafb"></div><div class="meta"><b>Inset</b><span>#fafafb</span></div></div>
+    <div class="sw"><div class="chip" style="background:#232327"></div><div class="meta"><b>Ink</b><span>#232327</span></div></div>
+    <div class="sw"><div class="chip" style="background:#63636b"></div><div class="meta"><b>Secondary</b><span>#63636b</span></div></div>
+    <div class="sw"><div class="chip" style="background:#98989f"></div><div class="meta"><b>Muted</b><span>#98989f</span></div></div>
+    <div class="sw"><div class="chip" style="background:#e7e7ea"></div><div class="meta"><b>Line</b><span>#e7e7ea</span></div></div>
+    <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#ececee,#d9d9de)"></div><div class="meta"><b>Image</b><span>placeholder</span></div></div>
+  </div>
+
+  <p class="lbl">Home screen · responsive</p>
+  <div class="stage">
+
+    <!-- MOBILE -->
+    <div class="phone">
+      <div class="screen">
+        <div class="statusbar"><span>9:41</span><span>&#9679;&#9679;&#9679; &#9906;</span></div>
+        <div class="appbar">
+          <div><div class="greet">Good evening</div><div class="name">Hi, Reginald</div></div>
+          <div style="display:flex;gap:9px;align-items:center">
+            <div class="pill">&#9788; 12</div>
+            <div class="bell">&#9788;<div class="dot"></div></div>
+          </div>
+        </div>
+        <div class="scroll">
+          <div class="cta">
+            <div class="t">&#10022;&nbsp; Match an outfit</div>
+            <div class="d">Snap an item or use your closet &middot; 1 credit</div>
+          </div>
+          <div class="grid3" style="margin-top:14px">
+            <div class="qa"><div class="ic">&#43;</div><div class="qt">Add item</div></div>
+            <div class="qa"><div class="ic">&#9672;</div><div class="qt">Shop matches</div></div>
+            <div class="qa"><div class="ic">&#9829;</div><div class="qt">Saved looks</div></div>
+          </div>
+          <div class="sechead"><div class="h">Recent outfits</div><div class="l">See all</div></div>
+          <div class="row">
+            <div class="ocard"><div class="ph" style="height:96px">outfit</div><div class="cap"><div class="ct">Dinner look</div><div class="cs">4 items &middot; owned</div></div></div>
+            <div class="ocard"><div class="ph" style="height:96px">outfit</div><div class="cap"><div class="ct">Office fit</div><div class="cs">5 items &middot; 1 to buy</div></div></div>
+            <div class="ocard"><div class="ph" style="height:96px">outfit</div><div class="cap"><div class="ct">Weekend</div><div class="cs">3 items</div></div></div>
+          </div>
+          <div class="sechead"><div class="h">Your closet</div><div class="l">Open</div></div>
+          <div class="closet"><div class="ph" style="width:46px;height:46px;border-radius:10px">&#9636;</div><div><div class="n">142 items</div><div class="m">Shoes, tops, jackets &amp; more</div></div></div>
+        </div>
+        <div class="tabbar">
+          <div class="tab on"><div class="ti">&#8962;</div>Home</div>
+          <div class="tab"><div class="ti">&#9636;</div>Closet</div>
+          <div class="tab"><div class="fab">&#10022;</div></div>
+          <div class="tab"><div class="ti">&#9829;</div>Saved</div>
+          <div class="tab"><div class="ti">&#9673;</div>Profile</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desktop">
+      <div class="rail">
+        <div class="logo">ASSEMBLE <span>wireframe</span></div>
+        <div class="rl on">&#8962; Home</div>
+        <div class="rl">&#9636; Closet</div>
+        <div class="rl">&#10022; Match outfit</div>
+        <div class="rl">&#9829; Saved</div>
+        <div class="rl">&#9672; Shop</div>
+        <div class="rl">&#9673; Profile</div>
+        <div class="creditcard"><b>12</b> credits<br><span>Tap to top up</span></div>
+      </div>
+      <div class="dmain">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+          <div><div class="greet">Good evening</div><div class="name" style="font-size:22px">Hi, Reginald</div></div>
+          <div class="bell">&#9788;<div class="dot"></div></div>
+        </div>
+        <div class="cta"><div class="t">&#10022;&nbsp; Match an outfit</div><div class="d">Snap an item or use your closet &middot; 1 credit</div></div>
+        <div class="grid3" style="margin-top:14px">
+          <div class="qa"><div class="ic">&#43;</div><div class="qt">Add item</div></div>
+          <div class="qa"><div class="ic">&#9672;</div><div class="qt">Shop matches</div></div>
+          <div class="qa"><div class="ic">&#9829;</div><div class="qt">Saved looks</div></div>
+        </div>
+        <div class="sechead"><div class="h">Recent outfits</div><div class="l">See all</div></div>
+        <div class="row">
+          <div class="ocard" style="width:140px"><div class="ph" style="height:100px">outfit</div><div class="cap"><div class="ct">Dinner look</div><div class="cs">4 items &middot; owned</div></div></div>
+          <div class="ocard" style="width:140px"><div class="ph" style="height:100px">outfit</div><div class="cap"><div class="ct">Office fit</div><div class="cs">5 items &middot; 1 to buy</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="note"><b>What changed vs. the current files:</b> canvas is a soft off-white instead of pure white; cards are lifted with light shadows instead of relying only on hairline borders; near-black ink softened <code>#1c1c1e &rarr; #232327</code>; a muted mid-grey added for hierarchy; the mobile tab bar now includes a center Match button; <b>Shop</b> is reachable and larger, more accessible type. Still 100% greyscale — brand colour drops in later on top of these tokens.</p>
+</body>
+</html>

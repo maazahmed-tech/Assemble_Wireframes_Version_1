@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><style>
+body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:#1c1c1e;background:#fff}
+a{color:#1c1c1e}a:hover{color:#555}
+input,textarea,select{font-family:inherit}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style></helmet>
+
+<div style="height:100vh;display:flex;background:#fff;color:#1c1c1e">
+
+<sc-if value="{{ showRail }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Side rail" style="width:210px;flex:none;border-right:1.5px solid #e2e2e2;display:flex;flex-direction:column;gap:4px;padding:18px 12px;background:#f7f7f8">
+  <div style="font-weight:800;font-size:16px;padding:6px 10px 16px;letter-spacing:-.02em">ASSEMBLE <span style="font-weight:400;font-size:10px;color:#888">wireframe</span></div>
+  <div onClick="{{ nav.home }}" style="{{ railStyle.home }}">⌂ Home</div>
+  <div onClick="{{ nav.closet }}" style="{{ railStyle.closet }}">▦ Closet</div>
+  <div onClick="{{ nav.genPick }}" style="{{ railStyle.gen }}">✚ Match outfit</div>
+  <div onClick="{{ nav.saved }}" style="{{ railStyle.saved }}">♥ Saved</div>
+  <div onClick="{{ nav.shop }}" style="{{ railStyle.shop }}">⬦ Shop</div>
+  <div onClick="{{ nav.profile }}" style="{{ railStyle.profile }}">● Profile</div>
+  <div style="flex:1"></div>
+  <div onClick="{{ nav.credits }}" style="border:1.5px solid #1c1c1e;border-radius:10px;padding:10px;font-size:12px;cursor:pointer;background:#fff"><b>{{ creditsText }}</b> credits<br><span style="color:#888;font-size:10.5px">Tap to top up</span></div>
+  <a href="Admin Prototype.dc.html" style="font-size:11px;color:#888;padding:8px 10px">→ Admin panel prototype</a>
+</div>
+</sc-if>
+
+<div style="flex:1;display:flex;flex-direction:column;min-width:0">
+<div style="flex:1;overflow:auto;-webkit-overflow-scrolling:touch" ref="{{ mainRef }}">
+
+<sc-if value="{{ is.welcome }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Welcome" style="max-width:560px;margin:0 auto;padding:44px 20px 24px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:16px;height:200px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">hero image</div>
+  <div style="font-size:26px;font-weight:800;text-align:center;letter-spacing:-.02em;margin-top:8px">Dress right, every time</div>
+  <div style="color:#888;text-align:center;font-size:13px">AI outfits from your own closet</div>
+  <div onClick="{{ nav.signup }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer;margin-top:10px">Create account</div>
+  <div onClick="{{ nav.login }}" style="border:1.5px solid #1c1c1e;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer">Log in</div>
+  <div style="display:flex;gap:10px">
+    <div onClick="{{ act.socialAuth }}" style="flex:1;border:1.5px solid #cfcfcf;border-radius:11px;padding:12px;text-align:center;font-size:12.5px;cursor:pointer">G · Google</div>
+    <div onClick="{{ act.socialAuth }}" style="flex:1;border:1.5px solid #cfcfcf;border-radius:11px;padding:12px;text-align:center;font-size:12.5px;cursor:pointer"> · Apple</div>
+  </div>
+  <div style="color:#999;font-size:10.5px;text-align:center">By continuing you agree to the Terms &amp; Privacy Policy</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.signup }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Sign up" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px">Create account</div></div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Full name</div><input placeholder="Jane Doe" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div style="font-size:11.5px;font-weight:600;color:#333">Email</div><input placeholder="name@email.com" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div style="font-size:11.5px;font-weight:600;color:#333">Phone (optional)</div><input placeholder="+1 …" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div style="font-size:11.5px;font-weight:600;color:#333">Password</div><input type="password" placeholder="••••••••" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div style="color:#999;font-size:10.5px">Min 8 characters · 1 number · 1 symbol</div>
+  <div onClick="{{ chip.terms }}" style="display:flex;align-items:center;gap:9px;cursor:pointer"><div style="{{ checkStyle.terms }}">✓</div><span style="font-size:12px">I agree to the Terms and Privacy Policy</span></div>
+  <div onClick="{{ nav.verify }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer">Continue</div>
+  <div onClick="{{ nav.login }}" style="text-align:center;font-size:12px;text-decoration:underline;color:#555;cursor:pointer;padding:4px">Already have an account? Log in</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.verify }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Verify" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px;align-self:stretch"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px">Verify your email</div></div>
+  <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;display:flex;align-items:center;justify-content:center;margin-top:16px"><span style="filter:grayscale(1)">✉</span></div>
+  <div style="font-weight:700">Enter the 6-digit code</div>
+  <div style="color:#888;font-size:12px">Sent to name@email.com</div>
+  <div style="display:flex;gap:7px;justify-content:center">
+    <input maxLength="1" style="width:34px;height:44px;text-align:center;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:9px;font-size:17px"><input maxLength="1" style="width:34px;height:44px;text-align:center;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:9px;font-size:17px"><input maxLength="1" style="width:34px;height:44px;text-align:center;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:9px;font-size:17px"><input maxLength="1" style="width:34px;height:44px;text-align:center;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:9px;font-size:17px"><input maxLength="1" style="width:34px;height:44px;text-align:center;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:9px;font-size:17px"><input maxLength="1" style="width:34px;height:44px;text-align:center;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:9px;font-size:17px">
+  </div>
+  <div onClick="{{ nav.style1 }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer;align-self:stretch">Verify</div>
+  <div style="font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Resend code (0:42) · Use phone instead</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.login }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Log in" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.welcome }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px">Log in</div></div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Email</div><input placeholder="name@email.com" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div style="font-size:11.5px;font-weight:600;color:#333">Password</div><input type="password" placeholder="••••••••" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div onClick="{{ nav.forgot }}" style="text-align:right;font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Forgot password?</div>
+  <div onClick="{{ act.loginGo }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer">Log in</div>
+  <div style="color:#999;font-size:11px;text-align:center">or</div>
+  <div style="display:flex;gap:10px">
+    <div onClick="{{ act.socialAuth }}" style="flex:1;border:1.5px solid #cfcfcf;border-radius:11px;padding:12px;text-align:center;font-size:12.5px;cursor:pointer">G · Google</div>
+    <div onClick="{{ act.socialAuth }}" style="flex:1;border:1.5px solid #cfcfcf;border-radius:11px;padding:12px;text-align:center;font-size:12.5px;cursor:pointer"> · Apple</div>
+  </div>
+  <div onClick="{{ nav.signup }}" style="text-align:center;font-size:12px;text-decoration:underline;color:#555;cursor:pointer;padding:4px">New here? Create account</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.forgot }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Forgot password" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px">Forgot password</div></div>
+  <div style="color:#888;font-size:12.5px">Enter your email and we'll send a reset link.</div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Email</div><input placeholder="name@email.com" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div onClick="{{ nav.reset }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer">Send reset link</div>
+  <div style="border:1px solid #e8e8e8;border-radius:10px;padding:11px;font-size:11.5px;color:#555;background:#f7f7f8">Prototype note: tapping "Send" jumps straight to the reset screen a user reaches from the email link.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.reset }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Reset password" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px">New password</div></div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">New password</div><input type="password" placeholder="••••••••" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div style="font-size:11.5px;font-weight:600;color:#333">Repeat password</div><input type="password" placeholder="••••••••" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div style="color:#999;font-size:10.5px">✓ 8+ chars &nbsp; ✓ number &nbsp; ✗ symbol</div>
+  <div onClick="{{ nav.login }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer">Save &amp; log in</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.style1 }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Style profile 1" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Your style</div><div style="color:#888;font-size:12px">1 / 3</div></div>
+  <div style="display:flex;gap:5px"><div style="height:4px;background:#1c1c1e;border-radius:2px;flex:1"></div><div style="height:4px;background:#ddd;border-radius:2px;flex:1"></div><div style="height:4px;background:#ddd;border-radius:2px;flex:1"></div></div>
+  <div style="font-size:12px;font-weight:600">Who do you dress for?</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ rd.who_w }}" style="{{ rdStyle.who_w }}">Women</div><div onClick="{{ rd.who_m }}" style="{{ rdStyle.who_m }}">Men</div><div onClick="{{ rd.who_b }}" style="{{ rdStyle.who_b }}">Both / other</div></div>
+  <div style="font-size:12px;font-weight:600">Pick styles you like <span style="color:#999;font-weight:400">(multi)</span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ chip.casual }}" style="{{ chipStyle.casual }}">Casual</div><div onClick="{{ chip.business }}" style="{{ chipStyle.business }}">Business</div><div onClick="{{ chip.street }}" style="{{ chipStyle.street }}">Streetwear</div><div onClick="{{ chip.formal }}" style="{{ chipStyle.formal }}">Formal</div><div onClick="{{ chip.athletic }}" style="{{ chipStyle.athletic }}">Athletic</div><div onClick="{{ chip.church }}" style="{{ chipStyle.church }}">Church</div><div onClick="{{ chip.club }}" style="{{ chipStyle.club }}">Club</div></div>
+  <div style="font-size:12px;font-weight:600">Typical occasions</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ chip.owork }}" style="{{ chipStyle.owork }}">Work</div><div onClick="{{ chip.odinner }}" style="{{ chipStyle.odinner }}">Dinner</div><div onClick="{{ chip.ovacation }}" style="{{ chipStyle.ovacation }}">Vacation</div><div onClick="{{ chip.oeveryday }}" style="{{ chipStyle.oeveryday }}">Everyday</div></div>
+  <div onClick="{{ nav.style2 }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer;margin-top:6px">Next</div>
+  <div onClick="{{ nav.home }}" style="text-align:center;font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Skip for now</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.style2 }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Style profile 2" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Sizes &amp; budget</div><div style="color:#888;font-size:12px">2 / 3</div></div>
+  <div style="display:flex;gap:5px"><div style="height:4px;background:#1c1c1e;border-radius:2px;flex:1"></div><div style="height:4px;background:#1c1c1e;border-radius:2px;flex:1"></div><div style="height:4px;background:#ddd;border-radius:2px;flex:1"></div></div>
+  <div style="display:flex;gap:9px">
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Top size</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px;background:#fff"><option>M</option><option>S</option><option>L</option><option>XL</option></select></div>
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Bottom</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px;background:#fff"><option>32</option><option>30</option><option>34</option><option>36</option></select></div>
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Shoe</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px;background:#fff"><option>10</option><option>8</option><option>9</option><option>11</option></select></div>
+  </div>
+  <div style="font-size:12px;font-weight:600">Default shopping budget</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ rd.budget_1 }}" style="{{ rdStyle.budget_1 }}">$</div><div onClick="{{ rd.budget_2 }}" style="{{ rdStyle.budget_2 }}">$$</div><div onClick="{{ rd.budget_3 }}" style="{{ rdStyle.budget_3 }}">$$$</div><div onClick="{{ rd.budget_0 }}" style="{{ rdStyle.budget_0 }}">No limit</div></div>
+  <div style="font-size:12px;font-weight:600">Preferred brands <span style="color:#999;font-weight:400">(optional)</span></div>
+  <input placeholder="Search brands…" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ chip.nike }}" style="{{ chipStyle.nike }}">Nike ✕</div><div onClick="{{ chip.zara }}" style="{{ chipStyle.zara }}">Zara ✕</div></div>
+  <div onClick="{{ nav.avatar }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer;margin-top:6px">Next</div>
+  <div onClick="{{ nav.home }}" style="text-align:center;font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Skip for now</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.avatar }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Avatar setup" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Your avatar</div><div style="color:#888;font-size:12px">3 / 3</div></div>
+  <div style="display:flex;gap:5px"><div style="height:4px;background:#1c1c1e;border-radius:2px;flex:1"></div><div style="height:4px;background:#1c1c1e;border-radius:2px;flex:1"></div><div style="height:4px;background:#1c1c1e;border-radius:2px;flex:1"></div></div>
+  <div style="color:#888;font-size:12.5px">Used to preview outfits on a body like yours.</div>
+  <div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:14px;height:170px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">avatar preview</div>
+  <div style="display:flex;gap:10px"><div onClick="{{ open.photo }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;font-size:12.5px;cursor:pointer"><span style="filter:grayscale(1)">📷</span> Take selfie</div><div onClick="{{ open.photo }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;font-size:12.5px;cursor:pointer">Pick photo</div></div>
+  <div style="font-size:12px;font-weight:600">Body type</div>
+  <div style="display:flex;gap:7px"><div onClick="{{ rd.body_a }}" style="{{ rdStyle.body_a }}">A</div><div onClick="{{ rd.body_b }}" style="{{ rdStyle.body_b }}">B</div><div onClick="{{ rd.body_c }}" style="{{ rdStyle.body_c }}">C</div><div onClick="{{ rd.body_d }}" style="{{ rdStyle.body_d }}">D</div><div onClick="{{ rd.body_e }}" style="{{ rdStyle.body_e }}">E</div></div>
+  <div onClick="{{ nav.home }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer;margin-top:6px">Finish</div>
+  <div onClick="{{ nav.home }}" style="text-align:center;font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Use generic avatar instead</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.home }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Home" style="max-width:720px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:13px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="font-weight:800;font-size:19px;flex:1;letter-spacing:-.02em">Hi, Jane</div>
+    <div onClick="{{ nav.credits }}" style="border:1.5px solid #1c1c1e;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer">⬡ {{ creditsText }}</div>
+    <div onClick="{{ nav.notifications }}" style="width:36px;height:36px;border:1.5px solid #1c1c1e;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative"><span style="filter:grayscale(1)">🔔</span><div style="position:absolute;top:1px;right:1px;width:9px;height:9px;background:#1c1c1e;border-radius:50%"></div></div>
+  </div>
+  <div onClick="{{ nav.genPick }}" style="background:#1c1c1e;color:#fff;border-radius:16px;padding:18px;cursor:pointer;display:flex;align-items:center;gap:14px">
+    <div style="width:46px;height:46px;border:2px solid #fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px">✚</div>
+    <div style="flex:1"><div style="font-weight:700;font-size:15px">Match an outfit</div><div style="font-size:11.5px;opacity:.75">From one item or your whole closet</div></div>
+    <div>→</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+    <div onClick="{{ nav.addItem }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:13px;padding:13px;cursor:pointer"><div style="font-size:17px"><span style="filter:grayscale(1)">📷</span></div><div style="font-weight:700;font-size:12.5px;margin-top:5px">Add item</div><div style="color:#888;font-size:10.5px">Photo → closet</div></div>
+    <div onClick="{{ nav.shop }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:13px;padding:13px;cursor:pointer"><div style="font-size:17px">⬦</div><div style="font-weight:700;font-size:12.5px;margin-top:5px">Shop matches</div><div style="color:#888;font-size:10.5px">Fill the gaps</div></div>
+    <div onClick="{{ nav.saved }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:13px;padding:13px;cursor:pointer"><div style="font-size:17px">♥</div><div style="font-weight:700;font-size:12.5px;margin-top:5px">Saved looks</div><div style="color:#888;font-size:10.5px">8 outfits</div></div>
+  </div>
+  <div style="display:flex;align-items:baseline"><div style="font-weight:700;font-size:14px;flex:1">Recent outfits</div><div onClick="{{ nav.saved }}" style="font-size:11.5px;text-decoration:underline;color:#555;cursor:pointer">See all</div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px">
+    <div onClick="{{ nav.outfitDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:140px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">outfit</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Dinner look</div><div style="color:#999;font-size:10px">Sat · 4 items</div></div>
+    <div onClick="{{ nav.outfitDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:140px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">outfit</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Office fit</div><div style="color:#999;font-size:10px">Thu · 5 items</div></div>
+    <div onClick="{{ nav.outfitDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:140px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">outfit</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Club night</div><div style="color:#999;font-size:10px">Fri · 3 items</div></div>
+  </div>
+  <div onClick="{{ nav.closet }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:13px;padding:13px;cursor:pointer;display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:700;font-size:12.5px">My closet</div><div style="color:#888;font-size:10.5px">143 items · 6 categories</div></div><div>→</div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.closet }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Closet" style="max-width:720px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div style="font-weight:800;font-size:19px;flex:1">Closet <span style="color:#999;font-size:12px;font-weight:400">143 items</span></div><div onClick="{{ nav.addItem }}" style="background:#1c1c1e;color:#fff;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer">＋ Add</div></div>
+  <div style="display:flex;gap:9px">
+    <input placeholder="Search name, color, brand…" style="flex:1;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px;min-width:0">
+    <div onClick="{{ open.filter }}" style="width:42px;border:1.5px solid #1c1c1e;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none"><span style="filter:grayscale(1)">⚙</span></div>
+  </div>
+  <div style="display:flex;gap:7px;overflow:auto;padding-bottom:2px">
+    <div onClick="{{ rd.cat_all }}" style="{{ rdStyle.cat_all }}">All</div><div onClick="{{ rd.cat_shirts }}" style="{{ rdStyle.cat_shirts }}">Shirts</div><div onClick="{{ rd.cat_pants }}" style="{{ rdStyle.cat_pants }}">Pants</div><div onClick="{{ rd.cat_shoes }}" style="{{ rdStyle.cat_shoes }}">Shoes</div><div onClick="{{ rd.cat_jackets }}" style="{{ rdStyle.cat_jackets }}">Jackets</div><div onClick="{{ rd.cat_acc }}" style="{{ rdStyle.cat_acc }}">Accessories</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px">
+    <div onClick="{{ nav.itemDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px;position:relative">item<div style="position:absolute;top:6px;right:6px;font-size:11px">♥</div></div><div style="font-size:11px;font-weight:600;margin-top:4px">Green sneakers</div><div style="color:#999;font-size:9.5px">Shoes · Nike</div></div>
+    <div onClick="{{ nav.itemDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">item</div><div style="font-size:11px;font-weight:600;margin-top:4px">White tee</div><div style="color:#999;font-size:9.5px">Shirts</div></div>
+    <div onClick="{{ nav.itemDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">item</div><div style="font-size:11px;font-weight:600;margin-top:4px">Black jeans</div><div style="color:#999;font-size:9.5px">Pants · Zara</div></div>
+    <div onClick="{{ nav.itemDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">item</div><div style="font-size:11px;font-weight:600;margin-top:4px">Denim jacket</div><div style="color:#999;font-size:9.5px">Jackets</div></div>
+    <div onClick="{{ nav.itemDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">item</div><div style="font-size:11px;font-weight:600;margin-top:4px">Silver watch</div><div style="color:#999;font-size:9.5px">Accessories</div></div>
+    <div onClick="{{ nav.addItem }}" style="cursor:pointer;border:2px dashed #cfcfcf;border-radius:12px;height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#888;font-size:11px;gap:4px"><div style="font-size:18px">＋</div>Add item</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.addItem }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Add item" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px">Add item</div></div>
+  <div style="background:linear-gradient(135deg,#e9e9e9,#d2d2d2);border:1px solid #ccc;border-radius:16px;height:290px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#888;font-size:11px;gap:8px;position:relative">
+    camera viewfinder
+    <div style="position:absolute;inset:34px;border:2px dashed #aaa;border-radius:12px"></div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:26px">
+    <div onClick="{{ nav.detect }}" style="width:40px;height:40px;border:1.5px solid #1c1c1e;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px">▦</div>
+    <div onClick="{{ nav.detect }}" style="width:64px;height:64px;border-radius:50%;border:4px solid #1c1c1e;display:flex;align-items:center;justify-content:center;cursor:pointer"><div style="width:46px;height:46px;border-radius:50%;background:#1c1c1e"></div></div>
+    <div style="width:40px;height:40px;border:1.5px solid #cfcfcf;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#888"><span style="filter:grayscale(1)">⟳</span></div>
+  </div>
+  <div style="color:#888;font-size:11px;text-align:center">Shutter or gallery both continue to AI detection · Lay the item flat with good light</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.detect }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="AI detection" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.addItem }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Confirm item</div><div onClick="{{ nav.addItem }}" style="font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Retake</div></div>
+  <div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:14px;height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">item photo</div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:10px;font-size:11.5px;background:#f7f7f8">✦ AI detected: <b>Shoes · Green · Sneaker · Casual</b> — edit anything below if wrong.</div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Name</div><input defaultValue="Green sneakers" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px">
+  <div style="display:flex;gap:9px">
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Category</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:10px;font-size:12.5px;background:#fff"><option>Shoes</option><option>Shirts</option><option>Pants</option><option>Jackets</option><option>Accessories</option></select></div>
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Color</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:10px;font-size:12.5px;background:#fff"><option>Green</option><option>Black</option><option>White</option></select></div>
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Season</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:10px;font-size:12.5px;background:#fff"><option>All</option><option>Summer</option><option>Winter</option></select></div>
+  </div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Occasions</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ chip.icasual }}" style="{{ chipStyle.icasual }}">Casual</div><div onClick="{{ chip.iformal }}" style="{{ chipStyle.iformal }}">Formal</div><div onClick="{{ chip.ibiz }}" style="{{ chipStyle.ibiz }}">Business</div><div onClick="{{ chip.iclub }}" style="{{ chipStyle.iclub }}">Club</div><div onClick="{{ chip.ivac }}" style="{{ chipStyle.ivac }}">Vacation</div></div>
+  <div style="display:flex;gap:10px;margin-top:4px">
+    <div onClick="{{ act.saveItem }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer">Save to closet</div>
+    <div onClick="{{ nav.genOccasion }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer">Save &amp; match ✦</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.itemDetail }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Item detail" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Green sneakers</div><div onClick="{{ chip.fav }}" style="{{ chipStyle.fav }}">♥</div><div onClick="{{ open.deleteItem }}" style="width:34px;height:34px;border:1.5px solid #cfcfcf;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#555"><span style="filter:grayscale(1)">🗑</span></div></div>
+  <div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:14px;height:190px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">item photo</div>
+  <div style="display:flex;gap:9px"><div onClick="{{ nav.addItem }}" style="flex:1;border:1.5px solid #cfcfcf;border-radius:10px;padding:9px;text-align:center;font-size:11.5px;cursor:pointer">Retake photo</div><div style="flex:1;border:1.5px solid #cfcfcf;border-radius:10px;padding:9px;text-align:center;font-size:11.5px;cursor:pointer;color:#888">Crop / rotate</div></div>
+  <div style="display:flex;gap:9px">
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Category</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:10px;font-size:12.5px;background:#fff"><option>Shoes</option><option>Shirts</option></select></div>
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Brand</div><input defaultValue="Nike" style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:10px;font-size:12.5px;box-sizing:border-box"></div>
+    <div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Size</div><input defaultValue="10" style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:10px;font-size:12.5px;box-sizing:border-box"></div>
+  </div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Notes</div><input placeholder="e.g. bought 2025, worn twice" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:12.5px">
+  <div style="font-size:11.5px;font-weight:600;color:#333">Occasion tags</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ chip.icasual }}" style="{{ chipStyle.icasual }}">Casual</div><div onClick="{{ chip.iclub }}" style="{{ chipStyle.iclub }}">Club</div><div onClick="{{ chip.ivac }}" style="{{ chipStyle.ivac }}">Vacation</div></div>
+  <div onClick="{{ nav.genOccasion }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer;margin-top:4px">✦ Match an outfit with this</div>
+  <div onClick="{{ act.saveItem }}" style="border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Save changes</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.genPick }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Match - pick base" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Match an outfit</div><div style="color:#888;font-size:12px">1 / 3</div></div>
+  <div style="color:#888;font-size:12.5px">Start from one item, or let AI use your whole closet.</div>
+  <div onClick="{{ nav.genOccasion }}" style="border:1.5px solid #1c1c1e;border-radius:13px;padding:13px;cursor:pointer;display:flex;gap:11px;align-items:center"><div style="width:40px;height:40px;border:1.5px solid #1c1c1e;border-radius:10px;display:flex;align-items:center;justify-content:center">▦</div><div style="flex:1"><div style="font-weight:700;font-size:13px">Use my whole closet</div><div style="color:#888;font-size:11px">AI picks the best combination</div></div><div>→</div></div>
+  <div onClick="{{ nav.addItem }}" style="border:1.5px solid #1c1c1e;border-radius:13px;padding:13px;cursor:pointer;display:flex;gap:11px;align-items:center"><div style="width:40px;height:40px;border:1.5px solid #1c1c1e;border-radius:10px;display:flex;align-items:center;justify-content:center"><span style="filter:grayscale(1)">📷</span></div><div style="flex:1"><div style="font-weight:700;font-size:13px">Snap a new item</div><div style="color:#888;font-size:11px">e.g. shoes you just bought</div></div><div>→</div></div>
+  <div style="font-size:12px;font-weight:600;margin-top:4px">Or pick from your closet</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:9px">
+    <div onClick="{{ rd.base_1 }}" style="{{ baseCard.base_1 }}"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:8px;height:82px;display:flex;align-items:center;justify-content:center;color:#999;font-size:9.5px">item</div><div style="font-size:10.5px;font-weight:600;margin-top:4px">Green sneakers</div></div>
+    <div onClick="{{ rd.base_2 }}" style="{{ baseCard.base_2 }}"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:8px;height:82px;display:flex;align-items:center;justify-content:center;color:#999;font-size:9.5px">item</div><div style="font-size:10.5px;font-weight:600;margin-top:4px">Denim jacket</div></div>
+    <div onClick="{{ rd.base_3 }}" style="{{ baseCard.base_3 }}"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:8px;height:82px;display:flex;align-items:center;justify-content:center;color:#999;font-size:9.5px">item</div><div style="font-size:10.5px;font-weight:600;margin-top:4px">Black jeans</div></div>
+  </div>
+  <div onClick="{{ nav.genOccasion }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer">Next: occasion</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.genOccasion }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Match - occasion" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Occasion</div><div style="color:#888;font-size:12px">2 / 3</div></div>
+  <div style="font-size:12px;font-weight:600">What's the event?</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ rd.occ_dinner }}" style="{{ rdStyle.occ_dinner }}">Dinner</div><div onClick="{{ rd.occ_work }}" style="{{ rdStyle.occ_work }}">Work</div><div onClick="{{ rd.occ_club }}" style="{{ rdStyle.occ_club }}">Club</div><div onClick="{{ rd.occ_church }}" style="{{ rdStyle.occ_church }}">Church</div><div onClick="{{ rd.occ_ball }}" style="{{ rdStyle.occ_ball }}">Ball</div><div onClick="{{ rd.occ_vacay }}" style="{{ rdStyle.occ_vacay }}">Vacation</div><div onClick="{{ rd.occ_daily }}" style="{{ rdStyle.occ_daily }}">Everyday</div></div>
+  <div style="font-size:12px;font-weight:600">Dress code</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ rd.dress_casual }}" style="{{ rdStyle.dress_casual }}">Casual</div><div onClick="{{ rd.dress_smart }}" style="{{ rdStyle.dress_smart }}">Smart casual</div><div onClick="{{ rd.dress_formal }}" style="{{ rdStyle.dress_formal }}">Formal</div></div>
+  <div style="font-size:12px;font-weight:600">Time &amp; place</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ rd.time_day }}" style="{{ rdStyle.time_day }}">Day</div><div onClick="{{ rd.time_night }}" style="{{ rdStyle.time_night }}">Night</div><div onClick="{{ rd.place_in }}" style="{{ rdStyle.place_in }}">Indoor</div><div onClick="{{ rd.place_out }}" style="{{ rdStyle.place_out }}">Outdoor</div></div>
+  <div onClick="{{ nav.genPrefs }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer;margin-top:6px">Next: preferences</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.genPrefs }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Match - preferences" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Preferences</div><div style="color:#888;font-size:12px">3 / 3</div></div>
+  <div style="font-size:12px;font-weight:600">Where can items come from?</div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div onClick="{{ rd.mode_closet }}" style="{{ modeCard.mode_closet }}"><b>Closet only</b><span style="color:#888;font-size:11px"> — use what I own</span></div>
+    <div onClick="{{ rd.mode_mix }}" style="{{ modeCard.mode_mix }}"><b>Closet + shopping</b><span style="color:#888;font-size:11px"> — fill gaps with store items</span></div>
+    <div onClick="{{ rd.mode_shop }}" style="{{ modeCard.mode_shop }}"><b>Shopping only</b><span style="color:#888;font-size:11px"> — build a fresh look</span></div>
+  </div>
+  <div style="font-size:12px;font-weight:600">Budget for new items</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ rd.pb_1 }}" style="{{ rdStyle.pb_1 }}">Under $50</div><div onClick="{{ rd.pb_2 }}" style="{{ rdStyle.pb_2 }}">$50–150</div><div onClick="{{ rd.pb_3 }}" style="{{ rdStyle.pb_3 }}">$150+</div></div>
+  <div style="font-size:12px;font-weight:600">How bold?</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px"><div onClick="{{ rd.bold_simple }}" style="{{ rdStyle.bold_simple }}">Keep it simple</div><div onClick="{{ rd.bold_bal }}" style="{{ rdStyle.bold_bal }}">Balanced</div><div onClick="{{ rd.bold_bold }}" style="{{ rdStyle.bold_bold }}">Make a statement</div></div>
+  <div onClick="{{ act.generate }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer;margin-top:6px">✦ Generate outfits · 1 credit</div>
+  <div style="color:#999;font-size:10.5px;text-align:center">You have {{ creditsText }} credits · <span style="text-decoration:underline;cursor:pointer" onClick="{{ open.buyCredits }}">top up</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.genLoading }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Generating" style="max-width:560px;margin:0 auto;padding:80px 20px;display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;box-sizing:border-box">
+  {{ spinner }}
+  <div style="font-weight:700;font-size:15px">Styling your outfit…</div>
+  <div style="color:#888;font-size:12px">Matching color, occasion, budget and your style profile</div>
+  <div onClick="{{ nav.genPrefs }}" style="font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Cancel</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.genResults }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Results" style="max-width:720px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.genPrefs }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">3 outfit options</div><div onClick="{{ nav.genPrefs }}" style="font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Tweak</div></div>
+  <div style="color:#888;font-size:12px">Dinner · Smart casual · Closet + shopping · $50–150</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:11px">
+    <div onClick="{{ nav.outfitDetail }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:14px;padding:10px;cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:10px;height:170px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">look A</div><div style="font-weight:700;font-size:12.5px;margin-top:7px">Clean &amp; sharp</div><div style="color:#888;font-size:10.5px">4 items · all owned ✓</div></div>
+    <div onClick="{{ nav.outfitDetail }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:14px;padding:10px;cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:10px;height:170px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">look B</div><div style="font-weight:700;font-size:12.5px;margin-top:7px">Statement layer</div><div style="color:#888;font-size:10.5px">5 items · 1 to buy · ~$68</div></div>
+    <div onClick="{{ nav.outfitDetail }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:14px;padding:10px;cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:10px;height:170px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">look C</div><div style="font-weight:700;font-size:12.5px;margin-top:7px">Relaxed night</div><div style="color:#888;font-size:10.5px">4 items · 2 to buy · ~$115</div></div>
+  </div>
+  <div onClick="{{ act.generate }}" style="border:1.5px solid #1c1c1e;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer"><span style="filter:grayscale(1)">⟳</span> Regenerate · 1 credit</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.outfitDetail }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Outfit detail" style="max-width:720px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Clean &amp; sharp</div><div onClick="{{ open.why }}" style="border:1.5px solid #1c1c1e;border-radius:999px;padding:6px 11px;font-size:11.5px;font-weight:600;cursor:pointer">Why this works?</div></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <div style="flex:1;min-width:200px;background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:16px;min-height:280px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">avatar preview<br>wearing outfit</div>
+    <div style="flex:1.2;min-width:230px;display:flex;flex-direction:column;gap:8px">
+      <div style="border:1px solid #e8e8e8;border-radius:11px;padding:9px;display:flex;gap:9px;align-items:center"><div style="width:42px;height:42px;background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12px;font-weight:600">Green sneakers</div><div style="color:#888;font-size:10px">Owned ✓ · base item</div></div><div onClick="{{ open.swap }}" style="font-size:11px;text-decoration:underline;color:#555;cursor:pointer">Swap</div></div>
+      <div style="border:1px solid #e8e8e8;border-radius:11px;padding:9px;display:flex;gap:9px;align-items:center"><div style="width:42px;height:42px;background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12px;font-weight:600">White oxford shirt</div><div style="color:#888;font-size:10px">Owned ✓</div></div><div onClick="{{ open.swap }}" style="font-size:11px;text-decoration:underline;color:#555;cursor:pointer">Swap</div></div>
+      <div style="border:1px solid #e8e8e8;border-radius:11px;padding:9px;display:flex;gap:9px;align-items:center"><div style="width:42px;height:42px;background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12px;font-weight:600">Beige chinos</div><div style="color:#888;font-size:10px">Owned ✓</div></div><div onClick="{{ open.swap }}" style="font-size:11px;text-decoration:underline;color:#555;cursor:pointer">Swap</div></div>
+      <div style="border:1.5px dashed #999;border-radius:11px;padding:9px;display:flex;gap:9px;align-items:center;background:#f7f7f8"><div style="width:42px;height:42px;background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12px;font-weight:600">Minimal belt — missing</div><div style="color:#888;font-size:10px">~$28 · 6 store options</div></div><div onClick="{{ nav.shop }}" style="border:1.5px solid #1c1c1e;border-radius:8px;padding:5px 9px;font-size:11px;font-weight:600;cursor:pointer">Shop</div></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:9px;flex-wrap:wrap">
+    <div onClick="{{ open.saveTo }}" style="flex:1;min-width:130px;background:#1c1c1e;color:#fff;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer">♥ Save outfit</div>
+    <div onClick="{{ open.share }}" style="flex:1;min-width:130px;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">↗ Share</div>
+    <div onClick="{{ nav.shop }}" style="flex:1;min-width:130px;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">⬦ Shop missing (1)</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.shop }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Shop" style="max-width:720px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:800;font-size:19px;flex:1">Shop matches</div><div onClick="{{ open.filter }}" style="width:36px;height:36px;border:1.5px solid #1c1c1e;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer"><span style="filter:grayscale(1)">⚙</span></div></div>
+  <div style="color:#888;font-size:12px">Matching: <b style="color:#1c1c1e">Minimal belt</b> for "Clean &amp; sharp" · Budget $50–150</div>
+  <div style="display:flex;gap:7px;overflow:auto"><div onClick="{{ open.filter }}" style="{{ chipStyle.fprice }}">Price ▾</div><div onClick="{{ open.filter }}" style="{{ chipStyle.fbrand }}">Brand ▾</div><div onClick="{{ open.filter }}" style="{{ chipStyle.fcolor }}">Color ▾</div><div onClick="{{ open.filter }}" style="{{ chipStyle.fsize }}">Size ▾</div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:11px">
+    <div onClick="{{ nav.productDetail }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:13px;padding:9px;cursor:pointer;position:relative"><div style="position:absolute;top:14px;left:14px;background:#1c1c1e;color:#fff;font-size:8.5px;font-weight:700;border-radius:4px;padding:2px 5px;z-index:1">FEATURED</div><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:9px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">product</div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Leather belt, tan</div><div style="color:#888;font-size:10px">BrandCo · $28</div><div style="display:flex;gap:6px;margin-top:6px"><div onClick="{{ chip.p1save }}" style="{{ miniChip.p1save }}">♥</div><div onClick="{{ chip.p1hide }}" style="{{ miniChip.p1hide }}">✕</div></div></div>
+    <div onClick="{{ nav.productDetail }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:13px;padding:9px;cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:9px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">product</div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Woven belt, black</div><div style="color:#888;font-size:10px">StoreX · $34</div><div style="display:flex;gap:6px;margin-top:6px"><div onClick="{{ chip.p2save }}" style="{{ miniChip.p2save }}">♥</div><div onClick="{{ chip.p2hide }}" style="{{ miniChip.p2hide }}">✕</div></div></div>
+    <div onClick="{{ nav.productDetail }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:13px;padding:9px;cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:9px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">product</div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Classic belt, brown</div><div style="color:#888;font-size:10px">ShopY · $41</div><div style="display:flex;gap:6px;margin-top:6px"><div onClick="{{ chip.p3save }}" style="{{ miniChip.p3save }}">♥</div><div onClick="{{ chip.p3hide }}" style="{{ miniChip.p3hide }}">✕</div></div></div>
+    <div onClick="{{ nav.productDetail }}" style="border:1px solid #e5e5e5;box-shadow:0 1px 2px rgba(0,0,0,.04);border-radius:13px;padding:9px;cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border-radius:9px;height:110px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">product</div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Slim belt, tan</div><div style="color:#888;font-size:10px">BrandCo · $52</div><div style="display:flex;gap:6px;margin-top:6px"><div onClick="{{ chip.p4save }}" style="{{ miniChip.p4save }}">♥</div><div onClick="{{ chip.p4hide }}" style="{{ miniChip.p4hide }}">✕</div></div></div>
+  </div>
+  <div style="color:#999;font-size:10.5px;text-align:center">Prices via partner stores · affiliate links open outside the app</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.productDetail }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Product detail" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Leather belt, tan</div><div onClick="{{ chip.p1save }}" style="{{ chipStyle.p1save }}">♥</div></div>
+  <div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:14px;height:210px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">product photo</div>
+  <div style="display:flex;align-items:baseline;gap:9px"><div style="font-weight:800;font-size:19px">$28</div><div style="color:#888;font-size:12px">BrandCo · sold by PartnerStore</div></div>
+  <div style="font-size:12px;color:#555">Full-grain leather · matches "Clean &amp; sharp" · color pairs with beige chinos and green sneakers.</div>
+  <div style="display:flex;gap:9px"><div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Size</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:10px;font-size:12.5px;background:#fff"><option>M (34)</option><option>S (32)</option><option>L (36)</option></select></div><div style="flex:1"><div style="font-size:11.5px;font-weight:600;color:#333;margin-bottom:5px">Color</div><select style="width:100%;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:10px;font-size:12.5px;background:#fff"><option>Tan</option><option>Brown</option></select></div></div>
+  <div onClick="{{ open.leaving }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer">Buy at PartnerStore ↗</div>
+  <div onClick="{{ open.purchased }}" style="border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">I bought this — add to closet</div>
+  <div style="color:#999;font-size:10.5px;text-align:center">Affiliate link · delivery &amp; returns handled by the store</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.saved }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Saved" style="max-width:720px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div style="font-weight:800;font-size:19px;flex:1">Saved outfits</div><div onClick="{{ open.newCollection }}" style="border:1.5px solid #1c1c1e;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:700;cursor:pointer">＋ Collection</div></div>
+  <div style="display:flex;gap:7px;overflow:auto"><div onClick="{{ rd.col_all }}" style="{{ rdStyle.col_all }}">All · 8</div><div onClick="{{ nav.collection }}" style="{{ rdStyle.col_work }}">Work · 3</div><div onClick="{{ nav.collection }}" style="{{ rdStyle.col_dinner }}">Dinner · 2</div><div onClick="{{ nav.collection }}" style="{{ rdStyle.col_vacay }}">Vacation · 2</div><div onClick="{{ nav.collection }}" style="{{ rdStyle.col_club }}">Club · 1</div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:11px">
+    <div onClick="{{ nav.outfitDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px;position:relative">outfit<div style="position:absolute;bottom:6px;left:6px;background:#1c1c1e;color:#fff;font-size:8.5px;border-radius:4px;padding:2px 5px">NEW MATCHES</div></div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Dinner look</div><div style="color:#999;font-size:10px">Dinner · 4 items</div></div>
+    <div onClick="{{ nav.outfitDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">outfit</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Office fit</div><div style="color:#999;font-size:10px">Work · 5 items</div></div>
+    <div onClick="{{ nav.outfitDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">outfit</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Beach day</div><div style="color:#999;font-size:10px">Vacation · 3 items</div></div>
+    <div onClick="{{ nav.outfitDetail }}" style="cursor:pointer"><div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px">outfit</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Club night</div><div style="color:#999;font-size:10px">Club · 3 items</div></div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.collection }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Collection" style="max-width:720px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.saved }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:800;font-size:19px;flex:1">Work <span style="color:#999;font-size:12px;font-weight:400">3 outfits</span></div><div onClick="{{ open.rename }}" style="font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Rename</div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:11px">
+    <div style="position:relative"><div onClick="{{ nav.outfitDetail }}" style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px;cursor:pointer">outfit</div><div onClick="{{ open.deleteOutfit }}" style="position:absolute;top:6px;right:6px;width:24px;height:24px;background:#fff;border:1px solid #ccc;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px">⋯</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Office fit</div></div>
+    <div style="position:relative"><div onClick="{{ nav.outfitDetail }}" style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px;cursor:pointer">outfit</div><div onClick="{{ open.deleteOutfit }}" style="position:absolute;top:6px;right:6px;width:24px;height:24px;background:#fff;border:1px solid #ccc;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px">⋯</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Monday minimal</div></div>
+    <div style="position:relative"><div onClick="{{ nav.outfitDetail }}" style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:12px;height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px;cursor:pointer">outfit</div><div onClick="{{ open.deleteOutfit }}" style="position:absolute;top:6px;right:6px;width:24px;height:24px;background:#fff;border:1px solid #ccc;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px">⋯</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Client meeting</div></div>
+  </div>
+  <div onClick="{{ nav.genPick }}" style="border:2px dashed #cfcfcf;border-radius:12px;padding:16px;text-align:center;color:#888;font-size:12px;cursor:pointer">＋ Match a new outfit for this collection</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.feedback }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Friend feedback" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Jane's dinner look</div></div>
+  <div style="color:#888;font-size:12px">Shared with you · vote or comment to help Jane decide</div>
+  <div style="background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #dedede;border-radius:16px;height:240px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">outfit on avatar</div>
+  <div style="display:flex;gap:10px"><div onClick="{{ rd.vote_yes }}" style="{{ rdStyle.vote_yes }}"><span style="filter:grayscale(1)">👍</span> Wear it</div><div onClick="{{ rd.vote_no }}" style="{{ rdStyle.vote_no }}"><span style="filter:grayscale(1)">👎</span> Not this one</div><div onClick="{{ open.swap }}" style="{{ rdStyle.vote_sw }}">Suggest a change</div></div>
+  <div style="font-size:12px;font-weight:600">Comments · 2</div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:10px;font-size:12px"><b>Maya</b> <span style="color:#999;font-size:10px">2m</span><br>Love the sneakers with this! <span style="filter:grayscale(1)">👍</span></div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:10px;font-size:12px"><b>Sam</b> <span style="color:#999;font-size:10px">8m</span><br>Maybe a darker belt?</div>
+  <div style="display:flex;gap:8px"><input placeholder="Add a comment…" style="flex:1;border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:12.5px;min-width:0"><div style="width:44px;background:#1c1c1e;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer">↑</div></div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:11px;font-size:11.5px;color:#555;background:#f7f7f8;text-align:center">Don't have the app? <span style="text-decoration:underline;cursor:pointer">Download to give better feedback</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.profile }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Profile" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:10px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:12px;padding:6px 0 10px"><div style="width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#f0f0f0,#dcdcdc);border:1px solid #d4d4d4"></div><div style="flex:1"><div style="font-weight:800;font-size:17px">Jane Doe</div><div style="color:#888;font-size:11.5px">jane@email.com · Free plan</div></div><div onClick="{{ nav.plans }}" style="border:1.5px solid #1c1c1e;border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer">Upgrade</div></div>
+  <div onClick="{{ nav.credits }}" style="border:1.5px solid #1c1c1e;border-radius:13px;padding:13px;display:flex;align-items:center;gap:10px;cursor:pointer"><div style="flex:1"><div style="font-weight:700;font-size:13px">⬡ {{ creditsText }} credits</div><div style="color:#888;font-size:11px">1 credit per outfit generation</div></div><div style="font-weight:700;font-size:12px">Top up →</div></div>
+  <div onClick="{{ nav.notifications }}" style="border:1px solid #e8e8e8;border-radius:12px;padding:13px;display:flex;align-items:center;cursor:pointer"><div style="flex:1;font-weight:600;font-size:13px"><span style="filter:grayscale(1)">🔔</span> Notifications</div><div style="background:#1c1c1e;color:#fff;border-radius:999px;font-size:10px;padding:2px 8px;font-weight:700">3</div></div>
+  <div onClick="{{ nav.settings }}" style="border:1px solid #e8e8e8;border-radius:12px;padding:13px;display:flex;align-items:center;cursor:pointer"><div style="flex:1;font-weight:600;font-size:13px"><span style="filter:grayscale(1)">⚙</span> Settings &amp; privacy</div><div style="color:#999">→</div></div>
+  <div onClick="{{ nav.help }}" style="border:1px solid #e8e8e8;border-radius:12px;padding:13px;display:flex;align-items:center;cursor:pointer"><div style="flex:1;font-weight:600;font-size:13px">? Help center</div><div style="color:#999">→</div></div>
+  <div onClick="{{ nav.support }}" style="border:1px solid #e8e8e8;border-radius:12px;padding:13px;display:flex;align-items:center;cursor:pointer"><div style="flex:1;font-weight:600;font-size:13px"><span style="filter:grayscale(1)">✉</span> Contact support</div><div style="color:#999">→</div></div>
+  <div onClick="{{ open.share }}" style="border:1px solid #e8e8e8;border-radius:12px;padding:13px;display:flex;align-items:center;cursor:pointer"><div style="flex:1;font-weight:600;font-size:13px">↗ Invite a friend</div><div style="color:#999">→</div></div>
+  <a href="Admin Prototype.dc.html" style="border:1px solid #e8e8e8;border-radius:12px;padding:13px;display:flex;align-items:center;text-decoration:none"><div style="flex:1;font-weight:600;font-size:13px">▤ Admin panel prototype</div><div style="color:#999">→</div></a>
+  <div onClick="{{ open.logout }}" style="border:1.5px solid #cfcfcf;border-radius:12px;padding:13px;text-align:center;font-weight:600;font-size:13px;color:#555;cursor:pointer;margin-top:6px">Log out</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.credits }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Credits" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Credits &amp; plan</div></div>
+  <div style="background:#1c1c1e;color:#fff;border-radius:16px;padding:18px"><div style="font-size:11px;opacity:.7">BALANCE</div><div style="font-weight:800;font-size:30px">⬡ {{ creditsText }}</div><div style="font-size:11px;opacity:.7;margin-top:2px">1 credit = 1 outfit generation</div><div onClick="{{ open.buyCredits }}" style="background:#fff;color:#1c1c1e;border-radius:10px;padding:11px;text-align:center;font-weight:700;font-size:12.5px;cursor:pointer;margin-top:12px">Buy credits</div></div>
+  <div onClick="{{ nav.plans }}" style="border:1.5px solid #1c1c1e;border-radius:13px;padding:13px;display:flex;align-items:center;cursor:pointer"><div style="flex:1"><div style="font-weight:700;font-size:13px">Go unlimited with Plus</div><div style="color:#888;font-size:11px">Monthly credits + no ads · from $6.99/mo</div></div><div>→</div></div>
+  <div style="font-size:12px;font-weight:600">Recent usage</div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:11px;display:flex;font-size:12px"><div style="flex:1">Outfit generation — Dinner</div><div style="color:#888">−1 · today</div></div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:11px;display:flex;font-size:12px"><div style="flex:1">Outfit generation — Work</div><div style="color:#888">−1 · Thu</div></div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:11px;display:flex;font-size:12px"><div style="flex:1">Starter pack purchase</div><div style="color:#888">+10 · Mon</div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.plans }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Plans" style="max-width:720px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Choose a plan</div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:11px">
+    <div onClick="{{ rd.plan_free }}" style="{{ planCard.plan_free }}"><div style="font-weight:800;font-size:14px">Free</div><div style="font-weight:800;font-size:20px;margin:4px 0">$0</div><div style="color:#888;font-size:11px;line-height:1.6">3 free generations/mo<br>Ads shown<br>Buy credits anytime</div></div>
+    <div onClick="{{ rd.plan_plus }}" style="{{ planCard.plan_plus }}"><div style="display:flex;align-items:center;gap:6px"><div style="font-weight:800;font-size:14px">Plus</div><div style="background:#1c1c1e;color:#fff;font-size:8.5px;font-weight:700;border-radius:4px;padding:2px 5px">POPULAR</div></div><div style="font-weight:800;font-size:20px;margin:4px 0">$6.99<span style="font-size:11px;font-weight:400;color:#888">/mo</span></div><div style="color:#888;font-size:11px;line-height:1.6">30 credits/mo<br>No ads<br>Early features</div></div>
+    <div onClick="{{ rd.plan_pro }}" style="{{ planCard.plan_pro }}"><div style="font-weight:800;font-size:14px">Pro</div><div style="font-weight:800;font-size:20px;margin:4px 0">$14.99<span style="font-size:11px;font-weight:400;color:#888">/mo</span></div><div style="color:#888;font-size:11px;line-height:1.6">Unlimited generations<br>No ads<br>Priority support</div></div>
+  </div>
+  <div onClick="{{ open.payment }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer">Subscribe to {{ planName }}</div>
+  <div style="color:#999;font-size:10.5px;text-align:center">Cancel anytime · Restore purchases</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.notifications }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Notifications" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:10px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Notifications</div><div onClick="{{ nav.settings }}" style="font-size:12px;text-decoration:underline;color:#555;cursor:pointer">Preferences</div></div>
+  <div onClick="{{ nav.saved }}" style="border:1px solid #1c1c1e;border-radius:12px;padding:12px;cursor:pointer;display:flex;gap:9px"><div style="width:8px;height:8px;background:#1c1c1e;border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>New matches</b> for your saved "Dinner look" — 3 products in budget.</div><div style="color:#999;font-size:10.5px;margin-top:3px">10m ago</div></div></div>
+  <div onClick="{{ nav.feedback }}" style="border:1px solid #1c1c1e;border-radius:12px;padding:12px;cursor:pointer;display:flex;gap:9px"><div style="width:8px;height:8px;background:#1c1c1e;border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Maya voted <span style="filter:grayscale(1)">👍</span></b> on the look you shared.</div><div style="color:#999;font-size:10.5px;margin-top:3px">2h ago</div></div></div>
+  <div onClick="{{ nav.credits }}" style="border:1px solid #1c1c1e;border-radius:12px;padding:12px;cursor:pointer;display:flex;gap:9px"><div style="width:8px;height:8px;background:#1c1c1e;border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Low credits:</b> 2 left. Top up or upgrade to keep matching.</div><div style="color:#999;font-size:10.5px;margin-top:3px">1d ago</div></div></div>
+  <div style="border:1px solid #e8e8e8;border-radius:12px;padding:12px;color:#555;display:flex;gap:9px"><div style="width:8px;height:8px;border:1px solid #ccc;border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px">Announcement: packing lists for travel are coming soon.</div><div style="color:#999;font-size:10.5px;margin-top:3px">3d ago · from the team</div></div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.settings }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Settings" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Settings</div></div>
+  <div style="font:700 10px ui-monospace,monospace;color:#888;letter-spacing:.06em">ACCOUNT</div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Name</div><input defaultValue="Jane Doe" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px">
+  <div style="font-size:11.5px;font-weight:600;color:#333">Email</div><input defaultValue="jane@email.com" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px">
+  <div onClick="{{ open.changePw }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;display:flex;cursor:pointer;font-size:12.5px;font-weight:600"><div style="flex:1">Change password</div><div style="color:#999">→</div></div>
+  <div style="font:700 10px ui-monospace,monospace;color:#888;letter-spacing:.06em;margin-top:6px">NOTIFICATIONS</div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;display:flex;align-items:center;font-size:12.5px"><div style="flex:1">Push notifications</div><div onClick="{{ chip.tPush }}" style="{{ tglBg.tPush }}"><div style="{{ tglKnob.tPush }}"></div></div></div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;display:flex;align-items:center;font-size:12.5px"><div style="flex:1">New product alerts</div><div onClick="{{ chip.tAlerts }}" style="{{ tglBg.tAlerts }}"><div style="{{ tglKnob.tAlerts }}"></div></div></div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;display:flex;align-items:center;font-size:12.5px"><div style="flex:1">Friend feedback</div><div onClick="{{ chip.tFriend }}" style="{{ tglBg.tFriend }}"><div style="{{ tglKnob.tFriend }}"></div></div></div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;display:flex;align-items:center;font-size:12.5px"><div style="flex:1">Offers &amp; announcements</div><div onClick="{{ chip.tOffers }}" style="{{ tglBg.tOffers }}"><div style="{{ tglKnob.tOffers }}"></div></div></div>
+  <div style="font:700 10px ui-monospace,monospace;color:#888;letter-spacing:.06em;margin-top:6px">PRIVACY &amp; DATA</div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;display:flex;align-items:center;font-size:12.5px"><div style="flex:1">Private closet <span style="color:#999;font-size:10.5px">(photos never shared)</span></div><div onClick="{{ chip.tPrivate }}" style="{{ tglBg.tPrivate }}"><div style="{{ tglKnob.tPrivate }}"></div></div></div>
+  <div style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;display:flex;cursor:pointer;font-size:12.5px;font-weight:600"><div style="flex:1">Download my data</div><div style="color:#999">→</div></div>
+  <div onClick="{{ open.deleteAcct }}" style="border:1.5px solid #cfcfcf;border-radius:11px;padding:12px;text-align:center;font-weight:600;font-size:12.5px;color:#555;cursor:pointer;margin-top:6px">Delete account</div>
+  <div onClick="{{ open.logout }}" style="border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;font-size:12.5px;cursor:pointer">Log out</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.help }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Help center" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:10px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Help center</div></div>
+  <input placeholder="Search help articles…" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px">
+  <div onClick="{{ chip.q1 }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;cursor:pointer"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">How do credits work?</div><div>{{ accIcon.q1 }}</div></div><sc-if value="{{ accOn.q1 }}" hint-placeholder-val="{{ false }}"><div style="color:#666;font-size:11.5px;margin-top:7px;line-height:1.5">Each outfit generation costs 1 credit. Free users get 3 per month; buy packs or subscribe for more.</div></sc-if></div>
+  <div onClick="{{ chip.q2 }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;cursor:pointer"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">The AI got my item wrong</div><div>{{ accIcon.q2 }}</div></div><sc-if value="{{ accOn.q2 }}" hint-placeholder-val="{{ false }}"><div style="color:#666;font-size:11.5px;margin-top:7px;line-height:1.5">Open the item and edit the category, color, or tags — corrections improve future matches.</div></sc-if></div>
+  <div onClick="{{ chip.q3 }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;cursor:pointer"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">Are my photos private?</div><div>{{ accIcon.q3 }}</div></div><sc-if value="{{ accOn.q3 }}" hint-placeholder-val="{{ false }}"><div style="color:#666;font-size:11.5px;margin-top:7px;line-height:1.5">Yes — closet photos are private by default and never shared without your action.</div></sc-if></div>
+  <div onClick="{{ chip.q4 }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;cursor:pointer"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">Returns &amp; purchases</div><div>{{ accIcon.q4 }}</div></div><sc-if value="{{ accOn.q4 }}" hint-placeholder-val="{{ false }}"><div style="color:#666;font-size:11.5px;margin-top:7px;line-height:1.5">Purchases happen at partner stores via affiliate links — delivery and returns follow the store's policy.</div></sc-if></div>
+  <div onClick="{{ nav.support }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer;margin-top:6px">Still stuck? Contact support</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.support }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Contact support" style="max-width:560px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ nav.back }}" style="width:34px;height:34px;border:1.5px solid #1c1c1e;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer">←</div><div style="font-weight:700;font-size:17px;flex:1">Contact support</div></div>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Topic</div>
+  <select style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px;background:#fff"><option>Billing &amp; credits</option><option>AI matching issue</option><option>Account access</option><option>Bug report</option><option>Other</option></select>
+  <div style="font-size:11.5px;font-weight:600;color:#333">Message</div>
+  <textarea placeholder="Describe the issue…" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:11px;font-size:13px;min-height:110px;resize:vertical"></textarea>
+  <div style="border:2px dashed #cfcfcf;border-radius:11px;padding:14px;text-align:center;color:#888;font-size:12px;cursor:pointer">＋ Attach screenshot</div>
+  <div onClick="{{ open.sent }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:14px;text-align:center;font-weight:600;cursor:pointer">Send message</div>
+  <div style="color:#999;font-size:10.5px;text-align:center">We reply within 1–2 business days</div>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ showTabBar }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Tab bar" style="display:flex;border-top:1.5px solid #e2e2e2;background:#f7f7f8;flex:none">
+  <div onClick="{{ nav.home }}" style="{{ tabStyle.home }}"><div style="font-size:16px">⌂</div>Home</div>
+  <div onClick="{{ nav.closet }}" style="{{ tabStyle.closet }}"><div style="font-size:16px">▦</div>Closet</div>
+  <div onClick="{{ nav.genPick }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 9px;font-size:9px;color:#1c1c1e;cursor:pointer"><div style="width:34px;height:34px;background:#1c1c1e;color:#fff;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-top:-14px;border:3px solid #fff">✚</div>Match</div>
+  <div onClick="{{ nav.saved }}" style="{{ tabStyle.saved }}"><div style="font-size:16px">♥</div>Saved</div>
+  <div onClick="{{ nav.profile }}" style="{{ tabStyle.profile }}"><div style="font-size:16px">●</div>Profile</div>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ anyModal }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeModal }}" style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:60;display:flex;align-items:flex-end;justify-content:center">
+<div onClick="{{ stop }}" style="background:#fff;width:100%;max-width:560px;border-radius:20px 20px 0 0;padding:18px 20px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:11px;max-height:80vh;overflow:auto">
+<div style="width:36px;height:4px;background:#ccc;border-radius:2px;margin:0 auto"></div>
+
+<sc-if value="{{ isModal.filter }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Filter sheet"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Filters</div>
+<div style="font-size:12px;font-weight:600;margin-bottom:7px">Price</div>
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:11px"><div onClick="{{ rd.fp_1 }}" style="{{ rdStyle.fp_1 }}">Under $25</div><div onClick="{{ rd.fp_2 }}" style="{{ rdStyle.fp_2 }}">$25–75</div><div onClick="{{ rd.fp_3 }}" style="{{ rdStyle.fp_3 }}">$75+</div></div>
+<div style="font-size:12px;font-weight:600;margin-bottom:7px">Color</div>
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:11px"><div onClick="{{ chip.cBlack }}" style="{{ chipStyle.cBlack }}">Black</div><div onClick="{{ chip.cWhite }}" style="{{ chipStyle.cWhite }}">White</div><div onClick="{{ chip.cTan }}" style="{{ chipStyle.cTan }}">Tan</div><div onClick="{{ chip.cGreen }}" style="{{ chipStyle.cGreen }}">Green</div></div>
+<div style="font-size:12px;font-weight:600;margin-bottom:7px">Sort by</div>
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px"><div onClick="{{ rd.sort_match }}" style="{{ rdStyle.sort_match }}">Best match</div><div onClick="{{ rd.sort_low }}" style="{{ rdStyle.sort_low }}">Price ↓</div><div onClick="{{ rd.sort_new }}" style="{{ rdStyle.sort_new }}">Newest</div></div>
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Clear</div><div onClick="{{ closeModal }}" style="flex:2;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Apply filters</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.deleteItem }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Delete item confirm" style="text-align:center"><div style="font-weight:700;font-size:15px">Delete "Green sneakers"?</div><div style="color:#888;font-size:12px;margin:8px 0 14px">It will be removed from your closet and saved outfits that use it will show a gap.</div>
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Cancel</div><div onClick="{{ act.deleteItemConfirm }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Delete</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.photo }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Photo source sheet"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Add a photo</div>
+<div onClick="{{ closeModal }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:13px;font-weight:600;font-size:13px;cursor:pointer;margin-bottom:8px"><span style="filter:grayscale(1)">📷</span> Take a photo</div>
+<div onClick="{{ closeModal }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:13px;font-weight:600;font-size:13px;cursor:pointer;margin-bottom:8px">▦ Choose from gallery</div>
+<div onClick="{{ closeModal }}" style="text-align:center;font-size:12px;color:#555;cursor:pointer;padding:6px">Cancel</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.saveTo }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Save to collection"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Save to collection</div>
+<div onClick="{{ rd.sc_dinner }}" style="{{ listRow.sc_dinner }}">Dinner · 2 outfits</div>
+<div onClick="{{ rd.sc_work }}" style="{{ listRow.sc_work }}">Work · 3 outfits</div>
+<div onClick="{{ rd.sc_vacay }}" style="{{ listRow.sc_vacay }}">Vacation · 2 outfits</div>
+<div onClick="{{ open.newCollection }}" style="border:2px dashed #cfcfcf;border-radius:11px;padding:12px;text-align:center;color:#888;font-size:12px;cursor:pointer;margin:8px 0">＋ New collection</div>
+<div onClick="{{ act.saveToConfirm }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer">Save</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.share }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Share sheet"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Share this look</div>
+<div style="display:flex;gap:10px;margin-bottom:10px">
+<div onClick="{{ closeModal }}" style="flex:1;border:1px solid #e8e8e8;border-radius:11px;padding:12px;text-align:center;font-size:11px;cursor:pointer"><div style="font-size:17px"><span style="filter:grayscale(1)">👥</span></div>In-app friend</div>
+<div onClick="{{ closeModal }}" style="flex:1;border:1px solid #e8e8e8;border-radius:11px;padding:12px;text-align:center;font-size:11px;cursor:pointer"><div style="font-size:17px"><span style="filter:grayscale(1)">🔗</span></div>Copy link</div>
+<div onClick="{{ closeModal }}" style="flex:1;border:1px solid #e8e8e8;border-radius:11px;padding:12px;text-align:center;font-size:11px;cursor:pointer"><div style="font-size:17px"><span style="filter:grayscale(1)">✉</span></div>Message</div>
+</div>
+<div onClick="{{ nav.feedback }}" style="border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;font-size:12.5px;cursor:pointer">Preview what your friend sees →</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.why }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Why it matches"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Why this outfit works</div>
+<div style="border:1px solid #e8e8e8;border-radius:11px;padding:11px;font-size:12px;margin-bottom:8px"><b>Color:</b> green sneakers pop against neutral beige + white; belt ties the tones together.</div>
+<div style="border:1px solid #e8e8e8;border-radius:11px;padding:11px;font-size:12px;margin-bottom:8px"><b>Occasion:</b> smart-casual dinner — collared shirt dresses it up, sneakers keep it relaxed.</div>
+<div style="border:1px solid #e8e8e8;border-radius:11px;padding:11px;font-size:12px;margin-bottom:12px"><b>Your style:</b> matches your "casual + streetwear" profile and $$ budget.</div>
+<div onClick="{{ closeModal }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Got it</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.swap }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Swap item"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Swap "White oxford shirt"</div>
+<div onClick="{{ rd.sw_1 }}" style="{{ listRow.sw_1 }}">Black tee — owned ✓</div>
+<div onClick="{{ rd.sw_2 }}" style="{{ listRow.sw_2 }}">Striped shirt — owned ✓</div>
+<div onClick="{{ rd.sw_3 }}" style="{{ listRow.sw_3 }}">Linen shirt — $45 at StoreX</div>
+<div onClick="{{ closeModal }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer;margin-top:8px">Apply swap</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.leaving }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Leaving app confirm" style="text-align:center"><div style="font-weight:700;font-size:15px">Heading to PartnerStore</div><div style="color:#888;font-size:12px;margin:8px 0 14px">You'll finish this purchase on the partner's site. We may earn a commission — it never changes your price.</div>
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Stay</div><div onClick="{{ closeModal }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Continue ↗</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.purchased }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Purchased confirm" style="text-align:center"><div style="font-weight:700;font-size:15px">Add to your closet?</div><div style="color:#888;font-size:12px;margin:8px 0 14px">"Leather belt, tan" will be added to Accessories and marked as owned in your outfits.</div>
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Not yet</div><div onClick="{{ act.purchasedConfirm }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Add to closet</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.newCollection }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="New collection"><div style="font-weight:700;font-size:15px;margin-bottom:10px">New collection</div>
+<input placeholder="Collection name, e.g. Church" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px;width:100%;box-sizing:border-box;margin-bottom:10px">
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Cancel</div><div onClick="{{ act.newCollectionCreate }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Create</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.rename }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Rename collection"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Rename collection</div>
+<input defaultValue="Work" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px;width:100%;box-sizing:border-box;margin-bottom:10px">
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Cancel</div><div onClick="{{ closeModal }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Save</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.deleteOutfit }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Outfit actions"><div style="font-weight:700;font-size:15px;margin-bottom:10px">"Office fit"</div>
+<div onClick="{{ closeModal }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;font-weight:600;font-size:12.5px;cursor:pointer;margin-bottom:8px">Move to another collection</div>
+<div onClick="{{ open.share }}" style="border:1px solid #e8e8e8;border-radius:11px;padding:12px;font-weight:600;font-size:12.5px;cursor:pointer;margin-bottom:8px">Share</div>
+<div onClick="{{ closeModal }}" style="border:1.5px solid #cfcfcf;border-radius:11px;padding:12px;font-weight:600;font-size:12.5px;color:#555;cursor:pointer;margin-bottom:8px">Delete outfit</div>
+<div onClick="{{ closeModal }}" style="text-align:center;font-size:12px;color:#555;cursor:pointer;padding:4px">Cancel</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.buyCredits }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Buy credits"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Buy credits</div>
+<div onClick="{{ rd.pack_10 }}" style="{{ listRow.pack_10 }}">10 credits — $2.99</div>
+<div onClick="{{ rd.pack_50 }}" style="{{ listRow.pack_50 }}">50 credits — $9.99 · best value</div>
+<div onClick="{{ rd.pack_100 }}" style="{{ listRow.pack_100 }}">100 credits — $16.99</div>
+<div onClick="{{ open.payment }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer;margin-top:8px">Continue to payment</div>
+<div onClick="{{ nav.plans }}" style="text-align:center;font-size:12px;text-decoration:underline;color:#555;cursor:pointer;padding:6px">Or subscribe for monthly credits</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.payment }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Payment"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Payment</div>
+<div style="border:1px solid #e8e8e8;border-radius:11px;padding:11px;display:flex;font-size:12.5px;margin-bottom:8px"><div style="flex:1">Total</div><b>$9.99</b></div>
+<div onClick="{{ rd.pay_apple }}" style="{{ listRow.pay_apple }}"> Apple Pay / Google Pay</div>
+<div onClick="{{ rd.pay_card }}" style="{{ listRow.pay_card }}"><span style="filter:grayscale(1)">💳</span> Card ending •• 4242</div>
+<div onClick="{{ rd.pay_new }}" style="{{ listRow.pay_new }}">＋ New card</div>
+<div onClick="{{ act.payNow }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:13px;text-align:center;font-weight:600;cursor:pointer;margin-top:8px">Pay $9.99</div>
+<div style="color:#999;font-size:10px;text-align:center;margin-top:6px">Secured checkout · receipts by email</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.paid }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Payment success" style="text-align:center"><div style="width:54px;height:54px;border:2px solid #1c1c1e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:6px auto">✓</div>
+<div style="font-weight:700;font-size:15px">Payment successful</div><div style="color:#888;font-size:12px;margin:6px 0 14px">50 credits added — new balance {{ creditsText }}.</div>
+<div onClick="{{ closeModal }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Done</div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.changePw }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Change password"><div style="font-weight:700;font-size:15px;margin-bottom:10px">Change password</div>
+<input type="password" placeholder="Current password" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px;width:100%;box-sizing:border-box;margin-bottom:8px">
+<input type="password" placeholder="New password" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px;width:100%;box-sizing:border-box;margin-bottom:8px">
+<input type="password" placeholder="Repeat new password" style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px;width:100%;box-sizing:border-box;margin-bottom:10px">
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Cancel</div><div onClick="{{ closeModal }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Update</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.deleteAcct }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Delete account confirm" style="text-align:center"><div style="font-weight:700;font-size:15px">Delete your account?</div><div style="color:#888;font-size:12px;margin:8px 0 12px">All wardrobe photos, outfits and credits will be permanently removed within 30 days. This cannot be undone.</div>
+<input placeholder='Type "DELETE" to confirm' style="border:1.5px solid #d6d6d6;background:#fbfbfb;border-radius:10px;padding:12px;font-size:13px;width:100%;box-sizing:border-box;margin-bottom:10px;text-align:center">
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Keep account</div><div onClick="{{ act.deleteAcctConfirm }}" style="flex:1;border:1.5px solid #cfcfcf;border-radius:11px;padding:12px;text-align:center;font-weight:600;color:#555;cursor:pointer">Delete</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.logout }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Logout confirm" style="text-align:center"><div style="font-weight:700;font-size:15px">Log out?</div><div style="color:#888;font-size:12px;margin:8px 0 14px">Your closet stays safe — log back in anytime.</div>
+<div style="display:flex;gap:9px"><div onClick="{{ closeModal }}" style="flex:1;border:1.5px solid #1c1c1e;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Cancel</div><div onClick="{{ act.logoutConfirm }}" style="flex:1;background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Log out</div></div></div>
+</sc-if>
+
+<sc-if value="{{ isModal.sent }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Support sent" style="text-align:center"><div style="width:54px;height:54px;border:2px solid #1c1c1e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:6px auto">✓</div>
+<div style="font-weight:700;font-size:15px">Message sent</div><div style="color:#888;font-size:12px;margin:6px 0 14px">Ticket #4821 created — we'll email you within 1–2 business days.</div>
+<div onClick="{{ act.sentOk }}" style="background:#1c1c1e;color:#fff;border-radius:11px;padding:12px;text-align:center;font-weight:600;cursor:pointer">Done</div></div>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:800}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'welcome', modal: null, wide: false, hist: [], credits: 12,
+    sel: { casual: 1, street: 1, odinner: 1, nike: 1, zara: 1, icasual: 1, iclub: 1, terms: 1, tPush: 1, tAlerts: 1, tFriend: 1, tPrivate: 1, fav: 1, q1: 0 },
+    radio: { who: 'w', budget: '2', body: 'b', cat: 'all', occ: 'dinner', dress: 'smart', time: 'night', place: 'in', mode: 'mix', pb: '2', bold: 'bal', base: '1', col: 'all', vote: '', plan: 'plus', pack: '50', pay: 'apple', fp: '2', sort: 'match', sc: 'dinner', sw: '1' }
+  };
+
+  componentDidMount() {
+    this._onR = () => this.setState({ wide: window.innerWidth >= 900 });
+    this._onR();
+    window.addEventListener('resize', this._onR);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onR);
+    clearTimeout(this._t);
+  }
+
+  go(s) {
+    this.setState(st => ({ screen: s, modal: null, hist: st.screen === s ? st.hist : [...st.hist.slice(-20), st.screen] }));
+    if (this._main) this._main.scrollTop = 0;
+    clearTimeout(this._t);
+    if (s === 'genLoading') this._t = setTimeout(() => this.go('genResults'), 1800);
+  }
+
+  renderVals() {
+    const st = this.state;
+    const screens = ['welcome','signup','verify','login','forgot','reset','style1','style2','avatar','home','closet','addItem','detect','itemDetail','genPick','genOccasion','genPrefs','genLoading','genResults','outfitDetail','shop','productDetail','saved','collection','feedback','profile','credits','plans','notifications','settings','help','support'];
+    const modals = ['filter','deleteItem','photo','saveTo','share','why','swap','leaving','purchased','newCollection','rename','deleteOutfit','buyCredits','payment','paid','changePw','deleteAcct','logout','sent'];
+
+    const is = {}, nav = {};
+    screens.forEach(k => { is[k] = st.screen === k; nav[k] = () => this.go(k); });
+    nav.back = () => this.setState(s2 => {
+      const h = [...s2.hist]; const p = h.pop() || 'home';
+      return { screen: p, hist: h, modal: null };
+    });
+
+    const isModal = {}, open = {};
+    modals.forEach(k => { isModal[k] = st.modal === k; open[k] = () => this.setState({ modal: k }); });
+    const closeModal = () => this.setState({ modal: null });
+
+    // multi-select chips + toggles + accordions
+    const chipKeys = ['casual','business','street','formal','athletic','church','club','owork','odinner','ovacation','oeveryday','nike','zara','icasual','iformal','ibiz','iclub','ivac','terms','fav','tPush','tAlerts','tFriend','tOffers','tPrivate','q1','q2','q3','q4','p1save','p1hide','p2save','p2hide','p3save','p3hide','p4save','p4hide','cBlack','cWhite','cTan','cGreen','fprice','fbrand','fcolor','fsize'];
+    const chip = {}, chipStyle = {}, tglBg = {}, tglKnob = {}, accOn = {}, accIcon = {}, checkStyle = {}, miniChip = {};
+    const chipBase = { borderRadius: 999, padding: '7px 13px', fontSize: 12, cursor: 'pointer', userSelect: 'none', whiteSpace: 'nowrap', flex: 'none' };
+    chipKeys.forEach(k => {
+      const on = !!st.sel[k];
+      chip[k] = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState(s2 => ({ sel: { ...s2.sel, [k]: s2.sel[k] ? 0 : 1 } })); };
+      chipStyle[k] = on
+        ? { ...chipBase, background: '#1c1c1e', color: '#fff', border: '1.5px solid #1c1c1e' }
+        : { ...chipBase, background: '#fff', color: '#333', border: '1.5px solid #bbb' };
+      tglBg[k] = { width: 34, height: 19, borderRadius: 10, background: on ? '#1c1c1e' : '#ccc', position: 'relative', cursor: 'pointer', flex: 'none' };
+      tglKnob[k] = { position: 'absolute', top: 2, left: on ? 17 : 2, width: 15, height: 15, borderRadius: '50%', background: '#fff', transition: 'left .15s' };
+      accOn[k] = on;
+      accIcon[k] = on ? '▴' : '▾';
+      checkStyle[k] = { width: 17, height: 17, border: '1.5px solid #1c1c1e', borderRadius: 5, background: on ? '#1c1c1e' : '#fff', color: '#fff', fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' };
+      miniChip[k] = { width: 26, height: 26, borderRadius: 8, border: on ? '1.5px solid #1c1c1e' : '1.5px solid #ccc', background: on ? '#1c1c1e' : '#fff', color: on ? '#fff' : '#888', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, cursor: 'pointer' };
+    });
+
+    // radio groups
+    const radioDefs = [['who','w'],['who','m'],['who','b'],['budget','1'],['budget','2'],['budget','3'],['budget','0'],['body','a'],['body','b'],['body','c'],['body','d'],['body','e'],['cat','all'],['cat','shirts'],['cat','pants'],['cat','shoes'],['cat','jackets'],['cat','acc'],['occ','dinner'],['occ','work'],['occ','club'],['occ','church'],['occ','ball'],['occ','vacay'],['occ','daily'],['dress','casual'],['dress','smart'],['dress','formal'],['time','day'],['time','night'],['place','in'],['place','out'],['mode','closet'],['mode','mix'],['mode','shop'],['pb','1'],['pb','2'],['pb','3'],['bold','simple'],['bold','bal'],['bold','bold'],['base','1'],['base','2'],['base','3'],['col','all'],['col','work'],['col','dinner'],['col','vacay'],['col','club'],['vote','yes'],['vote','no'],['vote','sw'],['plan','free'],['plan','plus'],['plan','pro'],['pack','10'],['pack','50'],['pack','100'],['pay','apple'],['pay','card'],['pay','new'],['fp','1'],['fp','2'],['fp','3'],['sort','match'],['sort','low'],['sort','new'],['sc','dinner'],['sc','work'],['sc','vacay'],['sw','1'],['sw','2'],['sw','3']];
+    const rd = {}, rdStyle = {}, listRow = {}, planCard = {}, modeCard = {}, baseCard = {};
+    radioDefs.forEach(([g, v]) => {
+      const key = g + '_' + v;
+      const on = st.radio[g] === v;
+      rd[key] = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState(s2 => ({ radio: { ...s2.radio, [g]: v } })); };
+      rdStyle[key] = on
+        ? { ...chipBase, background: '#1c1c1e', color: '#fff', border: '1.5px solid #1c1c1e' }
+        : { ...chipBase, background: '#fff', color: '#333', border: '1.5px solid #bbb' };
+      listRow[key] = { border: on ? '1.5px solid #1c1c1e' : '1px solid #ddd', background: on ? '#f4f4f4' : '#fff', borderRadius: 11, padding: 12, fontWeight: 600, fontSize: 12.5, cursor: 'pointer', marginBottom: 8 };
+      planCard[key] = { border: on ? '2px solid #1c1c1e' : '1.5px solid #ddd', borderRadius: 14, padding: 13, cursor: 'pointer', background: on ? '#fafafa' : '#fff' };
+      modeCard[key] = { border: on ? '1.5px solid #1c1c1e' : '1px solid #ddd', background: on ? '#f4f4f4' : '#fff', borderRadius: 12, padding: 12, fontSize: 12.5, cursor: 'pointer' };
+      baseCard[key] = { border: on ? '2px solid #1c1c1e' : '1.5px solid #ddd', borderRadius: 11, padding: 6, cursor: 'pointer', background: on ? '#fafafa' : '#fff' };
+    });
+
+    // tabs / rail
+    const mainTabs = { home: 'home', closet: 'closet', saved: 'saved', shop: 'shop', profile: 'profile' };
+    const tabScreens = { home: ['home'], closet: ['closet','addItem','detect','itemDetail'], saved: ['saved','collection'], shop: ['shop','productDetail'], profile: ['profile','credits','plans','notifications','settings','help','support'] };
+    const activeTab = Object.keys(tabScreens).find(t => tabScreens[t].includes(st.screen)) || (st.screen.indexOf('gen') === 0 || st.screen === 'outfitDetail' ? 'gen' : '');
+    const tabStyle = {}, railStyle = {};
+    ['home','closet','saved','shop','profile','gen'].forEach(t => {
+      const on = activeTab === t;
+      tabStyle[t] = { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, padding: '8px 0 9px', fontSize: 9, color: on ? '#1c1c1e' : '#999', fontWeight: on ? 700 : 400, cursor: 'pointer' };
+      railStyle[t] = { padding: '10px 12px', borderRadius: 10, fontSize: 13.5, fontWeight: on ? 700 : 500, background: on ? '#1c1c1e' : 'transparent', color: on ? '#fff' : '#333', cursor: 'pointer' };
+    });
+
+    const authScreens = ['welcome','signup','verify','login','forgot','reset','style1','style2','avatar'];
+    const inApp = !authScreens.includes(st.screen);
+
+    const spinner = React.createElement('div', { style: { width: 46, height: 46, border: '4px solid #ddd', borderTopColor: '#1c1c1e', borderRadius: '50%', animation: 'spin .9s linear infinite' } });
+
+    return {
+      is, nav, isModal, open, closeModal,
+      anyModal: !!st.modal,
+      stop: (e) => e.stopPropagation(),
+      chip, chipStyle, tglBg, tglKnob, accOn, accIcon, checkStyle, miniChip,
+      rd, rdStyle, listRow, planCard, modeCard, baseCard,
+      tabStyle, railStyle,
+      showTabBar: inApp && !st.wide,
+      showRail: inApp && st.wide,
+      creditsText: String(st.credits),
+      planName: st.radio.plan === 'free' ? 'Free' : st.radio.plan === 'pro' ? 'Pro' : 'Plus',
+      spinner,
+      mainRef: (el) => { this._main = el; },
+      act: {
+        socialAuth: () => this.go('style1'),
+        loginGo: () => this.go('home'),
+        saveItem: () => this.go('closet'),
+        generate: () => { this.setState(s2 => ({ credits: Math.max(0, s2.credits - 1) })); this.go('genLoading'); },
+        deleteItemConfirm: () => this.go('closet'),
+        saveToConfirm: () => this.go('saved'),
+        newCollectionCreate: () => this.go('collection'),
+        purchasedConfirm: () => this.go('closet'),
+        payNow: () => { this.setState(s2 => ({ credits: s2.credits + 50, modal: 'paid' })); },
+        logoutConfirm: () => { this.setState({ hist: [] }); this.go('welcome'); },
+        deleteAcctConfirm: () => { this.setState({ hist: [] }); this.go('welcome'); },
+        sentOk: () => this.go('profile')
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

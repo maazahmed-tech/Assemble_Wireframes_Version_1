@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assemble — Admin Panel Prototype</title>
+<style>
+:root{
+  --canvas:#f2f2f5; --surface:#fff; --surface-2:#f7f7f9; --alt:#fafafb;
+  --ink:#161619; --ink-2:#54545c; --muted:#83838d;
+  --line:#e2e2e7; --line-2:#cdcdd4; --line-3:#bfbfc7;
+  --primary:#161619; --on-primary:#fff; --side:#17171a;
+  --sh1:0 1px 2px rgba(15,15,20,.06);
+  --sh2:0 3px 12px rgba(15,15,20,.09),0 1px 3px rgba(15,15,20,.05);
+  --sh3:0 14px 38px rgba(15,15,20,.18);
+  --img:linear-gradient(135deg,#e9e9ee,#d3d3da);
+  --rin:9px; --rbtn:10px; --rcard:13px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--canvas);
+  -webkit-font-smoothing:antialiased;font-size:13px;line-height:1.45}
+button{font:inherit}
+
+.pbar{height:42px;display:flex;align-items:center;gap:12px;padding:0 14px;background:var(--side);color:#fff;flex:none}
+.pbar .brand{font-weight:800;font-size:12.5px;letter-spacing:-.01em}
+.pbar .brand span{font-weight:400;opacity:.55;font-size:10.5px}
+.pbar select{margin-left:auto;background:#26262b;color:#fff;border:1px solid #3a3a42;border-radius:8px;padding:5px 9px;font-size:12px}
+.pbar a{color:#fff;opacity:.7;font-size:11px;text-decoration:none;white-space:nowrap}
+.pbar a:hover{opacity:1}
+
+.app{display:flex;height:calc(100vh - 42px)}
+
+/* sidebar */
+.side{width:222px;flex:none;background:var(--side);color:#fff;display:flex;flex-direction:column;gap:2px;padding:16px 10px;overflow:auto}
+.side .logo{font-weight:800;font-size:15px;padding:4px 10px 14px;letter-spacing:-.02em}
+.side .logo span{font-weight:400;font-size:9.5px;opacity:.55}
+.sl{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:9px;font-size:12.5px;color:#c9c9d2;cursor:pointer;font-weight:500}
+.sl:hover{background:rgba(255,255,255,.06);color:#fff}
+.sl.on{background:rgba(255,255,255,.12);color:#fff;font-weight:700}
+.sl .g{width:18px;text-align:center}
+.side .sp{flex:1}
+.side .out{padding:10px 11px;border-radius:9px;font-size:12.5px;opacity:.6;cursor:pointer;color:#fff}
+.side .out:hover{opacity:1}
+
+.col{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:10px 16px;flex:none}
+.burger{width:38px;height:38px;border:1.5px solid var(--line-2);border-radius:9px;display:none;align-items:center;justify-content:center;cursor:pointer;flex:none}
+.topbar .ttl{font-weight:700;font-size:15px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar input{border:1.5px solid var(--line-2);background:var(--surface-2);border-radius:9px;padding:8px 11px;font-size:12px;width:180px}
+.topbar .who{width:34px;height:34px;border-radius:50%;background:var(--img);flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.main{flex:1;overflow:auto}
+.pg{padding:18px;display:flex;flex-direction:column;gap:13px;max-width:1120px}
+.screen{display:none}
+.screen.active{display:block}
+
+@media(max-width:879px){ .side{display:none} .burger{display:flex} .topbar input{width:120px} }
+
+/* type */
+.h{font-weight:700;font-size:13.5px}
+.mut{color:var(--muted);font-size:11px}
+.sub{color:var(--ink-2);font-size:12px}
+b,strong{font-weight:700}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--rcard);padding:16px}
+.card.click{cursor:pointer}
+.card.click:hover{box-shadow:var(--sh1);border-color:var(--line-2)}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--rcard);padding:14px;cursor:pointer}
+.stat:hover{box-shadow:var(--sh1)}
+.stat .k{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.02em}
+.stat .v{font-weight:800;font-size:24px;margin-top:3px}
+.stat .d{font-size:10.5px;color:var(--ink-2);margin-top:2px}
+.grid{display:grid;gap:11px}
+.g-150{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.g-200{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.g-230{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.g-280{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g-300{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+
+/* buttons */
+.btn{background:var(--primary);color:#fff;border:none;border-radius:var(--rbtn);padding:9px 14px;font-weight:600;font-size:12px;cursor:pointer}
+.btn:hover{background:#000}
+.btn-o{background:var(--surface);color:var(--ink);border:1.5px solid var(--ink);border-radius:var(--rbtn);padding:8.5px 13px;font-weight:600;font-size:12px;cursor:pointer}
+.btn-o:hover{background:var(--surface-2)}
+.btn-g{background:var(--surface);color:var(--ink-2);border:1.5px solid var(--line-2);border-radius:var(--rbtn);padding:8.5px 13px;font-weight:600;font-size:12px;cursor:pointer}
+.small{padding:5px 9px;font-size:10.5px;border-radius:8px}
+.field,input,select,textarea{border:1.5px solid var(--line-2);background:var(--surface);border-radius:var(--rin);padding:9px 11px;font-size:12px;color:var(--ink);font-family:inherit;width:100%}
+input:focus,textarea:focus{outline:none;border-color:var(--ink)}
+select{cursor:pointer}
+textarea{resize:vertical}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.toolbar input{flex:1;min-width:140px}
+.toolbar select{width:auto}
+
+/* table */
+.tbl{background:var(--surface);border:1px solid var(--line);border-radius:var(--rcard);overflow:hidden}
+.tr{display:grid;gap:8px;padding:11px 14px;font-size:12px;border-top:1px solid var(--line);align-items:center}
+.th{background:var(--surface-2);font-size:10.5px;font-weight:700;color:var(--muted);border:none;letter-spacing:.02em}
+.tr.click{cursor:pointer}
+.tr.click:hover{background:var(--alt)}
+.tr.alt{background:var(--alt)}
+.chipbadge{border:1px solid var(--line-2);border-radius:999px;padding:2px 9px;font-size:10px}
+.chipbadge.dark{background:var(--primary);color:#fff;border-color:var(--primary)}
+.thumb{width:34px;height:34px;border-radius:8px;background:var(--img)}
+.rowline{border:1px solid var(--line);border-radius:10px;padding:10px 11px;display:flex;font-size:12px;cursor:pointer;align-items:center;gap:9px}
+.rowline:hover{background:var(--surface-2)}
+.note{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:11px;font-size:11.5px;color:var(--ink-2)}
+.tgl{width:38px;height:22px;border-radius:11px;background:var(--line-3);position:relative;cursor:pointer;flex:none;transition:background .15s}
+.tgl.on{background:var(--primary)}
+.tgl i{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:var(--sh1)}
+.tgl.on i{left:18px}
+.togglerow{border:1px solid var(--line);border-radius:10px;padding:11px;display:flex;align-items:center;gap:10px;font-size:12px}
+.togglerow>span:first-child{flex:1}
+.chip{border:1.5px solid var(--line-3);background:var(--surface);color:#333;border-radius:999px;padding:7px 13px;font-size:12px;cursor:pointer;white-space:nowrap;font-weight:500}
+.chip.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.lbl{font-size:11px;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+.bars{display:flex;align-items:flex-end;gap:4px}
+.bars .b{flex:1;background:var(--line-2);border-radius:4px 4px 0 0}
+.bars .b.m{background:#a9a9b2}
+.bars .b.h{background:var(--primary)}
+.kv{display:flex;font-size:12px}
+.kv>div{flex:1}
+
+/* auth */
+.auth-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--canvas)}
+.auth-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:11px;box-shadow:var(--sh2)}
+.authsub{display:none}
+.authsub.active{display:flex;flex-direction:column;gap:11px}
+
+/* modal */
+.scrim{position:fixed;inset:0;background:rgba(10,10,15,.5);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}
+.scrim.show{display:flex}
+.dlg{background:var(--surface);width:100%;max-width:480px;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:11px;max-height:86vh;overflow:auto;box-shadow:var(--sh3)}
+.modal{display:none}
+.modal.active{display:block}
+.mttl{font-weight:700;font-size:14px;margin-bottom:8px}
+.center{text-align:center}
+.frow{display:flex;gap:9px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--img);flex:none}
+.mono{font-family:ui-monospace,monospace}
+</style>
+</head>
+<body>
+
+<div class="pbar">
+  <div class="brand">ASSEMBLE <span>· admin prototype</span></div>
+  <select id="jump" aria-label="Jump to screen"></select>
+  <a href="Assemble - User App.html">← User&nbsp;app&nbsp;prototype</a>
+</div>
+
+<div class="app" id="app">
+
+  <!-- ===== AUTHED SHELL ===== -->
+  <nav class="side" id="side">
+    <div class="logo">ASSEMBLE <span>ADMIN</span></div>
+    <div class="sl" data-nav="dashboard"><span class="g">▦</span> Dashboard</div>
+    <div class="sl" data-nav="users"><span class="g">◉</span> Users</div>
+    <div class="sl" data-nav="products"><span class="g">⬦</span> Products &amp; affiliates</div>
+    <div class="sl" data-nav="brands"><span class="g">◈</span> Brand partners</div>
+    <div class="sl" data-nav="ai"><span class="g">✦</span> AI &amp; cost control</div>
+    <div class="sl" data-nav="monetize"><span class="g">⬡</span> Credits &amp; plans</div>
+    <div class="sl" data-nav="ads"><span class="g">▣</span> Ads &amp; featured</div>
+    <div class="sl" data-nav="content"><span class="g">✉</span> Notifications &amp; content</div>
+    <div class="sl" data-nav="reports"><span class="g">◫</span> Reports</div>
+    <div class="sl" data-nav="support"><span class="g">?</span> Support inbox</div>
+    <div class="sp"></div>
+    <div class="sl" data-nav="settings"><span class="g">⚙</span> Admin settings</div>
+    <div class="out" data-open="logout">← Log out</div>
+  </nav>
+
+  <div class="col" id="shell">
+    <div class="topbar">
+      <div class="burger" data-open="menu">☰</div>
+      <div class="ttl" id="pageTitle">Dashboard</div>
+      <input placeholder="Search…">
+      <div class="who">AD</div>
+    </div>
+    <div class="main" id="main">
+
+    <!-- DASHBOARD -->
+    <section class="screen" data-screen="dashboard"><div class="pg">
+      <div class="grid g-150">
+        <div class="stat" data-nav="users"><div class="k">TOTAL USERS</div><div class="v">4,120</div><div class="d">▲ 8.2% this week</div></div>
+        <div class="stat" data-nav="reports"><div class="k">OUTFITS GENERATED</div><div class="v">18,904</div><div class="d">▲ 12% this week</div></div>
+        <div class="stat" data-nav="reports"><div class="k">AFFILIATE CLICKS</div><div class="v">2,340</div><div class="d">▼ 1.4% this week</div></div>
+        <div class="stat" data-nav="monetize"><div class="k">MRR</div><div class="v">$6,410</div><div class="d">▲ 4.9% this month</div></div>
+        <div class="stat" data-nav="ai"><div class="k">AI COST (MTD)</div><div class="v">$1,238</div><div class="d">$0.065 / generation</div></div>
+      </div>
+      <div class="grid g-280">
+        <div class="card"><div style="display:flex;align-items:center;margin-bottom:10px"><div class="h" style="flex:1">Generations · last 14 days</div><div class="sub" data-nav="reports" style="text-decoration:underline;cursor:pointer">Full report</div></div>
+          <div class="bars" style="height:110px"><div class="b" style="height:34%"></div><div class="b" style="height:48%"></div><div class="b" style="height:41%"></div><div class="b" style="height:56%"></div><div class="b" style="height:50%"></div><div class="b" style="height:64%"></div><div class="b" style="height:58%"></div><div class="b m" style="height:70%"></div><div class="b m" style="height:62%"></div><div class="b m" style="height:75%"></div><div class="b m" style="height:68%"></div><div class="b h" style="height:84%"></div><div class="b h" style="height:78%"></div><div class="b h" style="height:92%"></div></div>
+        </div>
+        <div class="card"><div class="h" style="margin-bottom:10px">Needs attention</div>
+          <div class="rowline" data-nav="support" style="margin-bottom:7px"><div style="flex:1">6 open support tickets <span class="mut">· 2 overdue</span></div><div>→</div></div>
+          <div class="rowline" data-nav="ai" style="margin-bottom:7px"><div style="flex:1">3 users flagged for high AI usage</div><div>→</div></div>
+          <div class="rowline" data-nav="products" style="margin-bottom:7px"><div style="flex:1">12 products with broken affiliate links</div><div>→</div></div>
+          <div class="rowline" data-nav="ads"><div style="flex:1">1 campaign ends in 2 days</div><div>→</div></div>
+        </div>
+      </div>
+    </div></section>
+
+    <!-- USERS -->
+    <section class="screen" data-screen="users"><div class="pg">
+      <div class="toolbar">
+        <input placeholder="Search name, email…">
+        <select><option>All plans</option><option>Free</option><option>Plus</option><option>Pro</option></select>
+        <select><option>All statuses</option><option>Active</option><option>Suspended</option></select>
+        <div class="btn-o">Export CSV</div>
+      </div>
+      <div class="tbl">
+        <div class="tr th" style="grid-template-columns:2fr 1fr 1fr 1fr 30px">USER<div>PLAN</div><div>CREDITS</div><div>STATUS</div><div></div></div>
+        <div class="tr click" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>Jane Doe</b><br><span class="mut">jane@email.com</span></div><div>Plus</div><div>61</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
+        <div class="tr click" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>Sam Osei</b><br><span class="mut">sam@email.com</span></div><div>Free</div><div>2</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
+        <div class="tr click" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>Maya Lin</b><br><span class="mut">maya@email.com</span></div><div>Pro</div><div>∞</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
+        <div class="tr click alt" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>D. Krum</b><br><span class="mut">dk@email.com</span></div><div>Free</div><div>0</div><div><span class="chipbadge dark">Suspended</span></div><div>›</div></div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:6px;font-size:12px;color:var(--muted)"><span class="chipbadge" style="cursor:pointer">←</span><span class="chipbadge dark">1</span><span class="chipbadge" style="cursor:pointer">2</span><span class="chipbadge" style="cursor:pointer">3</span><span class="chipbadge" style="cursor:pointer">→</span></div>
+    </div></section>
+
+    <!-- PRODUCTS -->
+    <section class="screen" data-screen="products"><div class="pg">
+      <div class="toolbar">
+        <input placeholder="Search products…">
+        <select><option>All categories</option><option>Shoes</option><option>Belts</option><option>Shirts</option></select>
+        <select><option>All states</option><option>Active</option><option>Featured</option><option>Out of stock</option></select>
+        <div class="btn" data-open="productForm">＋ Add product</div>
+      </div>
+      <div class="note">Bulk CSV upload and product feeds are marked for a later phase — manual add only in MVP.</div>
+      <div class="tbl">
+        <div class="tr th" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 1fr 30px"><div></div>PRODUCT<div>PRICE</div><div>CLICKS</div><div>STATE</div><div>AI TAGS</div><div></div></div>
+        <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Leather belt, tan</b><br><span class="mut">BrandCo · PartnerStore</span></div><div>$28</div><div>412</div><div><span class="chipbadge dark">Featured</span></div><div class="mut">belt · tan · smart</div><div>›</div></div>
+        <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Woven belt, black</b><br><span class="mut">StoreX</span></div><div>$34</div><div>187</div><div><span class="chipbadge">Active</span></div><div class="mut">belt · black</div><div>›</div></div>
+        <div class="tr click alt" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Linen shirt</b><br><span class="mut">StoreX · ⚠ broken link</span></div><div>$45</div><div>93</div><div><span class="chipbadge" style="color:var(--muted)">Inactive</span></div><div class="mut">shirt · linen</div><div>›</div></div>
+      </div>
+    </div></section>
+
+    <!-- BRANDS -->
+    <section class="screen" data-screen="brands"><div class="pg">
+      <div style="display:flex;align-items:center;gap:9px"><div class="h" style="flex:1">Brand and affiliate partners</div><div class="btn" data-open="brandForm">＋ Add partner</div></div>
+      <div class="grid g-230">
+        <div class="card click" data-open="brandForm"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>PartnerStore</b><br><span class="mut">Affiliate network · 7% comm.</span></div></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>128</b> products</span><span><b>1,204</b> clicks</span><span><b>$412</b> est. rev</span></div></div>
+        <div class="card click" data-open="brandForm"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>BrandCo</b><br><span class="mut">Direct partner · promoted</span></div></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>46</b> products</span><span><b>689</b> clicks</span><span><b>$238</b> est. rev</span></div></div>
+        <div class="card click" data-open="brandForm" style="opacity:.6"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>StoreX</b><br><span class="mut">Paused</span></div></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>31</b> products</span><span><b>447</b> clicks</span><span><b>$96</b> est. rev</span></div></div>
+      </div>
+    </div></section>
+
+    <!-- AI -->
+    <section class="screen" data-screen="ai"><div class="pg" style="max-width:840px">
+      <div class="card" style="display:flex;flex-direction:column;gap:11px">
+        <div class="h">Model and prompts</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:170px"><div class="lbl">Matching model</div><select><option>provider-large-v3</option><option>provider-fast-v2</option></select></div>
+          <div style="flex:1;min-width:170px"><div class="lbl">Item detection model</div><select><option>vision-v2</option><option>vision-lite</option></select></div>
+        </div>
+        <div class="lbl">Outfit matching prompt template</div>
+        <textarea class="mono" style="min-height:74px">Match a complete outfit for {occasion} using {base_item}. Respect {budget}, {dress_code}, {style_profile}. Explain each choice…</textarea>
+        <div style="display:flex;gap:9px"><div class="btn" data-open="savedToast">Save changes</div><div class="btn-g">Test prompt</div></div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div class="h">Cost and limits</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:150px"><div class="lbl">Credit cost per generation</div><input value="1"></div>
+          <div style="flex:1;min-width:150px"><div class="lbl">Free generations / month</div><input value="3"></div>
+          <div style="flex:1;min-width:150px"><div class="lbl">Daily cap per user</div><input value="25"></div>
+        </div>
+        <div class="togglerow"><span>Safety filter for inappropriate images</span><div class="tgl on" data-chip="tSafety"><i></i></div></div>
+        <div class="togglerow"><span>Auto-flag high-cost users</span><div class="tgl on" data-chip="tFlag"><i></i></div></div>
+      </div>
+      <div class="card">
+        <div class="h" style="margin-bottom:10px">Flagged usage and failures</div>
+        <div class="tr th" style="grid-template-columns:2fr 1fr 1fr 90px;padding:8px 0;border-bottom:1px solid var(--line)">USER<div>GEN / DAY</div><div>COST MTD</div><div></div></div>
+        <div class="tr" style="grid-template-columns:2fr 1fr 1fr 90px;border:none;border-bottom:1px solid var(--line)"><div>dk@email.com</div><div>212 ⚠</div><div>$41.20</div><div class="btn-g small" data-open="suspend" style="text-align:center">Suspend</div></div>
+        <div class="tr" style="grid-template-columns:2fr 1fr 1fr 90px;border:none"><div>bot4421@…</div><div>96 ⚠</div><div>$18.02</div><div class="btn-g small" data-open="suspend" style="text-align:center">Suspend</div></div>
+        <div class="mut" style="margin-top:9px;font-size:11px">Failed AI requests (24h): <b style="color:var(--ink)">14</b> · <span style="text-decoration:underline;cursor:pointer">review log</span></div>
+      </div>
+    </div></section>
+
+    <!-- MONETIZE -->
+    <section class="screen" data-screen="monetize"><div class="pg" style="max-width:1000px">
+      <div style="display:flex;align-items:center"><div class="h" style="flex:1">Credit packages</div><div class="btn" data-open="packForm">＋ Add package</div></div>
+      <div class="grid g-200">
+        <div class="card click" data-open="packForm"><b style="font-size:15px">10 credits</b><div style="font-weight:800;font-size:19px;margin:3px 0">$2.99</div><div class="mut">338 sold · active</div></div>
+        <div class="card click" data-open="packForm" style="border:2px solid var(--ink)"><b style="font-size:15px">50 credits</b> <span class="chipbadge dark" style="font-size:8.5px">BEST VALUE</span><div style="font-weight:800;font-size:19px;margin:3px 0">$9.99</div><div class="mut">1,024 sold · active</div></div>
+        <div class="card click" data-open="packForm"><b style="font-size:15px">100 credits</b><div style="font-weight:800;font-size:19px;margin:3px 0">$16.99</div><div class="mut">402 sold · active</div></div>
+      </div>
+      <div class="h" style="margin-top:6px">Subscription plans</div>
+      <div class="tbl">
+        <div class="tr th" style="grid-template-columns:1.4fr 1fr 1fr 1fr 90px">PLAN<div>PRICE</div><div>CREDITS/MO</div><div>SUBSCRIBERS</div><div></div></div>
+        <div class="tr" style="grid-template-columns:1.4fr 1fr 1fr 1fr 90px"><b>Free</b><div>$0</div><div>3 free gens</div><div>3,214</div><div class="btn-g small" data-open="packForm" style="text-align:center">Edit</div></div>
+        <div class="tr" style="grid-template-columns:1.4fr 1fr 1fr 1fr 90px"><b>Plus</b><div>$6.99/mo</div><div>30</div><div>702</div><div class="btn-g small" data-open="packForm" style="text-align:center">Edit</div></div>
+        <div class="tr" style="grid-template-columns:1.4fr 1fr 1fr 1fr 90px"><b>Pro</b><div>$14.99/mo</div><div>Unlimited</div><div>204</div><div class="btn-g small" data-open="packForm" style="text-align:center">Edit</div></div>
+      </div>
+    </div></section>
+
+    <!-- ADS -->
+    <section class="screen" data-screen="ads"><div class="pg" style="max-width:1000px">
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div class="h">Ad placements (free users)</div>
+        <div class="togglerow"><span>Home feed banner</span><span class="mut" style="margin-right:10px">CTR 1.8%</span><div class="tgl on" data-chip="adHome"><i></i></div></div>
+        <div class="togglerow"><span>Results interstitial (1 per 3 gens)</span><span class="mut" style="margin-right:10px">CTR 2.4%</span><div class="tgl on" data-chip="adInter"><i></i></div></div>
+        <div class="togglerow"><span>Shop list sponsored slot</span><span class="mut" style="margin-right:10px">CTR 3.1%</span><div class="tgl" data-chip="adShop"><i></i></div></div>
+      </div>
+      <div style="display:flex;align-items:center"><div class="h" style="flex:1">Featured and promoted campaigns</div><div class="btn" data-open="campaignForm">＋ New campaign</div></div>
+      <div class="tbl">
+        <div class="tr th" style="grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 90px">CAMPAIGN<div>TYPE</div><div>DATES</div><div>IMPR.</div><div>CLICKS</div><div></div></div>
+        <div class="tr" style="grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 90px"><div><b>BrandCo spring belts</b></div><div>Featured product</div><div>Jul 1–28</div><div>48k</div><div>1,120</div><div class="btn-g small" data-open="campaignForm" style="text-align:center">Edit</div></div>
+        <div class="tr alt" style="grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 90px"><div><b>StoreX summer</b> <span class="mut">ends in 2 days</span></div><div>Promoted brand</div><div>Jun 20 – Jul 16</div><div>102k</div><div>2,904</div><div class="btn-g small" data-open="campaignForm" style="text-align:center">Edit</div></div>
+      </div>
+    </div></section>
+
+    <!-- CONTENT -->
+    <section class="screen" data-screen="content"><div class="pg" style="max-width:840px">
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div class="h">Broadcast announcement</div>
+        <input placeholder="Title, e.g. Packing lists are coming">
+        <textarea placeholder="Message body…" style="min-height:64px"></textarea>
+        <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+          <select style="width:auto"><option>All users</option><option>Free users</option><option>Subscribers</option><option>Inactive 30d</option></select>
+          <select style="width:auto"><option>Send now</option><option>Schedule…</option></select>
+          <div style="flex:1"></div>
+          <div class="btn" data-open="broadcast">Send broadcast</div>
+        </div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:center"><div class="h" style="flex:1">Help center articles</div><div class="btn-o" data-open="articleForm">＋ New article</div></div>
+        <div class="rowline" data-open="articleForm"><div style="flex:1"><b>How do credits work?</b> <span class="mut">· published · 2.1k views</span></div><div>›</div></div>
+        <div class="rowline" data-open="articleForm"><div style="flex:1"><b>Fixing wrong AI detections</b> <span class="mut">· published · 890 views</span></div><div>›</div></div>
+        <div class="rowline" data-open="articleForm" style="background:var(--alt)"><div style="flex:1"><b>Returns and partner stores</b> <span class="mut">· draft</span></div><div>›</div></div>
+      </div>
+    </div></section>
+
+    <!-- REPORTS -->
+    <section class="screen" data-screen="reports"><div class="pg">
+      <div class="toolbar"><select style="width:auto"><option>Last 30 days</option><option>Last 7 days</option><option>This year</option></select><div style="flex:1"></div><div class="btn-o">Export CSV</div></div>
+      <div class="grid g-300">
+        <div class="card"><div class="h" style="margin-bottom:8px">User growth and retention</div>
+          <div class="bars" style="height:90px;margin-bottom:8px"><div class="b" style="height:30%"></div><div class="b" style="height:42%"></div><div class="b m" style="height:55%"></div><div class="b m" style="height:61%"></div><div class="b h" style="height:74%"></div><div class="b h" style="height:88%"></div></div>
+          <div class="sub">D30 retention <b>34%</b> · weekly active <b>1,908</b></div></div>
+        <div class="card"><div class="h" style="margin-bottom:8px">Credits and AI cost</div>
+          <div style="display:flex;flex-direction:column;gap:7px"><div class="kv"><div>Credits spent</div><b>9,412</b></div><div class="kv"><div>Credits purchased</div><b>11,030</b></div><div class="kv"><div>AI cost</div><b>$1,238</b></div><div class="kv"><div>Margin on credits</div><b>71%</b></div></div></div>
+        <div class="card"><div class="h" style="margin-bottom:8px">Affiliate and product performance</div>
+          <div style="display:flex;flex-direction:column;gap:7px"><div class="kv"><div>Clicks → stores</div><b>2,340</b></div><div class="kv"><div>Est. affiliate revenue</div><b>$746</b></div><div class="kv"><div>Top product</div><b>Leather belt, tan</b></div><div class="kv"><div>Top category</div><b>Dinner outfits</b></div></div></div>
+        <div class="card"><div class="h" style="margin-bottom:8px">Outfits and engagement</div>
+          <div style="display:flex;flex-direction:column;gap:7px"><div class="kv"><div>Outfits generated</div><b>18,904</b></div><div class="kv"><div>Saved outfits</div><b>6,113</b></div><div class="kv"><div>Shares</div><b>1,882</b></div><div class="kv"><div>Friend votes</div><b>944</b></div></div></div>
+      </div>
+    </div></section>
+
+    <!-- SUPPORT -->
+    <section class="screen" data-screen="support"><div class="pg" style="max-width:1000px">
+      <div class="chips"><div class="chip" data-rg="tk" data-rv="open">Open · 6</div><div class="chip" data-rg="tk" data-rv="wait">Waiting · 3</div><div class="chip" data-rg="tk" data-rv="done">Resolved · 41</div></div>
+      <div class="tbl">
+        <div class="tr click" data-open="ticket" style="grid-template-columns:1fr 30px;border-top:none"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;flex:none"></div><div><b>#4821 · Charged but credits missing</b><br><span class="mut">jane@email.com · Billing · 2h ago · ⚠ overdue</span></div></div><div>›</div></div>
+        <div class="tr click" data-open="ticket" style="grid-template-columns:1fr 30px"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;flex:none"></div><div><b>#4820 · AI keeps calling my shoes boots</b><br><span class="mut">sam@email.com · AI matching · 5h ago</span></div></div><div>›</div></div>
+        <div class="tr click alt" data-open="ticket" style="grid-template-columns:1fr 30px"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;border:1px solid var(--line-3);border-radius:50%;flex:none"></div><div><b style="color:var(--ink-2)">#4818 · Delete my account please</b><br><span class="mut">dk@email.com · Account · 1d ago · waiting on user</span></div></div><div>›</div></div>
+      </div>
+    </div></section>
+
+    <!-- SETTINGS -->
+    <section class="screen" data-screen="settings"><div class="pg" style="max-width:640px">
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div class="h">Admin account</div>
+        <div><div class="lbl">Email</div><input value="owner@assemble.app"></div>
+        <div class="rowline" data-open="changePw"><div style="flex:1">Change password</div><div class="mut">→</div></div>
+        <div class="togglerow"><span>Two-factor authentication</span><div class="tgl on" data-chip="t2fa"><i></i></div></div>
+        <div class="togglerow"><span>Session timeout after 30 min</span><div class="tgl on" data-chip="tTimeout"><i></i></div></div>
+      </div>
+      <div class="card">
+        <div class="h" style="margin-bottom:8px">Activity log</div>
+        <div class="sub" style="display:flex;flex-direction:column;gap:7px"><div>Today 14:02 — edited credit package "50 credits"</div><div>Today 11:30 — suspended dk@email.com</div><div>Yesterday — sent broadcast "Welcome to v1.2"</div></div>
+      </div>
+      <div class="note">MVP uses one secure admin login — role-based staff accounts are a later phase.</div>
+    </div></section>
+
+    </div><!-- /main -->
+  </div><!-- /shell -->
+
+  <!-- ===== AUTH ===== -->
+  <div class="auth-wrap" id="authWrap" style="display:none">
+    <div class="auth-card">
+      <div class="logo" style="font-weight:800;font-size:17px;letter-spacing:-.02em">ASSEMBLE <span style="font-weight:400;font-size:10px;color:var(--muted)">ADMIN</span></div>
+      <div class="authsub" data-auth="login">
+        <div class="sub">Single secure admin login</div>
+        <div><div class="lbl">Email</div><input placeholder="owner@assemble.app"></div>
+        <div><div class="lbl">Password</div><input type="password" placeholder="••••••••"></div>
+        <div class="btn" data-auth-go="twofa" style="text-align:center;padding:12px">Continue</div>
+        <div class="center" style="font-size:11.5px;text-decoration:underline;color:var(--ink-2);cursor:pointer" data-auth-go="forgot">Forgot password?</div>
+      </div>
+      <div class="authsub" data-auth="twofa">
+        <div class="sub">Two-factor authentication</div>
+        <div style="font-size:12.5px">Enter the code from your authenticator app.</div>
+        <input placeholder="6-digit code" style="text-align:center;letter-spacing:.3em;font-size:14px">
+        <div class="btn" data-act="loginGo" style="text-align:center;padding:12px">Verify and log in</div>
+        <div class="center" style="font-size:11.5px;text-decoration:underline;color:var(--ink-2);cursor:pointer" data-auth-go="login">Back</div>
+      </div>
+      <div class="authsub" data-auth="forgot">
+        <div class="sub">Reset admin password</div>
+        <div><div class="lbl">Email</div><input placeholder="owner@assemble.app"></div>
+        <div class="btn" data-auth-go="login" style="text-align:center;padding:12px">Send reset link</div>
+        <div class="center" style="font-size:11.5px;text-decoration:underline;color:var(--ink-2);cursor:pointer" data-auth-go="login">Back to login</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ===== MODALS ===== -->
+<div class="scrim" id="scrim">
+  <div class="dlg" id="dlg">
+
+    <div class="modal" data-modal="menu"><div class="mttl">Menu</div>
+      <div class="rowline" data-nav="dashboard" style="margin-bottom:7px">▦ Dashboard</div>
+      <div class="rowline" data-nav="users" style="margin-bottom:7px">◉ Users</div>
+      <div class="rowline" data-nav="products" style="margin-bottom:7px">⬦ Products &amp; affiliates</div>
+      <div class="rowline" data-nav="brands" style="margin-bottom:7px">◈ Brand partners</div>
+      <div class="rowline" data-nav="ai" style="margin-bottom:7px">✦ AI &amp; cost control</div>
+      <div class="rowline" data-nav="monetize" style="margin-bottom:7px">⬡ Credits &amp; plans</div>
+      <div class="rowline" data-nav="ads" style="margin-bottom:7px">▣ Ads &amp; featured</div>
+      <div class="rowline" data-nav="content" style="margin-bottom:7px">✉ Notifications &amp; content</div>
+      <div class="rowline" data-nav="reports" style="margin-bottom:7px">◫ Reports</div>
+      <div class="rowline" data-nav="support" style="margin-bottom:7px">? Support inbox</div>
+      <div class="rowline" data-nav="settings">⚙ Admin settings</div>
+    </div>
+
+    <div class="modal" data-modal="userDetail">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><div class="avatar"></div><div style="flex:1"><b style="font-size:14px">Jane Doe</b><br><span class="mut">jane@email.com · joined Mar 2026</span></div><span class="chipbadge">Active</span></div>
+      <div class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <div class="card center" style="padding:10px"><div style="font-weight:800;font-size:16px">61</div><div class="mut" style="font-size:9.5px">CREDITS</div></div>
+        <div class="card center" style="padding:10px"><div style="font-weight:800;font-size:16px">143</div><div class="mut" style="font-size:9.5px">WARDROBE*</div></div>
+        <div class="card center" style="padding:10px"><div style="font-weight:800;font-size:16px">Plus</div><div class="mut" style="font-size:9.5px">PLAN</div></div>
+      </div>
+      <div class="mut" style="font-size:10px">*count only — private photos are never shown without a support permission grant</div>
+      <div class="btn-o" data-open="adjustCredits" style="text-align:center">± Adjust credits</div>
+      <div class="btn-g" data-open="suspend" style="text-align:center">Suspend account</div>
+      <div class="btn-g" data-close style="text-align:center">Handle deletion request</div>
+      <div class="center" style="font-size:12px;color:var(--ink-2);cursor:pointer;padding:4px" data-close>Close</div>
+    </div>
+
+    <div class="modal" data-modal="adjustCredits"><div class="mttl">Adjust credits — Jane Doe</div>
+      <div class="chips" style="margin-bottom:8px"><div class="chip" data-rg="adj" data-rv="add">＋ Add</div><div class="chip" data-rg="adj" data-rv="rem">− Remove</div></div>
+      <input placeholder="Amount, e.g. 10" style="margin-bottom:8px">
+      <input placeholder="Reason (kept in activity log)" style="margin-bottom:4px">
+      <div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Apply</div></div>
+    </div>
+
+    <div class="modal" data-modal="suspend"><div class="center"><div class="mttl">Suspend this account?</div><div class="sub" style="margin:8px 0 12px">The user loses access immediately; credits and data are kept. You can reactivate anytime.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Suspend</div></div></div></div>
+
+    <div class="modal" data-modal="productForm"><div class="mttl">Product</div>
+      <div style="display:flex;gap:10px;margin-bottom:8px"><div style="width:74px;height:74px;border-radius:10px;background:var(--img);border:1px solid var(--line);flex:none;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:var(--muted)">image</div><div style="flex:1;display:flex;flex-direction:column;gap:7px"><input value="Leather belt, tan"><div style="display:flex;gap:7px"><input value="$28" style="width:70px"><select style="flex:1;min-width:0"><option>Belts</option><option>Shoes</option><option>Shirts</option></select></div></div></div>
+      <input class="mono" value="https://partner.store/belt-tan?aff=assemble" style="margin-bottom:8px;font-size:11px">
+      <input value="belt, tan, leather, smart casual, dinner" placeholder="AI matching tags" style="margin-bottom:8px">
+      <div class="chips" style="margin-bottom:4px"><div class="chip" data-rg="pst" data-rv="active">Active</div><div class="chip" data-rg="pst" data-rv="feat">Featured</div><div class="chip" data-rg="pst" data-rv="out">Out of stock</div><div class="chip" data-rg="pst" data-rv="off">Inactive</div></div>
+      <div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Delete</div><div class="btn" data-close style="flex:2;text-align:center">Save product</div></div>
+    </div>
+
+    <div class="modal" data-modal="brandForm"><div class="mttl">Brand partner</div>
+      <input value="BrandCo" style="margin-bottom:8px">
+      <div style="display:flex;gap:7px;margin-bottom:8px"><select style="flex:1"><option>Direct partner</option><option>Affiliate network</option></select><input value="7%" style="width:70px"></div>
+      <div class="togglerow" style="margin-bottom:4px"><span>Partnership active</span><div class="tgl on" data-chip="tBrandOn"><i></i></div></div>
+      <div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Save</div></div>
+    </div>
+
+    <div class="modal" data-modal="packForm"><div class="mttl">Credit package / plan</div>
+      <input value="50 credits" style="margin-bottom:8px">
+      <div style="display:flex;gap:7px;margin-bottom:8px"><input value="$9.99" style="flex:1;min-width:0"><input value="50" placeholder="credits" style="flex:1;min-width:0"></div>
+      <div class="togglerow" style="margin-bottom:8px"><span>Active (visible in app)</span><div class="tgl on" data-chip="tPackOn"><i></i></div></div>
+      <div class="togglerow" style="margin-bottom:4px"><span>Mark as "best value"</span><div class="tgl on" data-chip="tPackBest"><i></i></div></div>
+      <div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Save</div></div>
+    </div>
+
+    <div class="modal" data-modal="campaignForm"><div class="mttl">Campaign</div>
+      <input value="BrandCo spring belts" style="margin-bottom:8px">
+      <div style="display:flex;gap:7px;margin-bottom:8px"><select style="flex:1;min-width:0"><option>Featured product</option><option>Promoted brand</option></select><select style="flex:1;min-width:0"><option>Shop list slot</option><option>Home banner</option></select></div>
+      <div style="display:flex;gap:7px;margin-bottom:4px"><input value="Jul 1" style="flex:1;min-width:0"><input value="Jul 28" style="flex:1;min-width:0"></div>
+      <div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">End campaign</div><div class="btn" data-close style="flex:2;text-align:center">Save campaign</div></div>
+    </div>
+
+    <div class="modal" data-modal="broadcast"><div class="center"><div class="mttl">Send to 4,120 users?</div><div class="sub" style="margin:8px 0 12px">Push + in-app notification. This can't be recalled once sent.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Send now</div></div></div></div>
+
+    <div class="modal" data-modal="articleForm"><div class="mttl">Help article</div>
+      <input value="How do credits work?" style="margin-bottom:8px">
+      <textarea style="min-height:90px;margin-bottom:8px">Each outfit generation costs 1 credit. Free users get 3 per month…</textarea>
+      <div class="chips" style="margin-bottom:4px"><div class="chip" data-rg="art" data-rv="pub">Published</div><div class="chip" data-rg="art" data-rv="draft">Draft</div></div>
+      <div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Delete</div><div class="btn" data-close style="flex:2;text-align:center">Save article</div></div>
+    </div>
+
+    <div class="modal" data-modal="ticket"><div class="mttl">#4821 · Charged but credits missing</div>
+      <div class="mut" style="margin-bottom:8px">jane@email.com · Billing · opened 2h ago</div>
+      <div class="card" style="padding:11px;font-size:12px;margin-bottom:7px"><b>Jane:</b> I bought the 50 pack, money left my account but balance still shows 11.</div>
+      <div class="card" style="padding:11px;font-size:12px;background:var(--surface-2);margin-bottom:8px"><b>Note (internal):</b> payment provider shows success — likely webhook missed. Re-credit manually.</div>
+      <textarea placeholder="Write a reply…" style="min-height:64px;margin-bottom:8px"></textarea>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><div class="btn-o small" data-open="adjustCredits">± Adjust credits</div><div style="flex:1"></div><div class="btn-g small" data-close>Mark resolved</div><div class="btn small" data-close>Send reply</div></div>
+    </div>
+
+    <div class="modal" data-modal="changePw"><div class="mttl">Change password</div>
+      <input type="password" placeholder="Current password" style="margin-bottom:8px">
+      <input type="password" placeholder="New password" style="margin-bottom:4px">
+      <div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Update</div></div>
+    </div>
+
+    <div class="modal" data-modal="savedToast"><div class="center"><div style="width:50px;height:50px;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin:4px auto">✓</div><div class="mttl">Changes saved</div><div class="sub" style="margin:6px 0 12px">New settings apply to all future generations.</div><div class="btn" data-close style="text-align:center">Done</div></div></div>
+
+    <div class="modal" data-modal="logout"><div class="center"><div class="mttl">Log out of admin?</div><div class="sub" style="margin:8px 0 12px">Your session will end on this device.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-act="logoutGo" style="flex:1;text-align:center">Log out</div></div></div></div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var SECTIONS=['dashboard','users','products','brands','ai','monetize','ads','content','reports','support','settings'];
+  var TITLES={dashboard:'Dashboard',users:'Users',products:'Products & affiliate links',brands:'Brand partners',ai:'AI & cost control',monetize:'Credits & subscription plans',ads:'Ads & featured placements',content:'Notifications & content',reports:'Reports & analytics',support:'Support inbox',settings:'Admin settings'};
+  var st={authed:false,authScreen:'login',screen:'dashboard',modal:null,
+    sel:{tSafety:1,tFlag:1,adHome:1,adInter:1,adShop:0,t2fa:1,tTimeout:1,tBrandOn:1,tPackOn:1,tPackBest:1},
+    radio:{tk:'open',adj:'add',pst:'feat',art:'pub'}};
+
+  var main=document.getElementById('main');
+  var scrim=document.getElementById('scrim');
+  var shell=document.getElementById('shell');
+  var side=document.getElementById('side');
+  var authWrap=document.getElementById('authWrap');
+
+  function go(s){ st.screen=s; st.modal=null; if(main)main.scrollTop=0; render(); }
+  function openModal(m){ st.modal=m; render(); }
+  function closeModal(){ st.modal=null; render(); }
+
+  function render(){
+    // auth vs shell
+    side.style.display = st.authed ? '' : 'none';
+    shell.style.display = st.authed ? '' : 'none';
+    authWrap.style.display = st.authed ? 'none' : 'flex';
+    document.querySelectorAll('.authsub').forEach(function(el){ el.classList.toggle('active', el.dataset.auth===st.authScreen); });
+    if(!st.authed){ scrim.classList.remove('show'); if(jump)jump.value='login:'+st.authScreen; return; }
+    // sections
+    document.querySelectorAll('.screen').forEach(function(el){ el.classList.toggle('active', el.dataset.screen===st.screen); });
+    document.querySelectorAll('.sl').forEach(function(el){ el.classList.toggle('on', el.dataset.nav===st.screen); });
+    document.getElementById('pageTitle').textContent=TITLES[st.screen]||'';
+    document.querySelectorAll('[data-chip]').forEach(function(el){ el.classList.toggle('on', !!st.sel[el.dataset.chip]); });
+    document.querySelectorAll('[data-rg]').forEach(function(el){ el.classList.toggle('on', st.radio[el.dataset.rg]===el.dataset.rv); });
+    scrim.classList.toggle('show', !!st.modal);
+    document.querySelectorAll('.modal').forEach(function(el){ el.classList.toggle('active', el.dataset.modal===st.modal); });
+    if(jump)jump.value=st.screen;
+  }
+
+  document.addEventListener('click', function(e){
+    var t=e.target.closest('[data-nav],[data-open],[data-close],[data-chip],[data-rg],[data-act],[data-auth-go]');
+    if(!t) return;
+    if(t.dataset.authGo){ st.authScreen=t.dataset.authGo; render(); return; }
+    if(t.dataset.nav){ go(t.dataset.nav); return; }
+    if(t.dataset.open){ openModal(t.dataset.open); return; }
+    if(t.hasAttribute('data-close')){ closeModal(); return; }
+    if(t.dataset.chip){ e.stopPropagation(); st.sel[t.dataset.chip]=st.sel[t.dataset.chip]?0:1; render(); return; }
+    if(t.dataset.rg){ st.radio[t.dataset.rg]=t.dataset.rv; render(); return; }
+    if(t.dataset.act){ act(t.dataset.act); return; }
+  });
+
+  function act(a){
+    if(a==='loginGo'){ st.authed=true; st.screen='dashboard'; render(); }
+    if(a==='logoutGo'){ st.authed=false; st.authScreen='login'; st.modal=null; render(); }
+  }
+
+  // jump menu
+  var jump=document.getElementById('jump');
+  var og=document.createElement('optgroup'); og.label='Auth';
+  [['login:login','login'],['login:twofa','2FA'],['login:forgot','forgot password']].forEach(function(p){var o=document.createElement('option');o.value=p[0];o.textContent=p[1];og.appendChild(o);});
+  jump.appendChild(og);
+  var og2=document.createElement('optgroup'); og2.label='Admin sections';
+  SECTIONS.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=(TITLES[s]||s);og2.appendChild(o);});
+  jump.appendChild(og2);
+  jump.addEventListener('change', function(){ var v=jump.value; if(v.indexOf('login:')===0){ st.authed=false; st.authScreen=v.split(':')[1]; render(); } else { st.authed=true; go(v); } });
+
+  render();
+})();
+</script>
+</body>
+</html>

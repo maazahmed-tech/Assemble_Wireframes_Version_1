@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assemble — User App Prototype</title>
+<style>
+:root{
+  --canvas:#ecedf0; --surface:#fff; --surface-2:#f6f6f8; --inset:#f1f1f4;
+  --ink:#161619; --ink-2:#54545c; --muted:#83838d;
+  --line:#e0e0e5; --line-2:#cdcdd4; --line-3:#bfbfc7;
+  --primary:#161619; --on-primary:#fff;
+  --sh1:0 1px 2px rgba(15,15,20,.06);
+  --sh2:0 3px 12px rgba(15,15,20,.09),0 1px 3px rgba(15,15,20,.05);
+  --sh3:0 14px 38px rgba(15,15,20,.16);
+  --img:linear-gradient(135deg,#e9e9ee,#d3d3da);
+  --img-dark:linear-gradient(135deg,#e4e4ea,#cccdd5);
+  --rin:10px; --rbtn:11px; --rcard:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--canvas);
+  -webkit-font-smoothing:antialiased;font-size:14px;line-height:1.45}
+button{font:inherit}
+
+/* prototype chrome bar */
+.pbar{height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;background:var(--primary);color:#fff;flex:none}
+.pbar .brand{font-weight:800;font-size:13px;letter-spacing:-.01em}
+.pbar .brand span{font-weight:400;opacity:.6;font-size:11px}
+.pbar select{margin-left:auto;background:#26262b;color:#fff;border:1px solid #3a3a42;border-radius:8px;padding:6px 9px;font-size:12px}
+.pbar a{color:#fff;opacity:.72;font-size:11.5px;text-decoration:none;white-space:nowrap}
+.pbar a:hover{opacity:1}
+.pbar .hint{opacity:.5;font-size:11px}
+@media(max-width:640px){.pbar .hint{display:none}}
+
+.app{display:flex;height:calc(100vh - 44px);background:var(--canvas)}
+
+/* side rail (desktop) */
+.rail{width:222px;flex:none;background:var(--surface);border-right:1px solid var(--line);
+  display:none;flex-direction:column;gap:3px;padding:18px 12px}
+.rail .logo{font-weight:800;font-size:16px;letter-spacing:-.02em;padding:6px 10px 16px}
+.rail .logo span{font-weight:400;font-size:10px;color:var(--muted)}
+.rl{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;font-size:13.5px;
+  color:var(--ink-2);cursor:pointer;font-weight:500}
+.rl:hover{background:var(--surface-2)}
+.rl.on{background:var(--inset);color:var(--ink);font-weight:700}
+.rl .g{width:20px;text-align:center;font-size:15px}
+.rail .creditcard{margin-top:auto;border:1px solid var(--line-2);border-radius:12px;padding:12px;font-size:12.5px;cursor:pointer}
+.rail .creditcard b{font-size:15px}
+.rail .creditcard span{color:var(--muted);font-size:11px}
+
+/* main column */
+.col{flex:1;display:flex;flex-direction:column;min-width:0}
+.main{flex:1;overflow:auto;-webkit-overflow-scrolling:touch}
+.screen{display:none}
+.screen.active{display:block}
+.wrap{max-width:560px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:13px}
+.wrap.wide{max-width:760px}
+
+/* tab bar (mobile) */
+.tabbar{display:flex;border-top:1px solid var(--line);background:var(--surface);flex:none}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 11px;
+  font-size:10px;color:var(--muted);cursor:pointer;font-weight:600}
+.tab.on{color:var(--ink)}
+.tab .g{font-size:18px}
+.tab.center{color:var(--ink)}
+.tab.center .fab{width:46px;height:46px;background:var(--primary);color:#fff;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:21px;margin-top:-16px;border:3px solid var(--surface);box-shadow:var(--sh2)}
+@media(min-width:900px){ .rail{display:flex} .tabbar{display:none} }
+body.auth .rail,body.auth .tabbar{display:none}
+
+/* typography helpers */
+.h1{font-weight:800;font-size:21px;letter-spacing:-.02em}
+.h2{font-weight:800;font-size:19px;letter-spacing:-.01em}
+.ttl{font-weight:700;font-size:17px}
+.sub{color:var(--ink-2);font-size:13px}
+.mut{color:var(--muted);font-size:11.5px}
+.lbl{font-size:12px;font-weight:600;color:#333}
+.seclbl{font:700 10px ui-monospace,monospace;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+b,strong{font-weight:700}
+
+/* header row with back */
+.top{display:flex;align-items:center;gap:11px}
+.top .ttl{flex:1}
+.iconbtn{width:38px;height:38px;border:1.5px solid var(--line-2);border-radius:10px;background:var(--surface);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;font-size:15px}
+.iconbtn:hover{border-color:var(--ink)}
+.step{color:var(--muted);font-size:12.5px}
+
+/* buttons */
+.btn{background:var(--primary);color:var(--on-primary);border:none;border-radius:var(--rbtn);padding:14px;
+  text-align:center;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:var(--sh1)}
+.btn:hover{background:#000}
+.btn-o{background:var(--surface);color:var(--ink);border:1.5px solid var(--ink);border-radius:var(--rbtn);
+  padding:12.5px;text-align:center;font-weight:600;font-size:13.5px;cursor:pointer}
+.btn-o:hover{background:var(--surface-2)}
+.btn-g{background:var(--surface);color:var(--ink-2);border:1.5px solid var(--line-2);border-radius:var(--rbtn);
+  padding:12.5px;text-align:center;font-weight:600;font-size:13px;cursor:pointer}
+.btn-g:hover{border-color:var(--line-3)}
+.link{text-align:center;font-size:12.5px;color:var(--ink-2);text-decoration:underline;cursor:pointer;padding:4px}
+.tlink{font-size:12.5px;color:var(--ink-2);text-decoration:underline;cursor:pointer}
+
+/* fields */
+.field,input,select,textarea{border:1.5px solid var(--line-2);background:var(--surface-2);border-radius:var(--rin);
+  padding:12px;font-size:13.5px;color:var(--ink);width:100%;font-family:inherit}
+input:focus,select,textarea:focus{outline:none}
+input:focus,textarea:focus{border-color:var(--ink);background:var(--surface)}
+select{background:var(--surface);cursor:pointer}
+textarea{resize:vertical}
+.frow{display:flex;gap:9px}
+.frow>div{flex:1;min-width:0}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--rcard);padding:14px;box-shadow:var(--sh1)}
+.card.click{cursor:pointer}
+.card.click:hover{box-shadow:var(--sh2);border-color:var(--line-2)}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px;box-shadow:var(--sh1);cursor:pointer}
+.tile:hover{box-shadow:var(--sh2)}
+.dashed{border:2px dashed var(--line-3);border-radius:12px;background:var(--surface-2);color:var(--muted);cursor:pointer}
+
+/* image placeholder */
+.ph{background:var(--img);border:1px solid var(--line);border-radius:12px;display:flex;
+  align-items:center;justify-content:center;color:var(--muted);font-size:10.5px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips.scroll{flex-wrap:nowrap;overflow:auto;padding-bottom:3px}
+.chip{border:1.5px solid var(--line-3);background:var(--surface);color:#333;border-radius:999px;
+  padding:8px 14px;font-size:12.5px;cursor:pointer;white-space:nowrap;user-select:none;font-weight:500}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* grids */
+.grid{display:grid;gap:10px}
+.g-qa{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.g-100{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+.g-110{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+.g-120{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+.g-130{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+.g-140{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.g-160{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.g-170{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+
+/* toggle */
+.tgl{width:38px;height:22px;border-radius:11px;background:var(--line-3);position:relative;cursor:pointer;flex:none;transition:background .15s}
+.tgl.on{background:var(--primary)}
+.tgl i{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:var(--sh1)}
+.tgl.on i{left:18px}
+.togglerow{border:1px solid var(--line);border-radius:11px;padding:12px 13px;display:flex;align-items:center;gap:10px;font-size:13px}
+.togglerow>span:first-child{flex:1}
+
+/* list rows (radio) */
+.lrow{border:1.5px solid var(--line-2);border-radius:11px;padding:12px 13px;font-size:13px;cursor:pointer;margin-bottom:8px}
+.lrow.on{border-color:var(--ink);background:var(--surface-2);font-weight:600}
+.menurow{border:1px solid var(--line);border-radius:12px;padding:13px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;cursor:pointer}
+.menurow:hover{background:var(--surface-2)}
+.menurow .arw{color:var(--muted)}
+.badge{background:var(--primary);color:#fff;border-radius:999px;font-size:10px;padding:2px 8px;font-weight:700}
+.pill-o{border:1.5px solid var(--ink);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.tag{background:var(--primary);color:#fff;font-size:8.5px;font-weight:700;border-radius:4px;padding:2px 6px}
+.hr{height:1px;background:var(--line);border:none;margin:2px 0}
+
+/* modal / sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,10,15,.5);z-index:60;display:none;align-items:flex-end;justify-content:center}
+.scrim.show{display:flex}
+.sheet{background:var(--surface);width:100%;max-width:560px;border-radius:20px 20px 0 0;padding:16px 20px 26px;
+  display:flex;flex-direction:column;gap:11px;max-height:82vh;overflow:auto;box-shadow:var(--sh3)}
+.grab{width:38px;height:4px;background:var(--line-3);border-radius:2px;margin:2px auto 4px}
+.modal{display:none}
+.modal.active{display:block}
+.mttl{font-weight:700;font-size:15px;margin-bottom:2px}
+@media(min-width:900px){ .scrim{align-items:center} .sheet{border-radius:18px;max-width:480px} .grab{display:none} }
+
+.spin{width:46px;height:46px;border:4px solid var(--line);border-top-color:var(--primary);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.note{border:1px solid var(--line);border-radius:11px;padding:11px;font-size:11.5px;color:var(--ink-2);background:var(--surface-2)}
+.center{text-align:center}
+.stat{display:flex;align-items:center;gap:10px}
+.avatar{width:54px;height:54px;border-radius:50%;background:var(--img);border:1px solid var(--line-2);flex:none}
+.fav{width:38px;height:38px;border:1.5px solid var(--line-2);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.fav.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:48px 20px}
+.empty .ec{width:70px;height:70px;border-radius:18px;background:var(--inset);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--muted)}
+</style>
+</head>
+<body class="auth">
+
+<div class="pbar">
+  <div class="brand">ASSEMBLE <span>· user app prototype</span></div>
+  <select id="jump" aria-label="Jump to screen"></select>
+  <span class="hint">Resize window → mobile / desktop</span>
+  <a href="Assemble - Admin.html">Admin&nbsp;prototype&nbsp;→</a>
+</div>
+
+<div class="app">
+
+  <!-- SIDE RAIL (desktop) -->
+  <nav class="rail" id="rail">
+    <div class="logo">ASSEMBLE <span>wireframe</span></div>
+    <div class="rl" data-nav="home"><span class="g">⌂</span> Home</div>
+    <div class="rl" data-nav="closet"><span class="g">▦</span> Closet</div>
+    <div class="rl" data-nav="genPick"><span class="g">✚</span> Match outfit</div>
+    <div class="rl" data-nav="saved"><span class="g">♥</span> Saved</div>
+    <div class="rl" data-nav="shop"><span class="g">⬦</span> Shop</div>
+    <div class="rl" data-nav="profile"><span class="g">●</span> Profile</div>
+    <div class="creditcard" data-nav="credits"><b class="credits-val">12</b> credits<br><span>Tap to top up</span></div>
+  </nav>
+
+  <div class="col">
+    <div class="main" id="main">
+
+    <!-- ===== AUTH & ONBOARDING ===== -->
+    <section class="screen" data-screen="welcome"><div class="wrap">
+      <div class="ph" style="height:200px;border-radius:16px">hero image</div>
+      <div class="h1 center" style="margin-top:8px">Dress right, every time</div>
+      <div class="sub center">AI outfits from your own closet</div>
+      <button class="btn" data-nav="signup" style="margin-top:8px">Create account</button>
+      <button class="btn-o" data-nav="login">Log in</button>
+      <div class="frow">
+        <button class="btn-g" data-act="social" style="flex:1">G · Google</button>
+        <button class="btn-g" data-act="social" style="flex:1"> · Apple</button>
+      </div>
+      <div class="mut center">By continuing you agree to the Terms and Privacy Policy</div>
+    </div></section>
+
+    <section class="screen" data-screen="signup"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-nav="welcome">←</div><div class="ttl">Create account</div></div>
+      <div class="lbl">Full name</div><input placeholder="Jane Doe">
+      <div class="lbl">Email</div><input placeholder="name@email.com">
+      <div class="lbl">Phone (optional)</div><input placeholder="+1 …">
+      <div class="lbl">Password</div><input type="password" placeholder="••••••••">
+      <div class="mut">Min 8 characters · 1 number · 1 symbol</div>
+      <div class="chip" data-chip="terms" style="border-radius:8px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start">✓ I agree to the Terms and Privacy Policy</div>
+      <button class="btn" data-nav="verify">Continue</button>
+      <div class="link" data-nav="login">Already have an account? Log in</div>
+    </div></section>
+
+    <section class="screen" data-screen="verify"><div class="wrap" style="align-items:center;text-align:center">
+      <div class="top" style="align-self:stretch"><div class="iconbtn" data-nav="signup">←</div><div class="ttl">Verify your email</div></div>
+      <div class="ph" style="width:70px;height:70px;border-radius:50%;margin-top:12px">✉</div>
+      <div class="ttl" style="font-size:15px">Enter the 6-digit code</div>
+      <div class="sub">Sent to name@email.com</div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <input maxlength="1" style="width:38px;height:48px;text-align:center;font-size:18px;padding:0">
+        <input maxlength="1" style="width:38px;height:48px;text-align:center;font-size:18px;padding:0">
+        <input maxlength="1" style="width:38px;height:48px;text-align:center;font-size:18px;padding:0">
+        <input maxlength="1" style="width:38px;height:48px;text-align:center;font-size:18px;padding:0">
+        <input maxlength="1" style="width:38px;height:48px;text-align:center;font-size:18px;padding:0">
+        <input maxlength="1" style="width:38px;height:48px;text-align:center;font-size:18px;padding:0">
+      </div>
+      <button class="btn" data-nav="style1" style="align-self:stretch">Verify</button>
+      <div class="tlink">Resend code (0:42) · Use phone instead</div>
+    </div></section>
+
+    <section class="screen" data-screen="login"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-nav="welcome">←</div><div class="ttl">Log in</div></div>
+      <div class="lbl">Email</div><input placeholder="name@email.com">
+      <div class="lbl">Password</div><input type="password" placeholder="••••••••">
+      <div class="tlink" data-nav="forgot" style="text-align:right">Forgot password?</div>
+      <button class="btn" data-nav="home">Log in</button>
+      <div class="mut center">or</div>
+      <div class="frow">
+        <button class="btn-g" data-act="social" style="flex:1">G · Google</button>
+        <button class="btn-g" data-act="social" style="flex:1"> · Apple</button>
+      </div>
+      <div class="link" data-nav="signup">New here? Create account</div>
+    </div></section>
+
+    <section class="screen" data-screen="forgot"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Forgot password</div></div>
+      <div class="sub">Enter your email and we'll send a reset link.</div>
+      <div class="lbl">Email</div><input placeholder="name@email.com">
+      <button class="btn" data-nav="reset">Send reset link</button>
+      <div class="note">Prototype note: tapping "Send" jumps straight to the reset screen a user reaches from the email link.</div>
+    </div></section>
+
+    <section class="screen" data-screen="reset"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">New password</div></div>
+      <div class="lbl">New password</div><input type="password" placeholder="••••••••">
+      <div class="lbl">Repeat password</div><input type="password" placeholder="••••••••">
+      <div class="mut">✓ 8+ chars &nbsp; ✓ number &nbsp; ✗ symbol</div>
+      <button class="btn" data-nav="login">Save and log in</button>
+    </div></section>
+
+    <section class="screen" data-screen="style1"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Your style</div><div class="step">1 / 3</div></div>
+      <div style="display:flex;gap:5px"><div style="height:4px;background:var(--ink);border-radius:2px;flex:1"></div><div style="height:4px;background:var(--line-2);border-radius:2px;flex:1"></div><div style="height:4px;background:var(--line-2);border-radius:2px;flex:1"></div></div>
+      <div class="lbl">Who do you dress for?</div>
+      <div class="chips"><div class="chip" data-rg="who" data-rv="w">Women</div><div class="chip" data-rg="who" data-rv="m">Men</div><div class="chip" data-rg="who" data-rv="b">Both / other</div></div>
+      <div class="lbl">Pick styles you like <span class="mut">(multi)</span></div>
+      <div class="chips"><div class="chip" data-chip="casual">Casual</div><div class="chip" data-chip="business">Business</div><div class="chip" data-chip="street">Streetwear</div><div class="chip" data-chip="formal">Formal</div><div class="chip" data-chip="athletic">Athletic</div><div class="chip" data-chip="church">Church</div><div class="chip" data-chip="club">Club</div></div>
+      <div class="lbl">Typical occasions</div>
+      <div class="chips"><div class="chip" data-chip="owork">Work</div><div class="chip" data-chip="odinner">Dinner</div><div class="chip" data-chip="ovacation">Vacation</div><div class="chip" data-chip="oeveryday">Everyday</div></div>
+      <button class="btn" data-nav="style2">Next</button>
+      <div class="link" data-nav="home">Skip for now</div>
+    </div></section>
+
+    <section class="screen" data-screen="style2"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Sizes and budget</div><div class="step">2 / 3</div></div>
+      <div style="display:flex;gap:5px"><div style="height:4px;background:var(--ink);border-radius:2px;flex:1"></div><div style="height:4px;background:var(--ink);border-radius:2px;flex:1"></div><div style="height:4px;background:var(--line-2);border-radius:2px;flex:1"></div></div>
+      <div class="frow">
+        <div><div class="lbl" style="margin-bottom:5px">Top size</div><select><option>M</option><option>S</option><option>L</option><option>XL</option></select></div>
+        <div><div class="lbl" style="margin-bottom:5px">Bottom</div><select><option>32</option><option>30</option><option>34</option><option>36</option></select></div>
+        <div><div class="lbl" style="margin-bottom:5px">Shoe</div><select><option>10</option><option>8</option><option>9</option><option>11</option></select></div>
+      </div>
+      <div class="lbl">Default shopping budget</div>
+      <div class="chips"><div class="chip" data-rg="budget" data-rv="1">$</div><div class="chip" data-rg="budget" data-rv="2">$$</div><div class="chip" data-rg="budget" data-rv="3">$$$</div><div class="chip" data-rg="budget" data-rv="0">No limit</div></div>
+      <div class="lbl">Preferred brands <span class="mut">(optional)</span></div>
+      <input placeholder="Search brands…">
+      <div class="chips"><div class="chip on" data-chip="nike">Nike ✕</div><div class="chip on" data-chip="zara">Zara ✕</div></div>
+      <button class="btn" data-nav="avatar">Next</button>
+      <div class="link" data-nav="home">Skip for now</div>
+    </div></section>
+
+    <section class="screen" data-screen="avatar"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Your avatar</div><div class="step">3 / 3</div></div>
+      <div style="display:flex;gap:5px"><div style="height:4px;background:var(--ink);border-radius:2px;flex:1"></div><div style="height:4px;background:var(--ink);border-radius:2px;flex:1"></div><div style="height:4px;background:var(--ink);border-radius:2px;flex:1"></div></div>
+      <div class="sub">Used to preview outfits on a body like yours. You control this data and can delete it anytime.</div>
+      <div class="ph" style="height:170px;border-radius:14px">avatar preview</div>
+      <div class="frow"><button class="btn-o" data-open="photo" style="flex:1">📷 Take selfie</button><button class="btn-o" data-open="photo" style="flex:1">Pick photo</button></div>
+      <div class="note">We ask for explicit consent before any photo is used. Face &amp; body data is optional and encrypted.</div>
+      <div class="lbl">Body type</div>
+      <div class="chips"><div class="chip" data-rg="body" data-rv="a">A</div><div class="chip" data-rg="body" data-rv="b">B</div><div class="chip" data-rg="body" data-rv="c">C</div><div class="chip" data-rg="body" data-rv="d">D</div><div class="chip" data-rg="body" data-rv="e">E</div></div>
+      <button class="btn" data-nav="home">Finish</button>
+      <div class="link" data-nav="home">Use generic avatar instead</div>
+    </div></section>
+
+    <!-- ===== CORE ===== -->
+    <section class="screen" data-screen="home"><div class="wrap wide">
+      <div class="stat">
+        <div class="h2" style="flex:1">Hi, Reginald</div>
+        <div class="pill-o" data-nav="credits">⬡ <span class="credits-val">12</span></div>
+        <div class="iconbtn" data-nav="notifications" style="border-radius:50%;position:relative">🔔<div style="position:absolute;top:2px;right:2px;width:9px;height:9px;background:var(--ink);border-radius:50%;border:2px solid var(--surface)"></div></div>
+      </div>
+      <div class="card click" data-nav="genPick" style="background:var(--primary);color:#fff;border:none;box-shadow:var(--sh2);display:flex;align-items:center;gap:14px;border-radius:16px;padding:18px">
+        <div style="width:46px;height:46px;border:2px solid #fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px">✚</div>
+        <div style="flex:1"><div style="font-weight:700;font-size:15px">Match an outfit</div><div style="font-size:12px;color:#c9c9cf">From one item or your whole closet</div></div>
+        <div>→</div>
+      </div>
+      <div class="grid g-qa">
+        <div class="tile" data-nav="addItem"><div style="font-size:18px">📷</div><div style="font-weight:700;font-size:13px;margin-top:6px">Add item</div><div class="mut">Photo → closet</div></div>
+        <div class="tile" data-nav="shop"><div style="font-size:18px">⬦</div><div style="font-weight:700;font-size:13px;margin-top:6px">Shop matches</div><div class="mut">Fill the gaps</div></div>
+        <div class="tile" data-nav="saved"><div style="font-size:18px">♥</div><div style="font-weight:700;font-size:13px;margin-top:6px">Saved looks</div><div class="mut">8 outfits</div></div>
+      </div>
+      <div class="stat"><div class="ttl" style="font-size:15px;flex:1">Recent outfits</div><div class="tlink" data-nav="saved">See all</div></div>
+      <div class="grid g-120">
+        <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:140px">outfit</div><div style="font-size:12.5px;font-weight:600;margin-top:5px">Dinner look</div><div class="mut">Sat · 4 items</div></div>
+        <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:140px">outfit</div><div style="font-size:12.5px;font-weight:600;margin-top:5px">Office fit</div><div class="mut">Thu · 5 items</div></div>
+        <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:140px">outfit</div><div style="font-size:12.5px;font-weight:600;margin-top:5px">Club night</div><div class="mut">Fri · 3 items</div></div>
+      </div>
+      <div class="card click" data-nav="closet" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:700;font-size:13px">My closet</div><div class="mut">143 items · 6 categories</div></div><div>→</div></div>
+    </div></section>
+
+    <section class="screen" data-screen="closet"><div class="wrap wide">
+      <div class="stat"><div class="h2" style="flex:1">Closet <span class="mut" style="font-weight:400">143 items</span></div><div class="pill-o" data-nav="addItem">＋ Add</div></div>
+      <div style="display:flex;gap:9px"><input placeholder="Search name, color, brand…" style="flex:1"><div class="iconbtn" data-open="filter">⚙</div></div>
+      <div class="chips scroll"><div class="chip" data-rg="cat" data-rv="all">All</div><div class="chip" data-rg="cat" data-rv="shirts">Shirts</div><div class="chip" data-rg="cat" data-rv="pants">Pants</div><div class="chip" data-rg="cat" data-rv="shoes">Shoes</div><div class="chip" data-rg="cat" data-rv="jackets">Jackets</div><div class="chip" data-rg="cat" data-rv="acc">Accessories</div></div>
+      <div class="grid g-110">
+        <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px;position:relative">item<div style="position:absolute;top:6px;right:8px;font-size:12px">♥</div></div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Green sneakers</div><div class="mut" style="font-size:10px">Shoes · Nike</div></div>
+        <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">White tee</div><div class="mut" style="font-size:10px">Shirts</div></div>
+        <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Black jeans</div><div class="mut" style="font-size:10px">Pants · Zara</div></div>
+        <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Denim jacket</div><div class="mut" style="font-size:10px">Jackets</div></div>
+        <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Silver watch</div><div class="mut" style="font-size:10px">Accessories</div></div>
+        <div class="dashed" data-nav="addItem" style="height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11.5px"><div style="font-size:18px">＋</div>Add item</div>
+      </div>
+    </div></section>
+
+    <section class="screen" data-screen="emptyCloset"><div class="wrap">
+      <div class="stat"><div class="h2" style="flex:1">Closet</div></div>
+      <div class="empty">
+        <div class="ec">▦</div>
+        <div class="ttl" style="font-size:16px">Your closet is empty</div>
+        <div class="sub" style="max-width:280px">Add a few items and Assemble can start building outfits from what you already own.</div>
+        <button class="btn" data-nav="addItem" style="min-width:200px">Add your first item</button>
+        <div class="link" data-nav="genPick">Or match with a new photo</div>
+      </div>
+    </div></section>
+
+    <section class="screen" data-screen="addItem"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Add item</div></div>
+      <div class="ph" style="height:290px;border-radius:16px;background:var(--img-dark);flex-direction:column;gap:8px;position:relative">camera viewfinder<div style="position:absolute;inset:34px;border:2px dashed #aaa;border-radius:12px"></div></div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:26px">
+        <div class="iconbtn" data-nav="detect" style="width:42px;height:42px">▦</div>
+        <div data-nav="detect" style="width:66px;height:66px;border-radius:50%;border:4px solid var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><div style="width:48px;height:48px;border-radius:50%;background:var(--ink)"></div></div>
+        <div class="iconbtn" style="width:42px;height:42px;border-color:var(--line-2);color:var(--muted)">⟳</div>
+      </div>
+      <div class="mut center">Shutter or gallery both continue to AI detection · Lay the item flat with good light</div>
+    </div></section>
+
+    <section class="screen" data-screen="detect"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-nav="addItem">←</div><div class="ttl" style="flex:1">Confirm item</div><div class="tlink" data-nav="addItem">Retake</div></div>
+      <div class="ph" style="height:150px;border-radius:14px">item photo</div>
+      <div class="note" style="background:var(--surface-2)">✦ AI detected: <b>Shoes · Green · Sneaker · Casual</b> — edit anything below if wrong.</div>
+      <div class="lbl">Name</div><input value="Green sneakers">
+      <div class="frow">
+        <div><div class="lbl" style="margin-bottom:5px">Category</div><select><option>Shoes</option><option>Shirts</option><option>Pants</option><option>Jackets</option><option>Accessories</option></select></div>
+        <div><div class="lbl" style="margin-bottom:5px">Color</div><select><option>Green</option><option>Black</option><option>White</option></select></div>
+        <div><div class="lbl" style="margin-bottom:5px">Season</div><select><option>All</option><option>Summer</option><option>Winter</option></select></div>
+      </div>
+      <div class="lbl">Occasions</div>
+      <div class="chips"><div class="chip" data-chip="icasual">Casual</div><div class="chip" data-chip="iformal">Formal</div><div class="chip" data-chip="ibiz">Business</div><div class="chip" data-chip="iclub">Club</div><div class="chip" data-chip="ivac">Vacation</div></div>
+      <div class="frow" style="margin-top:2px"><button class="btn-o" data-act="saveItem" style="flex:1">Save to closet</button><button class="btn" data-nav="genOccasion" style="flex:1">Save and match ✦</button></div>
+    </div></section>
+
+    <section class="screen" data-screen="itemDetail"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Green sneakers</div><div class="fav" data-chip="fav">♥</div><div class="iconbtn" data-open="deleteItem" style="border-color:var(--line-2);color:var(--ink-2)">🗑</div></div>
+      <div class="ph" style="height:190px;border-radius:14px">item photo</div>
+      <div class="frow"><button class="btn-g" data-nav="addItem" style="flex:1;padding:9px">Retake photo</button><button class="btn-g" style="flex:1;padding:9px;color:var(--muted)">Crop / rotate</button></div>
+      <div class="frow">
+        <div><div class="lbl" style="margin-bottom:5px">Category</div><select><option>Shoes</option><option>Shirts</option></select></div>
+        <div><div class="lbl" style="margin-bottom:5px">Brand</div><input value="Nike"></div>
+        <div><div class="lbl" style="margin-bottom:5px">Size</div><input value="10"></div>
+      </div>
+      <div class="lbl">Notes</div><input placeholder="e.g. bought 2025, worn twice">
+      <div class="lbl">Occasion tags</div>
+      <div class="chips"><div class="chip on" data-chip="icasual">Casual</div><div class="chip" data-chip="iclub">Club</div><div class="chip" data-chip="ivac">Vacation</div></div>
+      <button class="btn" data-nav="genOccasion">✦ Match an outfit with this</button>
+      <button class="btn-o" data-act="saveItem">Save changes</button>
+    </div></section>
+
+    <!-- ===== OUTFIT WIZARD ===== -->
+    <section class="screen" data-screen="genPick"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Match an outfit</div><div class="step">1 / 3</div></div>
+      <div class="sub">Start from one item, or let AI use your whole closet.</div>
+      <div class="btn-o" data-nav="genOccasion" style="display:flex;gap:11px;align-items:center;text-align:left;padding:13px"><div style="width:40px;height:40px;border:1.5px solid var(--ink);border-radius:10px;display:flex;align-items:center;justify-content:center">▦</div><div style="flex:1"><div style="font-weight:700;font-size:13px">Use my whole closet</div><div class="mut">AI picks the best combination</div></div><div>→</div></div>
+      <div class="btn-o" data-nav="addItem" style="display:flex;gap:11px;align-items:center;text-align:left;padding:13px"><div style="width:40px;height:40px;border:1.5px solid var(--ink);border-radius:10px;display:flex;align-items:center;justify-content:center">📷</div><div style="flex:1"><div style="font-weight:700;font-size:13px">Snap a new item</div><div class="mut">e.g. shoes you just bought</div></div><div>→</div></div>
+      <div class="lbl">Or pick from your closet</div>
+      <div class="grid g-100">
+        <div class="lrow" data-rg="base" data-rv="1" style="margin:0;padding:8px"><div class="ph" style="height:82px;border-radius:8px">item</div><div style="font-size:10.5px;font-weight:600;margin-top:4px">Green sneakers</div></div>
+        <div class="lrow" data-rg="base" data-rv="2" style="margin:0;padding:8px"><div class="ph" style="height:82px;border-radius:8px">item</div><div style="font-size:10.5px;font-weight:600;margin-top:4px">Denim jacket</div></div>
+        <div class="lrow" data-rg="base" data-rv="3" style="margin:0;padding:8px"><div class="ph" style="height:82px;border-radius:8px">item</div><div style="font-size:10.5px;font-weight:600;margin-top:4px">Black jeans</div></div>
+      </div>
+      <button class="btn" data-nav="genOccasion">Next: occasion</button>
+    </div></section>
+
+    <section class="screen" data-screen="genOccasion"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Occasion</div><div class="step">2 / 3</div></div>
+      <div class="lbl">What's the event?</div>
+      <div class="chips"><div class="chip" data-rg="occ" data-rv="dinner">Dinner</div><div class="chip" data-rg="occ" data-rv="work">Work</div><div class="chip" data-rg="occ" data-rv="club">Club</div><div class="chip" data-rg="occ" data-rv="church">Church</div><div class="chip" data-rg="occ" data-rv="ball">Ball</div><div class="chip" data-rg="occ" data-rv="vacay">Vacation</div><div class="chip" data-rg="occ" data-rv="daily">Everyday</div></div>
+      <div class="lbl">Dress code</div>
+      <div class="chips"><div class="chip" data-rg="dress" data-rv="casual">Casual</div><div class="chip" data-rg="dress" data-rv="smart">Smart casual</div><div class="chip" data-rg="dress" data-rv="formal">Formal</div></div>
+      <div class="lbl">Time and place</div>
+      <div class="chips"><div class="chip" data-rg="time" data-rv="day">Day</div><div class="chip" data-rg="time" data-rv="night">Night</div><div class="chip" data-rg="place" data-rv="in">Indoor</div><div class="chip" data-rg="place" data-rv="out">Outdoor</div></div>
+      <button class="btn" data-nav="genPrefs">Next: preferences</button>
+    </div></section>
+
+    <section class="screen" data-screen="genPrefs"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Preferences</div><div class="step">3 / 3</div></div>
+      <div class="lbl">Where can items come from?</div>
+      <div class="lrow" data-rg="mode" data-rv="closet"><b>Closet only</b><span class="mut"> — use what I own</span></div>
+      <div class="lrow" data-rg="mode" data-rv="mix"><b>Closet + shopping</b><span class="mut"> — fill gaps with store items</span></div>
+      <div class="lrow" data-rg="mode" data-rv="shop"><b>Shopping only</b><span class="mut"> — build a fresh look</span></div>
+      <div class="lbl">Budget for new items</div>
+      <div class="chips"><div class="chip" data-rg="pb" data-rv="1">Under $50</div><div class="chip" data-rg="pb" data-rv="2">$50–150</div><div class="chip" data-rg="pb" data-rv="3">$150+</div></div>
+      <div class="lbl">How bold?</div>
+      <div class="chips"><div class="chip" data-rg="bold" data-rv="simple">Keep it simple</div><div class="chip" data-rg="bold" data-rv="bal">Balanced</div><div class="chip" data-rg="bold" data-rv="bold">Make a statement</div></div>
+      <div id="genArea"></div>
+    </div></section>
+
+    <section class="screen" data-screen="genLoading"><div class="wrap" style="padding:80px 20px;align-items:center;text-align:center;gap:16px">
+      <div class="spin"></div>
+      <div class="ttl" style="font-size:15px">Styling your outfit…</div>
+      <div class="sub">Matching color, occasion, budget and your style profile</div>
+      <div class="tlink" data-nav="genPrefs">Cancel</div>
+    </div></section>
+
+    <section class="screen" data-screen="genResults"><div class="wrap wide">
+      <div class="top"><div class="iconbtn" data-nav="genPrefs">←</div><div class="ttl" style="flex:1">3 outfit options</div><div class="tlink" data-nav="genPrefs">Tweak</div></div>
+      <div class="sub">Dinner · Smart casual · Closet + shopping · $50–150</div>
+      <div class="grid g-170">
+        <div class="card click" data-nav="outfitDetail" style="padding:10px"><div class="ph" style="height:170px;border-radius:10px">look A</div><div style="font-weight:700;font-size:13px;margin-top:7px">Clean and sharp</div><div class="mut">4 items · all owned ✓</div></div>
+        <div class="card click" data-nav="outfitDetail" style="padding:10px"><div class="ph" style="height:170px;border-radius:10px">look B</div><div style="font-weight:700;font-size:13px;margin-top:7px">Statement layer</div><div class="mut">5 items · 1 to buy · ~$68</div></div>
+        <div class="card click" data-nav="outfitDetail" style="padding:10px"><div class="ph" style="height:170px;border-radius:10px">look C</div><div style="font-weight:700;font-size:13px;margin-top:7px">Relaxed night</div><div class="mut">4 items · 2 to buy · ~$115</div></div>
+      </div>
+      <button class="btn-o" data-act="generate">⟳ Regenerate · 1 credit</button>
+    </div></section>
+
+    <section class="screen" data-screen="noMatch"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-nav="genPrefs">←</div><div class="ttl">No full match</div></div>
+      <div class="empty">
+        <div class="ec">◍</div>
+        <div class="ttl" style="font-size:16px">Couldn't build a full outfit</div>
+        <div class="sub" style="max-width:300px">Your closet is missing a few pieces for a Dinner · Formal look. Try widening the budget or letting Assemble shop for the gaps.</div>
+        <button class="btn" data-nav="genPrefs" style="min-width:210px">Adjust preferences</button>
+        <div class="link" data-nav="shop">Shop the missing pieces</div>
+      </div>
+    </div></section>
+
+    <section class="screen" data-screen="genFailed"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-nav="genPrefs">←</div><div class="ttl">Something went wrong</div></div>
+      <div class="empty">
+        <div class="ec">!</div>
+        <div class="ttl" style="font-size:16px">Styling failed</div>
+        <div class="sub" style="max-width:300px">We couldn't reach the styling service. Your credit was not used — please try again in a moment.</div>
+        <button class="btn" data-act="generate" style="min-width:210px">Try again</button>
+        <div class="link" data-nav="support">Report a problem</div>
+      </div>
+    </div></section>
+
+    <section class="screen" data-screen="offline"><div class="wrap">
+      <div class="empty">
+        <div class="ec">⚡</div>
+        <div class="ttl" style="font-size:16px">You're offline</div>
+        <div class="sub" style="max-width:300px">Your saved outfits and closet are still viewable. Matching needs a connection — we'll reconnect automatically.</div>
+        <button class="btn" data-nav="saved" style="min-width:210px">View saved outfits</button>
+      </div>
+    </div></section>
+
+    <section class="screen" data-screen="outfitDetail"><div class="wrap wide">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Clean and sharp</div><div class="pill-o" data-open="why">Why this works?</div></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="ph" style="flex:1;min-width:200px;min-height:280px;border-radius:16px;text-align:center;line-height:1.4">avatar preview<br>wearing outfit</div>
+        <div style="flex:1.2;min-width:230px;display:flex;flex-direction:column;gap:8px">
+          <div class="card" style="padding:9px;display:flex;gap:9px;align-items:center;box-shadow:none"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Green sneakers</div><div class="mut" style="font-size:10px">Owned ✓ · base item</div></div><div class="tlink" data-open="swap">Swap</div></div>
+          <div class="card" style="padding:9px;display:flex;gap:9px;align-items:center;box-shadow:none"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">White oxford shirt</div><div class="mut" style="font-size:10px">Owned ✓</div></div><div class="tlink" data-open="swap">Swap</div></div>
+          <div class="card" style="padding:9px;display:flex;gap:9px;align-items:center;box-shadow:none"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Beige chinos</div><div class="mut" style="font-size:10px">Owned ✓</div></div><div class="tlink" data-open="swap">Swap</div></div>
+          <div style="border:1.5px dashed var(--line-3);border-radius:11px;padding:9px;display:flex;gap:9px;align-items:center;background:var(--surface-2)"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Minimal belt — missing</div><div class="mut" style="font-size:10px">~$28 · 6 store options</div></div><div class="pill-o" data-nav="shop" style="padding:5px 10px;font-size:11px">Shop</div></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <button class="btn" data-open="saveTo" style="flex:1;min-width:130px">♥ Save outfit</button>
+        <button class="btn-o" data-open="share" style="flex:1;min-width:130px">↗ Share</button>
+        <button class="btn-o" data-nav="shop" style="flex:1;min-width:130px">⬦ Shop missing (1)</button>
+      </div>
+    </div></section>
+
+    <!-- ===== SHOP & SOCIAL ===== -->
+    <section class="screen" data-screen="shop"><div class="wrap wide">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="h2" style="flex:1">Shop matches</div><div class="iconbtn" data-open="filter">⚙</div></div>
+      <div class="sub">Matching: <b style="color:var(--ink)">Minimal belt</b> for "Clean and sharp" · Budget $50–150</div>
+      <div class="chips scroll"><div class="chip" data-open="filter">Price ▾</div><div class="chip" data-open="filter">Brand ▾</div><div class="chip" data-open="filter">Color ▾</div><div class="chip" data-open="filter">Size ▾</div></div>
+      <div class="grid g-140">
+        <div class="card click" data-nav="productDetail" style="padding:9px;position:relative"><div class="tag" style="position:absolute;top:14px;left:14px;z-index:1">FEATURED</div><div class="ph" style="height:110px;border-radius:9px">product</div><div style="font-size:12px;font-weight:600;margin-top:6px">Leather belt, tan</div><div class="mut" style="font-size:10.5px">BrandCo · $28</div><div style="display:flex;gap:6px;margin-top:6px"><div class="chip" data-chip="p1save" style="padding:4px 9px;font-size:11px">♥</div><div class="chip" data-chip="p1hide" style="padding:4px 9px;font-size:11px">✕</div></div></div>
+        <div class="card click" data-nav="productDetail" style="padding:9px"><div class="ph" style="height:110px;border-radius:9px">product</div><div style="font-size:12px;font-weight:600;margin-top:6px">Woven belt, black</div><div class="mut" style="font-size:10.5px">StoreX · $34</div><div style="display:flex;gap:6px;margin-top:6px"><div class="chip" data-chip="p2save" style="padding:4px 9px;font-size:11px">♥</div><div class="chip" data-chip="p2hide" style="padding:4px 9px;font-size:11px">✕</div></div></div>
+        <div class="card click" data-nav="productDetail" style="padding:9px"><div class="ph" style="height:110px;border-radius:9px">product</div><div style="font-size:12px;font-weight:600;margin-top:6px">Classic belt, brown</div><div class="mut" style="font-size:10.5px">ShopY · $41</div><div style="display:flex;gap:6px;margin-top:6px"><div class="chip" data-chip="p3save" style="padding:4px 9px;font-size:11px">♥</div><div class="chip" data-chip="p3hide" style="padding:4px 9px;font-size:11px">✕</div></div></div>
+        <div class="card click" data-nav="productDetail" style="padding:9px"><div class="ph" style="height:110px;border-radius:9px">product</div><div style="font-size:12px;font-weight:600;margin-top:6px">Slim belt, tan</div><div class="mut" style="font-size:10.5px">BrandCo · $52</div><div style="display:flex;gap:6px;margin-top:6px"><div class="chip" data-chip="p4save" style="padding:4px 9px;font-size:11px">♥</div><div class="chip" data-chip="p4hide" style="padding:4px 9px;font-size:11px">✕</div></div></div>
+      </div>
+      <div class="mut center">Prices via partner stores · affiliate links open outside the app</div>
+    </div></section>
+
+    <section class="screen" data-screen="productDetail"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Leather belt, tan</div><div class="fav" data-chip="p1save">♥</div></div>
+      <div class="ph" style="height:210px;border-radius:14px">product photo</div>
+      <div style="display:flex;align-items:baseline;gap:9px"><div class="h2">$28</div><div class="sub">BrandCo · sold by PartnerStore</div></div>
+      <div class="sub">Full-grain leather · matches "Clean and sharp" · color pairs with beige chinos and green sneakers.</div>
+      <div class="frow"><div><div class="lbl" style="margin-bottom:5px">Size</div><select><option>M (34)</option><option>S (32)</option><option>L (36)</option></select></div><div><div class="lbl" style="margin-bottom:5px">Color</div><select><option>Tan</option><option>Brown</option></select></div></div>
+      <button class="btn" data-open="leaving">Buy at PartnerStore ↗</button>
+      <button class="btn-o" data-open="purchased">I bought this — add to closet</button>
+      <div class="mut center">Affiliate link · delivery and returns handled by the store</div>
+    </div></section>
+
+    <section class="screen" data-screen="saved"><div class="wrap wide">
+      <div class="stat"><div class="h2" style="flex:1">Saved outfits</div><div class="pill-o" data-open="newCollection">＋ Collection</div></div>
+      <div class="chips scroll"><div class="chip" data-rg="col" data-rv="all">All · 8</div><div class="chip" data-nav="collection" data-rg="col" data-rv="work">Work · 3</div><div class="chip" data-nav="collection" data-rg="col" data-rv="dinner">Dinner · 2</div><div class="chip" data-nav="collection" data-rg="col" data-rv="vacay">Vacation · 2</div><div class="chip" data-nav="collection" data-rg="col" data-rv="club">Club · 1</div></div>
+      <div class="grid g-130">
+        <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:150px;position:relative">outfit<div class="tag" style="position:absolute;bottom:6px;left:6px">NEW MATCHES</div></div><div style="font-size:12px;font-weight:600;margin-top:5px">Dinner look</div><div class="mut" style="font-size:10px">Dinner · 4 items</div></div>
+        <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Office fit</div><div class="mut" style="font-size:10px">Work · 5 items</div></div>
+        <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Beach day</div><div class="mut" style="font-size:10px">Vacation · 3 items</div></div>
+        <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Club night</div><div class="mut" style="font-size:10px">Club · 3 items</div></div>
+      </div>
+    </div></section>
+
+    <section class="screen" data-screen="collection"><div class="wrap wide">
+      <div class="top"><div class="iconbtn" data-nav="saved">←</div><div class="h2" style="flex:1">Work <span class="mut" style="font-weight:400">3 outfits</span></div><div class="tlink" data-open="rename">Rename</div></div>
+      <div class="grid g-130">
+        <div style="position:relative"><div class="ph" style="height:150px;cursor:pointer" data-nav="outfitDetail">outfit</div><div data-open="deleteOutfit" style="position:absolute;top:6px;right:6px;width:26px;height:26px;background:#fff;border:1px solid var(--line-2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer">⋯</div><div style="font-size:12px;font-weight:600;margin-top:5px">Office fit</div></div>
+        <div style="position:relative"><div class="ph" style="height:150px;cursor:pointer" data-nav="outfitDetail">outfit</div><div data-open="deleteOutfit" style="position:absolute;top:6px;right:6px;width:26px;height:26px;background:#fff;border:1px solid var(--line-2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer">⋯</div><div style="font-size:12px;font-weight:600;margin-top:5px">Monday minimal</div></div>
+        <div style="position:relative"><div class="ph" style="height:150px;cursor:pointer" data-nav="outfitDetail">outfit</div><div data-open="deleteOutfit" style="position:absolute;top:6px;right:6px;width:26px;height:26px;background:#fff;border:1px solid var(--line-2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer">⋯</div><div style="font-size:12px;font-weight:600;margin-top:5px">Client meeting</div></div>
+      </div>
+      <div class="dashed" data-nav="genPick" style="padding:16px;text-align:center;font-size:12.5px">＋ Match a new outfit for this collection</div>
+    </div></section>
+
+    <section class="screen" data-screen="feedback"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Reginald's dinner look</div></div>
+      <div class="sub">Shared with you · vote or comment to help decide</div>
+      <div class="ph" style="height:240px;border-radius:16px">outfit on avatar</div>
+      <div style="display:flex;gap:10px"><div class="chip" data-rg="vote" data-rv="yes" style="flex:1;justify-content:center;text-align:center;padding:11px">👍 Wear it</div><div class="chip" data-rg="vote" data-rv="no" style="flex:1;text-align:center;padding:11px">👎 Not this one</div><div class="chip" data-open="swap" style="flex:1;text-align:center;padding:11px">Suggest a change</div></div>
+      <div class="lbl">Comments · 2</div>
+      <div class="card" style="box-shadow:none;padding:10px;font-size:12px"><b>Maya</b> <span class="mut" style="font-size:10px">2m</span><br>Love the sneakers with this! 👍</div>
+      <div class="card" style="box-shadow:none;padding:10px;font-size:12px"><b>Sam</b> <span class="mut" style="font-size:10px">8m</span><br>Maybe a darker belt?</div>
+      <div style="display:flex;gap:8px"><input placeholder="Add a comment…" style="flex:1"><div style="width:46px;background:var(--primary);color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none">↑</div></div>
+      <div class="note center">Don't have the app? <span style="text-decoration:underline;cursor:pointer">Download to give better feedback</span></div>
+    </div></section>
+
+    <!-- ===== MONEY & ACCOUNT ===== -->
+    <section class="screen" data-screen="profile"><div class="wrap">
+      <div class="stat" style="padding:6px 0 10px"><div class="avatar"></div><div style="flex:1"><div class="ttl">Reginald Glover</div><div class="mut">reginald@email.com · Free plan</div></div><div class="pill-o" data-nav="plans">Upgrade</div></div>
+      <div class="card click" data-nav="credits" style="border:1.5px solid var(--ink);display:flex;align-items:center;gap:10px;box-shadow:none"><div style="flex:1"><div style="font-weight:700;font-size:13px">⬡ <span class="credits-val">12</span> credits</div><div class="mut">1 credit per outfit generation</div></div><div style="font-weight:700;font-size:12px">Top up →</div></div>
+      <div class="menurow" data-nav="notifications"><span style="flex:1">🔔 Notifications</span><div class="badge">3</div></div>
+      <div class="menurow" data-nav="settings"><span style="flex:1">⚙ Settings and privacy</span><span class="arw">→</span></div>
+      <div class="menurow" data-nav="help"><span style="flex:1">? Help center</span><span class="arw">→</span></div>
+      <div class="menurow" data-nav="support"><span style="flex:1">✉ Contact support</span><span class="arw">→</span></div>
+      <div class="menurow" data-open="share"><span style="flex:1">↗ Invite a friend</span><span class="arw">→</span></div>
+      <button class="btn-g" data-open="logout" style="margin-top:6px">Log out</button>
+    </div></section>
+
+    <section class="screen" data-screen="credits"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Credits and plan</div></div>
+      <div style="background:var(--primary);color:#fff;border-radius:16px;padding:18px;box-shadow:var(--sh2)"><div style="font-size:11px;color:#b9b9c2">BALANCE</div><div style="font-weight:800;font-size:30px">⬡ <span class="credits-val">12</span></div><div style="font-size:11px;color:#b9b9c2;margin-top:2px">1 credit = 1 outfit generation</div><button class="btn" data-open="buyCredits" style="background:#fff;color:var(--ink);margin-top:12px;width:100%">Buy credits</button></div>
+      <div class="card click" data-nav="plans" style="border:1.5px solid var(--ink);display:flex;align-items:center;box-shadow:none"><div style="flex:1"><div style="font-weight:700;font-size:13px">Go unlimited with Plus</div><div class="mut">Monthly credits + no ads · from $6.99/mo</div></div><div>→</div></div>
+      <div class="lbl">Recent usage</div>
+      <div class="card" style="box-shadow:none;padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Dinner</div><div class="mut">−1 · today</div></div>
+      <div class="card" style="box-shadow:none;padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Work</div><div class="mut">−1 · Thu</div></div>
+      <div class="card" style="box-shadow:none;padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Starter pack purchase</div><div class="mut">+10 · Mon</div></div>
+    </div></section>
+
+    <section class="screen" data-screen="plans"><div class="wrap wide">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Choose a plan</div></div>
+      <div class="grid g-160">
+        <div class="lrow" data-rg="plan" data-rv="free" style="margin:0"><div style="font-weight:800;font-size:14px">Free</div><div style="font-weight:800;font-size:20px;margin:4px 0">$0</div><div class="mut" style="line-height:1.6">3 free generations/mo<br>Ads shown<br>Buy credits anytime</div></div>
+        <div class="lrow" data-rg="plan" data-rv="plus" style="margin:0"><div style="display:flex;align-items:center;gap:6px"><div style="font-weight:800;font-size:14px">Plus</div><div class="tag">POPULAR</div></div><div style="font-weight:800;font-size:20px;margin:4px 0">$6.99<span class="mut" style="font-weight:400">/mo</span></div><div class="mut" style="line-height:1.6">30 credits/mo<br>No ads<br>Early features</div></div>
+        <div class="lrow" data-rg="plan" data-rv="pro" style="margin:0"><div style="font-weight:800;font-size:14px">Pro</div><div style="font-weight:800;font-size:20px;margin:4px 0">$14.99<span class="mut" style="font-weight:400">/mo</span></div><div class="mut" style="line-height:1.6">Unlimited generations<br>No ads<br>Priority support</div></div>
+      </div>
+      <button class="btn" data-open="payment">Subscribe to <span id="planName">Plus</span></button>
+      <div class="mut center">Cancel anytime · Restore purchases</div>
+    </div></section>
+
+    <section class="screen" data-screen="notifications"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Notifications</div><div class="tlink" data-nav="settings">Preferences</div></div>
+      <div class="card click" data-nav="saved" style="border:1px solid var(--ink);display:flex;gap:9px;box-shadow:none"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>New matches</b> for your saved "Dinner look" — 3 products in budget.</div><div class="mut" style="font-size:10.5px;margin-top:3px">10m ago</div></div></div>
+      <div class="card click" data-nav="feedback" style="border:1px solid var(--ink);display:flex;gap:9px;box-shadow:none"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Maya voted 👍</b> on the look you shared.</div><div class="mut" style="font-size:10.5px;margin-top:3px">2h ago</div></div></div>
+      <div class="card click" data-nav="credits" style="border:1px solid var(--ink);display:flex;gap:9px;box-shadow:none"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Low credits:</b> 2 left. Top up or upgrade to keep matching.</div><div class="mut" style="font-size:10.5px;margin-top:3px">1d ago</div></div></div>
+      <div class="card" style="display:flex;gap:9px;color:var(--ink-2);box-shadow:none"><div style="width:8px;height:8px;border:1px solid var(--line-3);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px">Announcement: packing lists for travel are coming soon.</div><div class="mut" style="font-size:10.5px;margin-top:3px">3d ago · from the team</div></div></div>
+    </div></section>
+
+    <section class="screen" data-screen="settings"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Settings</div></div>
+      <div class="seclbl">Account</div>
+      <div class="lbl">Name</div><input value="Reginald Glover">
+      <div class="lbl">Email</div><input value="reginald@email.com">
+      <div class="menurow" data-open="changePw"><span style="flex:1">Change password</span><span class="arw">→</span></div>
+      <div class="seclbl" style="margin-top:6px">Notifications</div>
+      <div class="togglerow"><span>Push notifications</span><div class="tgl" data-chip="tPush"><i></i></div></div>
+      <div class="togglerow"><span>New product alerts</span><div class="tgl" data-chip="tAlerts"><i></i></div></div>
+      <div class="togglerow"><span>Friend feedback</span><div class="tgl" data-chip="tFriend"><i></i></div></div>
+      <div class="togglerow"><span>Offers and announcements</span><div class="tgl" data-chip="tOffers"><i></i></div></div>
+      <div class="seclbl" style="margin-top:6px">Privacy and data</div>
+      <div class="togglerow"><span>Private closet <span class="mut">(photos never shared)</span></span><div class="tgl" data-chip="tPrivate"><i></i></div></div>
+      <div class="menurow"><span style="flex:1">Download my data</span><span class="arw">→</span></div>
+      <div class="menurow"><span style="flex:1">Delete avatar &amp; face data</span><span class="arw">→</span></div>
+      <button class="btn-g" data-open="deleteAcct" style="margin-top:6px">Delete account</button>
+      <button class="btn-o" data-open="logout">Log out</button>
+    </div></section>
+
+    <section class="screen" data-screen="help"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Help center</div></div>
+      <input placeholder="Search help articles…">
+      <div class="card" data-acc="q1" style="cursor:pointer;box-shadow:none"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">How do credits work?</div><div class="acc-i">+</div></div><div class="acc-b" style="display:none;color:var(--ink-2);font-size:12px;margin-top:8px;line-height:1.5">Each outfit generation costs 1 credit. Free users get 3 per month; buy packs or subscribe for more.</div></div>
+      <div class="card" data-acc="q2" style="cursor:pointer;box-shadow:none"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">The AI got my item wrong</div><div class="acc-i">+</div></div><div class="acc-b" style="display:none;color:var(--ink-2);font-size:12px;margin-top:8px;line-height:1.5">Open the item and edit the category, color, or tags — corrections improve future matches.</div></div>
+      <div class="card" data-acc="q3" style="cursor:pointer;box-shadow:none"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">Are my photos private?</div><div class="acc-i">+</div></div><div class="acc-b" style="display:none;color:var(--ink-2);font-size:12px;margin-top:8px;line-height:1.5">Yes — closet photos are private by default and never shared without your action.</div></div>
+      <div class="card" data-acc="q4" style="cursor:pointer;box-shadow:none"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">Returns and purchases</div><div class="acc-i">+</div></div><div class="acc-b" style="display:none;color:var(--ink-2);font-size:12px;margin-top:8px;line-height:1.5">Purchases happen at partner stores via affiliate links — delivery and returns follow the store's policy.</div></div>
+      <button class="btn" data-nav="support">Still stuck? Contact support</button>
+    </div></section>
+
+    <section class="screen" data-screen="support"><div class="wrap">
+      <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Contact support</div></div>
+      <div class="lbl">Topic</div>
+      <select><option>Billing and credits</option><option>AI matching issue</option><option>Account access</option><option>Bug report</option><option>Other</option></select>
+      <div class="lbl">Message</div>
+      <textarea placeholder="Describe the issue…" style="min-height:110px"></textarea>
+      <div class="dashed" style="padding:14px;text-align:center;font-size:12.5px">＋ Attach screenshot</div>
+      <button class="btn" data-open="sent">Send message</button>
+      <div class="mut center">We reply within 1–2 business days</div>
+    </div></section>
+
+    </div><!-- /main -->
+
+    <!-- TAB BAR (mobile) -->
+    <div class="tabbar" id="tabbar">
+      <div class="tab" data-nav="home"><div class="g">⌂</div>Home</div>
+      <div class="tab" data-nav="closet"><div class="g">▦</div>Closet</div>
+      <div class="tab center" data-nav="genPick"><div class="fab">✚</div>Match</div>
+      <div class="tab" data-nav="saved"><div class="g">♥</div>Saved</div>
+      <div class="tab" data-nav="profile"><div class="g">●</div>Profile</div>
+    </div>
+  </div><!-- /col -->
+</div><!-- /app -->
+
+<!-- ===== MODAL LAYER ===== -->
+<div class="scrim" id="scrim">
+  <div class="sheet" id="sheet">
+    <div class="grab"></div>
+
+    <div class="modal" data-modal="filter">
+      <div class="mttl">Filters</div>
+      <div class="lbl">Price</div><div class="chips"><div class="chip" data-rg="fp" data-rv="1">Under $25</div><div class="chip" data-rg="fp" data-rv="2">$25–75</div><div class="chip" data-rg="fp" data-rv="3">$75+</div></div>
+      <div class="lbl">Color</div><div class="chips"><div class="chip" data-chip="cBlack">Black</div><div class="chip" data-chip="cWhite">White</div><div class="chip" data-chip="cTan">Tan</div><div class="chip" data-chip="cGreen">Green</div></div>
+      <div class="lbl">Sort by</div><div class="chips"><div class="chip" data-rg="sort" data-rv="match">Best match</div><div class="chip" data-rg="sort" data-rv="low">Price ↓</div><div class="chip" data-rg="sort" data-rv="new">Newest</div></div>
+      <div class="frow" style="margin-top:4px"><button class="btn-o" data-close style="flex:1">Clear</button><button class="btn" data-close style="flex:2">Apply filters</button></div>
+    </div>
+
+    <div class="modal" data-modal="deleteItem"><div class="center"><div class="mttl">Delete "Green sneakers"?</div><div class="sub" style="margin:8px 0 14px">It will be removed from your closet and saved outfits that use it will show a gap.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-act="deleteItem" style="flex:1">Delete</button></div></div></div>
+
+    <div class="modal" data-modal="photo"><div class="mttl">Add a photo</div><div class="menurow" data-close>📷 Take a photo</div><div class="menurow" data-close>▦ Choose from gallery</div><div class="link" data-close>Cancel</div></div>
+
+    <div class="modal" data-modal="saveTo"><div class="mttl">Save to collection</div><div class="lrow" data-rg="sc" data-rv="dinner">Dinner · 2 outfits</div><div class="lrow" data-rg="sc" data-rv="work">Work · 3 outfits</div><div class="lrow" data-rg="sc" data-rv="vacay">Vacation · 2 outfits</div><div class="dashed" data-open="newCollection" style="padding:12px;text-align:center;font-size:12px;margin:2px 0 8px">＋ New collection</div><button class="btn" data-act="saveTo">Save</button></div>
+
+    <div class="modal" data-modal="share"><div class="mttl">Share this look</div>
+      <div style="display:flex;gap:10px;margin-bottom:6px">
+        <div class="tile" data-close style="flex:1;text-align:center;font-size:11px;box-shadow:none"><div style="font-size:18px">👥</div>In-app friend</div>
+        <div class="tile" data-close style="flex:1;text-align:center;font-size:11px;box-shadow:none"><div style="font-size:18px">🔗</div>Copy link</div>
+        <div class="tile" data-close style="flex:1;text-align:center;font-size:11px;box-shadow:none"><div style="font-size:18px">✉</div>Message</div>
+      </div>
+      <button class="btn-o" data-nav="feedback">Preview what your friend sees →</button>
+    </div>
+
+    <div class="modal" data-modal="why"><div class="mttl">Why this outfit works</div>
+      <div class="card" style="box-shadow:none;padding:11px;font-size:12px"><b>Color:</b> green sneakers pop against neutral beige + white; belt ties the tones together.</div>
+      <div class="card" style="box-shadow:none;padding:11px;font-size:12px"><b>Occasion:</b> smart-casual dinner — collared shirt dresses it up, sneakers keep it relaxed.</div>
+      <div class="card" style="box-shadow:none;padding:11px;font-size:12px"><b>Your style:</b> matches your "casual + streetwear" profile and $$ budget.</div>
+      <button class="btn" data-close>Got it</button>
+    </div>
+
+    <div class="modal" data-modal="swap"><div class="mttl">Swap "White oxford shirt"</div><div class="lrow" data-rg="sw" data-rv="1">Black tee — owned ✓</div><div class="lrow" data-rg="sw" data-rv="2">Striped shirt — owned ✓</div><div class="lrow" data-rg="sw" data-rv="3">Linen shirt — $45 at StoreX</div><button class="btn" data-close>Apply swap</button></div>
+
+    <div class="modal" data-modal="leaving"><div class="center"><div class="mttl">Heading to PartnerStore</div><div class="sub" style="margin:8px 0 14px">You'll finish this purchase on the partner's site. We may earn a commission — it never changes your price.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Stay</button><button class="btn" data-close style="flex:1">Continue ↗</button></div></div></div>
+
+    <div class="modal" data-modal="purchased"><div class="center"><div class="mttl">Add to your closet?</div><div class="sub" style="margin:8px 0 14px">"Leather belt, tan" will be added to Accessories and marked as owned in your outfits.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Not yet</button><button class="btn" data-act="purchased" style="flex:1">Add to closet</button></div></div></div>
+
+    <div class="modal" data-modal="newCollection"><div class="mttl">New collection</div><input placeholder="Collection name, e.g. Church"><div class="frow" style="margin-top:4px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-act="newCollection" style="flex:1">Create</button></div></div>
+
+    <div class="modal" data-modal="rename"><div class="mttl">Rename collection</div><input value="Work"><div class="frow" style="margin-top:4px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-close style="flex:1">Save</button></div></div>
+
+    <div class="modal" data-modal="deleteOutfit"><div class="mttl">"Office fit"</div><div class="menurow" data-close>Move to another collection</div><div class="menurow" data-open="share">Share</div><div class="btn-g" data-close style="text-align:center">Delete outfit</div><div class="link" data-close>Cancel</div></div>
+
+    <div class="modal" data-modal="buyCredits"><div class="mttl">Buy credits</div><div class="lrow" data-rg="pack" data-rv="10">10 credits — $2.99</div><div class="lrow" data-rg="pack" data-rv="50">50 credits — $9.99 · best value</div><div class="lrow" data-rg="pack" data-rv="100">100 credits — $16.99</div><button class="btn" data-open="payment" style="margin-top:4px">Continue to payment</button><div class="link" data-nav="plans">Or subscribe for monthly credits</div></div>
+
+    <div class="modal" data-modal="payment"><div class="mttl">Payment</div><div class="card" style="box-shadow:none;padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Total</div><b>$9.99</b></div><div class="lrow" data-rg="pay" data-rv="apple"> Apple Pay / Google Pay</div><div class="lrow" data-rg="pay" data-rv="card">💳 Card ending •• 4242</div><div class="lrow" data-rg="pay" data-rv="new">＋ New card</div><button class="btn" data-act="payNow" style="margin-top:4px">Pay $9.99</button><div class="mut center">Secured checkout · receipts by email</div></div>
+
+    <div class="modal" data-modal="paid"><div class="center"><div style="width:54px;height:54px;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:6px auto">✓</div><div class="mttl">Payment successful</div><div class="sub" style="margin:6px 0 14px">50 credits added — new balance <span class="credits-val">62</span>.</div><button class="btn" data-close>Done</button></div></div>
+
+    <div class="modal" data-modal="changePw"><div class="mttl">Change password</div><input type="password" placeholder="Current password"><input type="password" placeholder="New password"><input type="password" placeholder="Repeat new password"><div class="frow" style="margin-top:4px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-close style="flex:1">Update</button></div></div>
+
+    <div class="modal" data-modal="deleteAcct"><div class="center"><div class="mttl">Delete your account?</div><div class="sub" style="margin:8px 0 12px">All wardrobe photos, outfits and credits will be permanently removed within 30 days. This cannot be undone.</div><input placeholder='Type "DELETE" to confirm' style="text-align:center;margin-bottom:4px"><div class="frow"><button class="btn" data-close style="flex:1">Keep account</button><button class="btn-g" data-act="deleteAcct" style="flex:1">Delete</button></div></div></div>
+
+    <div class="modal" data-modal="logout"><div class="center"><div class="mttl">Log out?</div><div class="sub" style="margin:8px 0 14px">Your closet stays safe — log back in anytime.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-act="logout" style="flex:1">Log out</button></div></div></div>
+
+    <div class="modal" data-modal="sent"><div class="center"><div style="width:54px;height:54px;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:6px auto">✓</div><div class="mttl">Message sent</div><div class="sub" style="margin:6px 0 14px">Ticket #4821 created — we'll email you within 1–2 business days.</div><button class="btn" data-act="sentOk">Done</button></div></div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var AUTH=['welcome','signup','verify','login','forgot','reset','style1','style2','avatar'];
+  var SCREENS=['welcome','signup','verify','login','forgot','reset','style1','style2','avatar','home','closet','emptyCloset','addItem','detect','itemDetail','genPick','genOccasion','genPrefs','genLoading','genResults','noMatch','genFailed','offline','outfitDetail','shop','productDetail','saved','collection','feedback','profile','credits','plans','notifications','settings','help','support'];
+  var st={screen:'welcome',modal:null,hist:[],credits:12,
+    sel:{casual:1,street:1,odinner:1,icasual:1,terms:1,tPush:1,tAlerts:1,tFriend:1,tPrivate:1},
+    radio:{who:'w',budget:'2',body:'b',cat:'all',occ:'dinner',dress:'smart',time:'night',place:'in',mode:'mix',pb:'2',bold:'bal',base:'1',col:'all',plan:'plus',pack:'50',pay:'apple',sort:'match',sc:'dinner',sw:'1',fp:'2',vote:''}};
+  var timer=null;
+
+  var main=document.getElementById('main');
+  var scrim=document.getElementById('scrim');
+
+  function go(s){ if(st.screen!==s){st.hist.push(st.screen); if(st.hist.length>25)st.hist.shift();} st.screen=s; st.modal=null; if(main)main.scrollTop=0; clearTimeout(timer); if(s==='genLoading'){timer=setTimeout(function(){go('genResults');},1800);} render(); }
+  function back(){ var p=st.hist.pop()||'home'; st.screen=p; st.modal=null; if(main)main.scrollTop=0; render(); }
+  function openModal(m){ st.modal=m; render(); }
+  function closeModal(){ st.modal=null; render(); }
+
+  function render(){
+    document.body.classList.toggle('auth', AUTH.indexOf(st.screen)>=0);
+    document.querySelectorAll('.screen').forEach(function(el){ el.classList.toggle('active', el.dataset.screen===st.screen); });
+    // rail active
+    document.querySelectorAll('.rl').forEach(function(el){ el.classList.toggle('on', el.dataset.nav===st.screen); });
+    document.querySelectorAll('.tab').forEach(function(el){ el.classList.toggle('on', el.dataset.nav===st.screen); });
+    // credits
+    document.querySelectorAll('.credits-val').forEach(function(el){ if(el.closest('[data-modal=paid]')) el.textContent=st.credits+50; else el.textContent=st.credits; });
+    // chips (multi)
+    document.querySelectorAll('[data-chip]').forEach(function(el){ el.classList.toggle('on', !!st.sel[el.dataset.chip]); });
+    // radios
+    document.querySelectorAll('[data-rg]').forEach(function(el){ el.classList.toggle('on', st.radio[el.dataset.rg]===el.dataset.rv); });
+    // plan name
+    var pn=document.getElementById('planName'); if(pn){var m={free:'Free',plus:'Plus',pro:'Pro'}; pn.textContent=m[st.radio.plan]||'Plus';}
+    // generate area (0-credit gate)
+    var ga=document.getElementById('genArea');
+    if(ga){ if(st.credits<1){ ga.innerHTML='<div class="note" style="border-color:var(--line-2)">You\'re out of credits. Top up to keep matching.</div><button class="btn" data-open="buyCredits" style="margin-top:8px">Out of credits — top up</button>'; } else { ga.innerHTML='<button class="btn" data-act="generate">✦ Generate outfits · 1 credit</button><div class="mut center" style="margin-top:2px">You have '+st.credits+' credits · <span class="tlink" data-open="buyCredits">top up</span></div>'; } }
+    // modal
+    scrim.classList.toggle('show', !!st.modal);
+    document.querySelectorAll('.modal').forEach(function(el){ el.classList.toggle('active', el.dataset.modal===st.modal); });
+  }
+
+  document.addEventListener('click', function(e){
+    var t=e.target.closest('[data-nav],[data-back],[data-open],[data-close],[data-chip],[data-rg],[data-act],[data-acc]');
+    if(!t) return;
+    if(t.hasAttribute('data-back')){ back(); return; }
+    if(t.dataset.nav){ go(t.dataset.nav); return; }
+    if(t.dataset.open){ openModal(t.dataset.open); return; }
+    if(t.hasAttribute('data-close')){ closeModal(); return; }
+    if(t.dataset.acc){ var b=t.querySelector('.acc-b'), i=t.querySelector('.acc-i'); if(b){var open=b.style.display!=='none'; b.style.display=open?'none':'block'; if(i)i.textContent=open?'+':'−';} return; }
+    if(t.dataset.chip){ e.stopPropagation(); st.sel[t.dataset.chip]=st.sel[t.dataset.chip]?0:1; render(); return; }
+    if(t.dataset.rg){ st.radio[t.dataset.rg]=t.dataset.rv; render(); if(t.dataset.nav){go(t.dataset.nav);} return; }
+    if(t.dataset.act){ act(t.dataset.act); return; }
+  });
+
+  function act(a){
+    switch(a){
+      case 'social': go('style1'); break;
+      case 'saveItem': go('closet'); break;
+      case 'generate': if(st.credits<1){openModal('buyCredits');break;} st.credits--; go('genLoading'); break;
+      case 'deleteItem': closeModal(); go('closet'); break;
+      case 'saveTo': closeModal(); go('saved'); break;
+      case 'purchased': closeModal(); go('closet'); break;
+      case 'newCollection': closeModal(); go('saved'); break;
+      case 'payNow': st.credits+=50; st.modal='paid'; render(); break;
+      case 'deleteAcct': closeModal(); st.hist=[]; go('welcome'); break;
+      case 'logout': closeModal(); st.hist=[]; go('welcome'); break;
+      case 'sentOk': closeModal(); go('profile'); break;
+    }
+  }
+
+  // jump menu (demo / presenting aid)
+  var jump=document.getElementById('jump');
+  var labels={emptyCloset:'▸ Empty closet (state)',noMatch:'▸ No match (state)',genFailed:'▸ Generation failed (state)',offline:'▸ Offline (state)'};
+  SCREENS.forEach(function(s){ var o=document.createElement('option'); o.value=s; o.textContent=labels[s]||s.replace(/([A-Z])/g,' $1'); jump.appendChild(o); });
+  jump.addEventListener('change', function(){ go(jump.value); });
+  var origRender=render; render=function(){ origRender(); if(jump)jump.value=st.screen; };
+
+  render();
+})();
+</script>
+</body>
+</html>
