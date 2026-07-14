@@ -1391,7 +1391,7 @@ textarea{resize:vertical}
   /* ---------- USER ---------- */
   var U={
     AUTH:['welcome','signup','verify','login','forgot','reset','permissions','style1','style2','avatar'],
-    st:{screen:'welcome',modal:null,hist:[],credits:12,plan:'free',payCtx:'credits',refine:'',freeGens:2,
+    st:{screen:'welcome',modal:null,hist:[],credits:12,plan:'free',payCtx:'credits',refine:'',freeGens:3,
       sel:{casual:1,street:1,odinner:1,icasual:1,terms:1,aiconsent:1,permCam:1,permPhoto:1,permNotif:1,tAutoRenew:1,tPush:1,tAlerts:1,tFriend:1,tPrivate:1,tAiConsent:1,avConsent:0},
       radio:{who:'w',budget:'2',body:'b',cat:'all',occ:'dinner',dress:'smart',time:'night',place:'in',mode:'mix',pb:'2',bold:'bal',base:'1',col:'all',plan:'plus',pack:'50',pay:'apple',sort:'match',sc:'dinner',sw:'1',fp:'2',vote:'',fr:'maya',pron:'they',fit:'regular',skin:'medium',rpt:'fit',weather:'mild',season:'summer',trip:'leisure',packmode:'closet'}},
     timer:null,
@@ -1425,7 +1425,7 @@ textarea{resize:vertical}
       var sb=document.getElementById('uShopBtn');if(sb)sb.style.display=closet?'none':'';
       var ra=document.getElementById('uResA'),rb=document.getElementById('uResB'),rc=document.getElementById('uResC');
       if(ra&&rb&&rc){ra.textContent='4 items · all owned';rb.textContent=closet?'5 items · all owned':'5 items · 1 to buy · ~$68';rc.textContent=closet?'4 items · all owned':'4 items · 2 to buy · ~$115';}
-      var pa=document.getElementById('packArea');if(pa){var pf=(st.plan==='free'&&st.freeGens>0);pa.innerHTML='<button class="btn" data-act="packGen">Create packing list'+(pf?'':' · 1 credit')+'</button><div class="mut center" style="margin-top:2px">'+(pf?st.freeGens+' free generations left this month':'Uses 1 credit')+' · save and edit the list after</div>';}
+      var pa=document.getElementById('packArea');if(pa){var pf=(st.plan==='free'&&st.freeGens>0);pa.innerHTML='<button class="btn" data-act="packGen">Create packing list'+(pf?'':' · 1 credit')+'</button><div class="mut center" style="margin-top:2px">'+(pf?st.freeGens+' of 3 free generations left this month':'Uses 1 credit')+' · save and edit the list after</div>';}
       var ga=document.getElementById('genArea');if(ga){if(st.plan==='free'&&st.freeGens>0){ga.innerHTML='<button class="btn" data-act="generate">Generate outfit</button><div class="mut center" style="margin-top:2px">'+st.freeGens+' of 3 free generations left this month · then 1 credit each</div>';}else if(st.credits<1){ga.innerHTML='<div class="note" style="border-color:var(--line-2)">You\'re out of credits. Top up to keep matching.</div><button class="btn" data-open="buyCredits" style="margin-top:8px">Out of credits — top up</button>';}else{ga.innerHTML='<button class="btn" data-act="generate">Generate outfit · 1 credit</button><div class="mut center" style="margin-top:2px">You have '+st.credits+' credits · <span class="tlink" data-open="buyCredits">top up</span></div>';}}
       var fg=document.getElementById('uFreeGens');if(fg){if(st.plan==='free'){fg.style.display='';fg.textContent='Free plan: '+st.freeGens+' of 3 free generations left this month.';}else{fg.style.display='none';}}
       var scrim=document.getElementById('uScrim');scrim.classList.toggle('show',!!st.modal);
