@@ -478,11 +478,11 @@ textarea{resize:vertical}
         <div style="display:flex;gap:9px"><input id="uClosetSearch" placeholder="Search name, color, brand…" style="flex:1"><button class="btn-g small" data-open="filter">Filters</button></div>
         <div class="chips scroll"><div class="chip" data-rg="cat" data-rv="all">All</div><div class="chip" data-rg="cat" data-rv="shirts">Shirts</div><div class="chip" data-rg="cat" data-rv="pants">Pants</div><div class="chip" data-rg="cat" data-rv="shoes">Shoes</div><div class="chip" data-rg="cat" data-rv="jackets">Jackets</div><div class="chip" data-rg="cat" data-rv="dresses">Dresses</div><div class="chip" data-rg="cat" data-rv="hats">Hats</div><div class="chip" data-rg="cat" data-rv="jewelry">Jewelry</div><div class="chip" data-rg="cat" data-rv="bags">Bags</div><div class="chip" data-rg="cat" data-rv="belts">Belts</div><div class="chip" data-rg="cat" data-rv="watches">Watches</div><div class="chip" data-rg="cat" data-rv="acc">Accessories</div><div class="chip" data-nav="archived">Archived</div></div>
         <div class="grid g-110" id="uClosetGrid">
-          <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px;position:relative">item<div style="position:absolute;top:6px;right:8px;font-size:12px">♥</div></div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Green sneakers</div><div class="mut" style="font-size:10px">Shoes · Nike</div></div>
-          <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">White tee</div><div class="mut" style="font-size:10px">Shirts</div></div>
-          <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Black jeans</div><div class="mut" style="font-size:10px">Pants · Zara</div></div>
-          <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Denim jacket</div><div class="mut" style="font-size:10px">Jackets</div></div>
-          <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Silver watch</div><div class="mut" style="font-size:10px">Accessories</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="shoes"><div class="ph" style="height:110px;position:relative">item<div style="position:absolute;top:6px;right:8px;font-size:12px">♥</div></div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Green sneakers</div><div class="mut" style="font-size:10px">Shoes · Nike</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="shirts"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">White tee</div><div class="mut" style="font-size:10px">Shirts</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="pants"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Black jeans</div><div class="mut" style="font-size:10px">Pants · Zara</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="jackets"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Denim jacket</div><div class="mut" style="font-size:10px">Jackets</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="watches"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Silver watch</div><div class="mut" style="font-size:10px">Accessories</div></div>
           <div class="dashed" data-nav="addItem" style="height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11.5px"><div style="font-size:18px">＋</div>Add item</div>
         </div>
       </div></section>
@@ -602,26 +602,20 @@ textarea{resize:vertical}
         <div class="top"><div class="iconbtn" data-nav="genResults">←</div><div class="ttl">Compare looks</div></div>
         <div class="sub">Pick two of your generated looks to compare side by side.</div>
         <div class="frow">
-          <div style="flex:1"><div class="lbl">Look A</div><select><option>Clean and sharp</option><option>Statement layer</option><option>Relaxed night</option></select></div>
-          <div style="flex:1"><div class="lbl">Look B</div><select><option>Statement layer</option><option>Clean and sharp</option><option>Relaxed night</option></select></div>
+          <div style="flex:1"><div class="lbl">Look A</div><select id="uCmpA"><option>Clean and sharp</option><option>Statement layer</option><option>Relaxed night</option></select></div>
+          <div style="flex:1"><div class="lbl">Look B</div><select id="uCmpB"><option>Statement layer</option><option>Clean and sharp</option><option>Relaxed night</option></select></div>
         </div>
         <div class="frow">
-          <div style="flex:1"><div class="ph" style="height:180px;border-radius:12px">Look A</div></div>
-          <div style="flex:1"><div class="ph" style="height:180px;border-radius:12px">Look B</div></div>
+          <div style="flex:1"><div class="ph" style="height:180px;border-radius:12px" id="uCmpImgA">Look A</div></div>
+          <div style="flex:1"><div class="ph" style="height:180px;border-radius:12px" id="uCmpImgB">Look B</div></div>
         </div>
         <div class="lbl">Item by item</div>
-        <div class="card flat" style="padding:0;overflow:hidden">
-          <div class="tr" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:10.5px;font-weight:700;color:var(--muted);border:none;background:var(--surface-2)"><div>PIECE</div><div>LOOK A</div><div>LOOK B</div></div>
-          <div class="tr" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:12px;border-top:1px solid var(--line)"><div class="mut">Shoes</div><div>Green sneakers (owned)</div><div>Green sneakers (owned)</div></div>
-          <div class="tr" style="background:var(--surface-2)" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:12px;border-top:1px solid var(--line)"><div class="mut">Top</div><div>White oxford (owned)</div><div>Patterned overshirt (buy ~$34)</div></div>
-          <div class="tr" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:12px;border-top:1px solid var(--line)"><div class="mut">Bottom</div><div>Beige chinos (owned)</div><div>Beige chinos (owned)</div></div>
-          <div class="tr" style="background:var(--surface-2)" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:12px;border-top:1px solid var(--line)"><div class="mut">Extra</div><div>—</div><div>Minimal belt (buy ~$28)</div></div>
-        </div>
+        <div class="card flat" style="padding:0;overflow:hidden" id="uCmpTable"></div>
         <div class="frow">
-          <div class="card flat center" style="flex:1"><b>All owned</b><div class="mut">$0 to complete</div></div>
-          <div class="card flat center" style="flex:1"><b>2 to buy</b><div class="mut">~$62 to complete</div></div>
+          <div class="card flat center" style="flex:1" id="uCmpSumA"></div>
+          <div class="card flat center" style="flex:1" id="uCmpSumB"></div>
         </div>
-        <div class="frow"><button class="btn" data-nav="outfitDetail" style="flex:1">Choose Look A</button><button class="btn-o" data-nav="outfitDetail" style="flex:1">Choose Look B</button></div>
+        <div class="frow"><button class="btn" data-nav="outfitDetail" style="flex:1" id="uCmpChooseA">Choose Look A</button><button class="btn-o" data-nav="outfitDetail" style="flex:1" id="uCmpChooseB">Choose Look B</button></div>
       </div></section>
 
       <section class="screen" data-screen="packing"><div class="wrap">
@@ -697,13 +691,14 @@ textarea{resize:vertical}
 
       <section class="screen" data-screen="saved"><div class="wrap wide">
         <div class="hrow"><div class="h2">Saved outfits</div><div class="pill-o" data-open="newCollection">＋ Collection</div></div>
-        <div class="chips scroll"><div class="chip" data-rg="col" data-rv="all">All · 8</div><div class="chip" data-nav="collection" data-rg="col" data-rv="work">Work · 3</div><div class="chip" data-nav="collection" data-rg="col" data-rv="dinner">Dinner · 2</div><div class="chip" data-nav="collection" data-rg="col" data-rv="vacay">Vacation · 2</div><div class="chip" data-nav="collection" data-rg="col" data-rv="club">Club · 1</div></div>
-        <div class="grid g-130">
-          <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:150px;position:relative">outfit<div class="tag" style="position:absolute;bottom:6px;left:6px">NEW MATCHES</div></div><div style="font-size:12px;font-weight:600;margin-top:5px">Dinner look</div><div class="mut" style="font-size:10px">Dinner · 4 items</div></div>
-          <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Office fit</div><div class="mut" style="font-size:10px">Work · 5 items</div></div>
-          <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Beach day</div><div class="mut" style="font-size:10px">Vacation · 3 items</div></div>
-          <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Club night</div><div class="mut" style="font-size:10px">Club · 3 items</div></div>
+        <div class="chips scroll"><div class="chip" data-rg="col" data-rv="all">All · 8</div><div class="chip" data-rg="col" data-rv="work">Work · 3</div><div class="chip" data-rg="col" data-rv="dinner">Dinner · 2</div><div class="chip" data-rg="col" data-rv="vacay">Vacation · 2</div><div class="chip" data-rg="col" data-rv="club">Club · 1</div></div>
+        <div class="grid g-130" id="uSavedGrid">
+          <div style="cursor:pointer" data-nav="outfitDetail" data-col="dinner"><div class="ph" style="height:150px;position:relative">outfit<div class="tag" style="position:absolute;bottom:6px;left:6px">NEW MATCHES</div></div><div style="font-size:12px;font-weight:600;margin-top:5px">Dinner look</div><div class="mut" style="font-size:10px">Dinner · 4 items</div></div>
+          <div style="cursor:pointer" data-nav="outfitDetail" data-col="work"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Office fit</div><div class="mut" style="font-size:10px">Work · 5 items</div></div>
+          <div style="cursor:pointer" data-nav="outfitDetail" data-col="vacay"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Beach day</div><div class="mut" style="font-size:10px">Vacation · 3 items</div></div>
+          <div style="cursor:pointer" data-nav="outfitDetail" data-col="club"><div class="ph" style="height:150px">outfit</div><div style="font-size:12px;font-weight:600;margin-top:5px">Club night</div><div class="mut" style="font-size:10px">Club · 3 items</div></div>
         </div>
+        <div class="link" id="uOpenCol" data-nav="collection" style="display:none">Open this collection to manage outfits →</div>
       </div></section>
 
       <section class="screen" data-screen="collection"><div class="wrap wide">
@@ -1182,9 +1177,10 @@ textarea{resize:vertical}
       <section class="screen" data-screen="support"><div class="pg" style="max-width:1000px">
         <div class="chips"><div class="chip" data-rg="tk" data-rv="open">Open · 6</div><div class="chip" data-rg="tk" data-rv="wait">Waiting · 3</div><div class="chip" data-rg="tk" data-rv="done">Resolved · 41</div></div>
         <div class="tbl">
-          <div class="tr click" data-open="ticket" style="grid-template-columns:1fr 30px;border-top:none"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;flex:none"></div><div><b>#4821 · Charged but credits missing</b><br><span class="mut">jane@email.com · Billing · 2h ago · ⚠ overdue</span></div></div><div>›</div></div>
-          <div class="tr click" data-open="ticket" style="grid-template-columns:1fr 30px"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;flex:none"></div><div><b>#4820 · AI keeps calling my shoes boots</b><br><span class="mut">sam@email.com · AI matching · 5h ago</span></div></div><div>›</div></div>
-          <div class="tr click alt" data-open="ticket" style="grid-template-columns:1fr 30px"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;border:1px solid var(--line-3);border-radius:50%;flex:none"></div><div><b style="color:var(--ink-2)">#4818 · Delete my account please</b><br><span class="mut">dk@email.com · Account · 1d ago · waiting on user</span></div></div><div>›</div></div>
+          <div class="tr click" data-open="ticket" data-status="open" style="grid-template-columns:1fr 30px;border-top:none"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;flex:none"></div><div><b>#4821 · Charged but credits missing</b><br><span class="mut">jane@email.com · Billing · 2h ago · ⚠ overdue</span></div></div><div>›</div></div>
+          <div class="tr click" data-open="ticket" data-status="open" style="grid-template-columns:1fr 30px"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;flex:none"></div><div><b>#4820 · AI keeps calling my shoes boots</b><br><span class="mut">sam@email.com · AI matching · 5h ago</span></div></div><div>›</div></div>
+          <div class="tr click alt" data-open="ticket" data-status="wait" style="grid-template-columns:1fr 30px"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;border:1px solid var(--line-3);border-radius:50%;flex:none"></div><div><b style="color:var(--ink-2)">#4818 · Delete my account please</b><br><span class="mut">dk@email.com · Account · 1d ago · waiting on user</span></div></div><div>›</div></div>
+          <div class="tr click" data-open="ticket" data-status="done" style="grid-template-columns:1fr 30px"><div style="display:flex;gap:10px;align-items:center"><div style="width:8px;height:8px;border:1px solid var(--line-3);border-radius:50%;flex:none"></div><div><b style="color:var(--ink-2)">#4805 · Great app, small typo</b><br><span class="mut">maya@email.com · Other · resolved 2d ago</span></div></div><div>›</div></div>
         </div>
         <div class="h" style="margin-top:2px">Reported content and moderation</div>
         <div class="tbl">
@@ -1403,6 +1399,10 @@ textarea{resize:vertical}
       var payItem=document.getElementById('uPayItem'),payTotal=document.getElementById('uPayTotal'),payBtn=document.getElementById('uPayBtn');
       if(payItem&&payTotal&&payBtn){if(st.payCtx==='sub'){var pp=planL[st.radio.plan];payItem.textContent=pp.n+' subscription';payTotal.textContent=pp.p+'/mo';payBtn.textContent='Subscribe · '+pp.p+'/mo';}else{var kk=packL[st.radio.pack]||packL['50'];payItem.textContent=kk.c+' credits';payTotal.textContent=kk.p;payBtn.textContent='Pay '+kk.p;}}
       userApp.querySelectorAll('.ad').forEach(function(el){el.style.display=st.plan==='free'?'':'none';});
+      var _csv=((document.getElementById('uClosetSearch')||{}).value||'').toLowerCase(),_cat=st.radio.cat;
+      userApp.querySelectorAll('#uClosetGrid > div[data-cat]').forEach(function(el){var okc=(_cat==='all'||el.dataset.cat===_cat);var oks=el.textContent.toLowerCase().indexOf(_csv)>=0;el.style.display=(okc&&oks)?'':'none';});
+      var _col=st.radio.col;userApp.querySelectorAll('#uSavedGrid > div[data-col]').forEach(function(el){el.style.display=(_col==='all'||el.dataset.col===_col)?'':'none';});
+      var _oc=document.getElementById('uOpenCol');if(_oc)_oc.style.display=(_col&&_col!=='all')?'':'none';
       var closet=(st.radio.mode==='closet');
       var mr=document.getElementById('uMissRow');if(mr)mr.style.display=closet?'none':'flex';
       var sb=document.getElementById('uShopBtn');if(sb)sb.style.display=closet?'none':'';
@@ -1469,6 +1469,7 @@ textarea{resize:vertical}
         document.getElementById('aTitle').textContent=this.TITLES[st.screen]||'';
         adminApp.querySelectorAll('[data-chip]').forEach(function(el){el.classList.toggle('on',!!st.sel[el.dataset.chip]);});
         adminApp.querySelectorAll('[data-rg]').forEach(function(el){el.classList.toggle('on',st.radio[el.dataset.rg]===el.dataset.rv);});
+        var _tk=st.radio.tk;adminApp.querySelectorAll('[data-screen="support"] .tr[data-status]').forEach(function(el){el.style.display=(el.dataset.status===_tk)?'':'none';});
         var scrim=document.getElementById('aScrim');scrim.classList.toggle('show',!!st.modal);
         adminApp.querySelectorAll('.modal').forEach(function(el){el.classList.toggle('active',el.dataset.modal===st.modal);});
       } else { document.getElementById('aScrim').classList.remove('show'); }
@@ -1509,8 +1510,11 @@ textarea{resize:vertical}
     else if(mode==='admin')A.click(e);
   });
 
-  var cs=document.getElementById('uClosetSearch');if(cs)cs.addEventListener('input',function(){var qv=cs.value.toLowerCase();document.querySelectorAll('#uClosetGrid > div').forEach(function(el){if(el.classList.contains('dashed'))return;el.style.display=el.textContent.toLowerCase().indexOf(qv)>=0?'':'none';});});
+  var cs=document.getElementById('uClosetSearch');if(cs)cs.addEventListener('input',function(){U.render();});
   var hs=document.getElementById('uHelpSearch');if(hs)hs.addEventListener('input',function(){var qv=hs.value.toLowerCase();document.querySelectorAll('#userApp [data-screen="help"] .card.flat[data-acc]').forEach(function(el){el.style.display=el.textContent.toLowerCase().indexOf(qv)>=0?'':'none';});});
+  var LOOKS={"Clean and sharp":{items:{Shoes:"Green sneakers (owned)",Top:"White oxford (owned)",Bottom:"Beige chinos (owned)",Extra:"\u2014"},buy:0,cost:0},"Statement layer":{items:{Shoes:"Green sneakers (owned)",Top:"Patterned overshirt (buy ~$34)",Bottom:"Beige chinos (owned)",Extra:"Minimal belt (buy ~$28)"},buy:2,cost:62},"Relaxed night":{items:{Shoes:"White trainers (owned)",Top:"Black tee (owned)",Bottom:"Dark jeans (owned)",Extra:"Chain (buy ~$40)"},buy:1,cost:40}};
+  function updateCompare(){var A=document.getElementById("uCmpA"),B=document.getElementById("uCmpB");if(!A||!B)return;var la=LOOKS[A.value],lb=LOOKS[B.value];if(!la||!lb)return;var P=["Shoes","Top","Bottom","Extra"];var h='<div class="tr" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:10.5px;font-weight:700;color:var(--muted);border:none;background:var(--surface-2)"><div>PIECE</div><div>LOOK A</div><div>LOOK B</div></div>';P.forEach(function(p,i){var a=la.items[p],b=lb.items[p],d=a!==b;h+='<div class="tr" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:12px;border-top:1px solid var(--line)'+(i%2?";background:var(--surface-2)":"")+'"><div class="mut">'+p+'</div><div'+(d?' style="font-weight:700"':"")+'>'+a+'</div><div'+(d?' style="font-weight:700"':"")+'>'+b+'</div></div>';});document.getElementById("uCmpTable").innerHTML=h;function sm(l){return '<b>'+(l.buy?l.buy+" to buy":"All owned")+'</b><div class="mut">'+(l.cost?"~$"+l.cost+" to complete":"$0 to complete")+'</div>';}document.getElementById("uCmpSumA").innerHTML=sm(la);document.getElementById("uCmpSumB").innerHTML=sm(lb);document.getElementById("uCmpChooseA").textContent="Choose "+A.value;document.getElementById("uCmpChooseB").textContent="Choose "+B.value;document.getElementById("uCmpImgA").textContent=A.value;document.getElementById("uCmpImgB").textContent=B.value;}
+  var _ca=document.getElementById("uCmpA"),_cb=document.getElementById("uCmpB");if(_ca)_ca.addEventListener("change",updateCompare);if(_cb)_cb.addEventListener("change",updateCompare);updateCompare();
   U.render();A.render();setMode('launcher');
 })();
 </script>
