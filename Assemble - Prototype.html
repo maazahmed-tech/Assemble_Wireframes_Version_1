@@ -464,7 +464,7 @@ textarea{resize:vertical}
           <div class="tile" data-nav="packing"><div style="font-weight:700;font-size:13px;margin-top:6px">Pack for a trip</div><div class="mut">Build a travel packing list</div></div>
         </div>
         <div class="ad adbanner"><div class="ph" style="width:44px;height:44px;border-radius:9px;flex:none">Ad</div><div style="flex:1"><div style="font-weight:700;font-size:12px">Sponsored · BrandCo</div><div class="mut">Up to 30% off belts and accessories</div></div><span class="mut" style="font-size:9.5px;border:1px solid var(--line-2);border-radius:5px;padding:1px 5px">AD</span></div>
-        <div class="hrow"><div class="ttl" style="font-size:15px;flex:1">Recent outfits</div><div class="tlink" data-nav="saved">See all</div></div>
+        <div class="hrow"><div class="ttl" style="font-size:15px;flex:1">Recent outfits</div><div class="tlink" data-nav="history" style="margin-right:12px">History</div><div class="tlink" data-nav="saved">See all</div></div>
         <div class="grid g-120">
           <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:140px">outfit</div><div style="font-size:12.5px;font-weight:600;margin-top:5px">Dinner look</div><div class="mut">Sat · 4 items</div></div>
           <div style="cursor:pointer" data-nav="outfitDetail"><div class="ph" style="height:140px">outfit</div><div style="font-size:12.5px;font-weight:600;margin-top:5px">Office fit</div><div class="mut">Thu · 5 items</div></div>
@@ -518,6 +518,7 @@ textarea{resize:vertical}
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Green sneakers</div><div class="chip" data-chip="fav">Favorite</div><button class="btn-g small" data-open="deleteItem">Delete</button></div>
         <div class="ph" style="height:190px;border-radius:14px">item photo</div>
         <div class="frow"><button class="btn-g" data-nav="addItem" style="flex:1;padding:9px">Retake photo</button><button class="btn-g" style="flex:1;padding:9px" data-toast="Crop and rotate — adjust the photo, then save.">Crop / rotate</button></div>
+        <div class="mut" style="font-size:11.5px;margin-top:2px">Worn 12 times · last worn Sat · added Mar 2026</div>
         <div class="frow">
           <div><div class="lbl">Category</div><select><option>Shoes</option><option>Shirts</option></select></div>
           <div><div class="lbl">Brand</div><input value="Nike"></div>
@@ -660,7 +661,19 @@ textarea{resize:vertical}
         <div class="lbl">Refine this look</div>
         <div class="chips"><div class="chip" data-act="refine:cheaper">Cheaper</div><div class="chip" data-act="refine:more formal">More formal</div><div class="chip" data-act="refine:more casual">More casual</div><div class="chip" data-act="refine:bolder">Bolder</div><div class="chip" data-act="refine:simpler">Simpler</div></div>
         <div class="tlink" data-open="reportAI" style="align-self:flex-start">Report a wrong suggestion</div>
-        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn" data-open="saveTo" style="flex:1;min-width:130px">Save outfit</button><button class="btn-o" data-open="share" style="flex:1;min-width:130px">Share</button><button class="btn-o" data-nav="shop" id="uShopBtn" style="flex:1;min-width:130px">Shop missing (1)</button></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn-o" data-act="wearToday" style="flex:1;min-width:130px">Wear today</button><button class="btn" data-open="saveTo" style="flex:1;min-width:130px">Save outfit</button><button class="btn-o" data-open="share" style="flex:1;min-width:130px">Share</button><button class="btn-o" data-nav="shop" id="uShopBtn" style="flex:1;min-width:130px">Shop missing (1)</button></div>
+      </div></section>
+
+      <section class="screen" data-screen="history"><div class="wrap wide">
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Outfit history</div></div>
+        <div class="sub">What you've worn, most recent first. Logging wears helps Assemble avoid repeats and learn your real routine.</div>
+        <div id="uHistList" style="display:flex;flex-direction:column;gap:9px">
+          <div class="card flat" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Office fit</div><div class="mut">Yesterday · Work · 5 items</div></div><button class="btn-o" data-nav="outfitDetail" style="padding:6px 10px;font-size:11px">View</button></div>
+          <div class="card flat" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Dinner look</div><div class="mut">Sat · Dinner · 4 items</div></div><button class="btn-o" data-nav="outfitDetail" style="padding:6px 10px;font-size:11px">View</button></div>
+          <div class="card flat" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Club night</div><div class="mut">Fri · Club · 3 items</div></div><button class="btn-o" data-nav="outfitDetail" style="padding:6px 10px;font-size:11px">View</button></div>
+          <div class="card flat" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Weekend casual</div><div class="mut">Wed · Casual · 3 items</div></div><button class="btn-o" data-nav="outfitDetail" style="padding:6px 10px;font-size:11px">View</button></div>
+        </div>
+        <div class="mut center" style="margin-top:4px">Each item's wear count updates automatically — open any item to see it.</div>
       </div></section>
 
       <section class="screen" data-screen="shop"><div class="wrap wide">
@@ -702,7 +715,7 @@ textarea{resize:vertical}
       </div></section>
 
       <section class="screen" data-screen="collection"><div class="wrap wide">
-        <div class="top"><div class="iconbtn" data-nav="saved">←</div><div class="h2" style="flex:1">Work <span class="mut" style="font-weight:400">3 outfits</span></div><div class="tlink" data-open="rename">Rename</div></div>
+        <div class="top"><div class="iconbtn" data-nav="saved">←</div><div class="h2" style="flex:1">Work <span class="mut" style="font-weight:400">3 outfits</span></div><div class="tlink" data-open="rename">Rename</div><div class="tlink" data-open="deleteCollection" style="margin-left:12px">Delete</div></div>
         <div class="grid g-130">
           <div style="position:relative"><div class="ph" style="height:150px;cursor:pointer" data-nav="outfitDetail">outfit</div><div data-open="deleteOutfit" style="position:absolute;top:6px;right:6px;width:26px;height:26px;background:#fff;border:1px solid var(--line-2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer">⋯</div><div style="font-size:12px;font-weight:600;margin-top:5px">Office fit</div></div>
           <div style="position:relative"><div class="ph" style="height:150px;cursor:pointer" data-nav="outfitDetail">outfit</div><div data-open="deleteOutfit" style="position:absolute;top:6px;right:6px;width:26px;height:26px;background:#fff;border:1px solid var(--line-2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer">⋯</div><div style="font-size:12px;font-weight:600;margin-top:5px">Monday minimal</div></div>
@@ -773,6 +786,7 @@ textarea{resize:vertical}
       <section class="screen" data-screen="manageSub"><div class="wrap">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Manage subscription</div></div>
         <div style="background:var(--primary);color:#fff;border-radius:16px;padding:18px"><div style="font-size:11px;color:#b9b9c2">CURRENT PLAN</div><div style="font-weight:800;font-size:22px"><span id="uPlanBig">Plus</span></div><div style="font-size:11px;color:#b9b9c2;margin-top:2px">$6.99/mo · renews Jul 30, 2026</div></div>
+        <div class="card flat" style="border:1px solid var(--ink);display:flex;gap:10px;align-items:center"><div style="flex:1;font-size:12.5px"><b>Last payment failed</b><div class="mut">Card ending 4242 was declined on Jul 1.</div></div><button class="btn small" data-open="updateCard" style="width:auto">Update card</button></div>
         <div class="menurow" data-nav="plans"><span style="flex:1">Change plan</span><span class="arw">→</span></div>
         <div class="menurow" data-nav="payments"><span style="flex:1">Payment history</span><span class="arw">→</span></div>
         <div class="togglerow"><span>Auto-renew</span><div class="tgl on" data-chip="tAutoRenew"><i></i></div></div>
@@ -844,6 +858,7 @@ textarea{resize:vertical}
 
       <section class="screen" data-screen="notifications"><div class="wrap">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Notifications</div><div class="tlink" data-nav="settings">Preferences</div></div>
+        <div class="card click flat" data-open="updateCard" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Payment failed:</b> your card ending 4242 was declined — update it to keep Plus.</div><div class="mut" style="margin-top:3px">just now</div></div></div>
         <div class="card click flat" data-nav="saved" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>New matches</b> for your saved "Dinner look" — 3 products in budget.</div><div class="mut" style="margin-top:3px">10m ago</div></div></div>
         <div class="card click flat" data-nav="feedback" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Maya shared a look</b> for your opinion — tap to give feedback.</div><div class="mut" style="margin-top:3px">2h ago</div></div></div>
         <div class="card click flat" data-nav="friends" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Priya Shah</b> sent you a friend request.</div><div class="mut" style="margin-top:3px">4h ago</div></div></div>
@@ -938,6 +953,8 @@ textarea{resize:vertical}
       <div class="modal" data-modal="purchased"><div class="center"><div class="mttl">Add to your closet?</div><div class="sub" style="margin:8px 0 14px">"Leather belt, tan" will be added to Accessories and marked as owned in your outfits.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Not yet</button><button class="btn" data-act="purchased" style="flex:1">Add to closet</button></div></div></div>
       <div class="modal" data-modal="newCollection"><div class="mttl">New collection</div><input placeholder="Collection name, e.g. Church"><div class="frow" style="margin-top:4px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-act="newCollection" style="flex:1">Create</button></div></div>
       <div class="modal" data-modal="rename"><div class="mttl">Rename collection</div><input value="Work"><div class="frow" style="margin-top:4px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-close style="flex:1">Save</button></div></div>
+      <div class="modal" data-modal="deleteCollection"><div class="center"><div class="mttl">Delete this collection?</div><div class="sub" style="margin:8px 0 14px">The collection is removed. Outfits inside it stay saved and remain in your other collections.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Keep</button><button class="btn" data-act="delCollDone" style="flex:1">Delete collection</button></div></div></div>
+      <div class="modal" data-modal="updateCard"><div class="mttl">Update payment method</div><div class="sub" style="margin:6px 0 10px">Your last charge was declined. Add a new card to keep your Plus plan active.</div><input placeholder="Card number"><div class="frow" style="margin-top:8px"><input placeholder="MM / YY"><input placeholder="CVC"></div><div class="frow" style="margin-top:10px"><button class="btn-o" data-close style="flex:1">Later</button><button class="btn" data-toast="Card updated — we'll retry the charge shortly." style="flex:1">Save card</button></div></div>
       <div class="modal" data-modal="deleteOutfit"><div class="mttl">"Office fit"</div><div class="menurow" data-close>Move to another collection</div><div class="menurow" data-open="share">Share</div><div class="btn-g" data-close style="text-align:center">Delete outfit</div><div class="link" data-close>Cancel</div></div>
       <div class="modal" data-modal="buyCredits"><div class="mttl">Buy credits</div><div class="lrow" data-rg="pack" data-rv="10">10 credits — $2.99</div><div class="lrow" data-rg="pack" data-rv="50">50 credits — $9.99 · best value</div><div class="lrow" data-rg="pack" data-rv="100">100 credits — $16.99</div><button class="btn" data-act="payCredits" style="margin-top:4px">Continue to payment</button><div class="link" data-nav="plans">Or subscribe for monthly credits</div></div>
       <div class="modal" data-modal="payment"><div class="mttl">Payment</div><div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1" id="uPayItem">50 credits</div><b id="uPayTotal">$9.99</b></div><div class="lrow" data-rg="pay" data-rv="apple"> Apple Pay / Google Pay</div><div class="lrow" data-rg="pay" data-rv="card">Card ending •• 4242</div><div class="lrow" data-rg="pay" data-rv="new">＋ New card</div><button class="btn" data-act="payNow" id="uPayBtn" style="margin-top:4px">Pay $9.99</button><div class="mut center">Secured checkout · receipts by email</div></div>
@@ -1432,6 +1449,8 @@ textarea{resize:vertical}
       case 'generate':if(st.plan==='free'&&st.freeGens>0){st.freeGens--;st.refine='';this.go('genLoading');break;}if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;st.refine='';this.go('genLoading');break;
       case 'surprise':st.refine='';this.go('genLoading');break;
       case 'packGen':if(st.plan==='free'&&st.freeGens>0){st.freeGens--;this.go('packingList');break;}if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;this.go('packingList');break;
+      case 'wearToday':{var hl=document.getElementById('uHistList');if(hl){var nm=(document.querySelector('#userApp .screen.active .ttl')||{}).textContent||'Outfit';var c=document.createElement('div');c.className='card flat';c.style.cssText='display:flex;gap:10px;align-items:center;border:1px solid var(--ink)';c.innerHTML='<div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">'+nm+'</div><div class="mut">Today · just now</div></div><button class="btn-o" data-nav="outfitDetail" style="padding:6px 10px;font-size:11px">View</button>';hl.insertBefore(c,hl.firstChild);}this.go('history');break;}
+      case 'delCollDone':st.modal=null;this.go('saved');break;
       case 'deleteItem':st.modal=null;this.go('closet');break;
       case 'saveTo':st.modal=null;this.go('saved');break;
       case 'purchased':st.modal=null;this.go('closet');break;
