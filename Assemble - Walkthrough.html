@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assemble — Presentation Walkthrough</title>
+<style>
+:root{--canvas:#eceef1;--surface:#fff;--surface-2:#f6f6f8;--ink:#161619;--ink-2:#54545c;--muted:#83838d;--line:#e1e1e6;--line-2:#cdcdd4;--primary:#161619;--sh1:0 1px 2px rgba(15,15,20,.06);--sh2:0 8px 26px rgba(15,15,20,.12)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+.wrap{max-width:940px;margin:0 auto;padding:30px 18px 70px}
+h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:0 0 4px}
+.tag{display:inline-block;background:var(--ink);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:999px;margin:6px 0 2px}
+.sub{color:var(--ink-2);font-size:13.5px;margin:12px 0 20px;max-width:640px}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 24px}
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--primary);color:#fff;text-decoration:none;font-weight:700;font-size:13px;padding:11px 18px;border-radius:11px;box-shadow:var(--sh1)}
+.btn.o{background:var(--surface);color:var(--ink);border:1.5px solid var(--line-2)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 26px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--sh1);min-width:120px;flex:1}
+.stat .n{font-weight:800;font-size:22px}
+.stat .k{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+h2{font-size:13px;font-weight:800;letter-spacing:.05em;color:var(--ink-2);text-transform:uppercase;margin:34px 0 6px;padding-top:18px;border-top:1px solid var(--line)}
+.lead{color:var(--ink-2);font-size:13px;margin:0 0 16px}
+.scene{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh1);padding:16px 18px;margin-bottom:12px}
+.scene .h{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.scene .num{font-weight:800;font-size:13px;background:var(--ink);color:#fff;width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:none}
+.scene .t{font-weight:800;font-size:15px}
+.path{font-size:12.5px;color:var(--ink-2);margin:2px 0 9px}
+.path b{color:var(--ink);font-weight:700}
+.chip{display:inline-block;background:var(--surface-2);border:1px solid var(--line-2);border-radius:6px;padding:1px 7px;font-size:11.5px;font-weight:600;margin:0 2px}
+.proves{font-size:12.5px;color:var(--ink);background:var(--surface-2);border-left:3px solid var(--ink);border-radius:0 8px 8px 0;padding:8px 12px;margin-top:4px}
+.proves b{font-weight:800}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:12.5px;box-shadow:var(--sh1)}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface-2);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:800}
+tr:last-child td{border-bottom:none}
+td b{font-weight:700}
+.note{background:var(--surface-2);border:1px dashed var(--line-2);border-radius:12px;padding:14px 16px;font-size:12.5px;color:var(--ink-2);margin-top:10px}
+.note b{color:var(--ink)}
+.foot{text-align:center;color:var(--muted);font-size:11.5px;margin-top:40px;padding-top:18px;border-top:1px solid var(--line)}
+.foot a{color:var(--ink-2)}
+@media(max-width:660px){.cols{grid-template-columns:1fr}}
+@media (prefers-color-scheme:dark){
+:root{--canvas:#141417;--surface:#1c1c20;--surface-2:#232329;--ink:#f2f2f4;--ink-2:#b9b9c2;--muted:#83838d;--line:#2c2c33;--line-2:#3a3a42;--primary:#f2f2f4}
+.tag{background:#f2f2f4;color:#141417}.scene .num{background:#f2f2f4;color:#141417}.btn{color:#141417}.proves{border-left-color:#f2f2f4}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tag">WHERE EVERYTHING COORDINATES</div>
+  <h1>Assemble — Presentation Walkthrough</h1>
+  <p class="sub">A guided script for demoing the greyscale prototype to the client. Follow the numbered scenes in order for a natural 5-minute story, or jump to any area using the reference map at the end. Every screen shown is fully clickable.</p>
+
+  <div class="cta">
+    <a class="btn" href="https://assemble-wireframes-version-1.vercel.app/" target="_blank" rel="noopener">▶ Open the live prototype</a>
+    <a class="btn o" href="https://assemble-wireframes-version-1.vercel.app/Assemble%20-%20Coverage.html" target="_blank" rel="noopener">View proposal coverage (98%)</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">2</div><div class="k">Apps — customer + admin</div></div>
+    <div class="stat"><div class="n">59</div><div class="k">Screens, all interactive</div></div>
+    <div class="stat"><div class="n">98%</div><div class="k">In-scope coverage</div></div>
+    <div class="stat"><div class="n">0</div><div class="k">Dead buttons / errors</div></div>
+  </div>
+
+  <div class="note" style="margin-bottom:6px"><b>Before you start:</b> open the link above. You'll land on a chooser — <span class="chip">Customer app</span> is the shopper experience, <span class="chip">Admin panel</span> is the back office, and <span class="chip">Flow charts</span> shows the process diagrams. To return to this chooser, use <b>Log out</b> inside either app. The design is intentionally greyscale — it's a structural blueprint for the dev team, so the client judges flow and completeness, not final colours.</div>
+
+  <h2>Part A · The customer story</h2>
+  <p class="lead">Open <b>Customer app</b> → tap <b>Log in</b> twice to reach the Home screen, then walk these scenes.</p>
+
+  <div class="scene">
+    <div class="h"><div class="num">1</div><div class="t">Onboarding &amp; the closet</div></div>
+    <div class="path">From the chooser: <b>Customer app</b> → <b>Sign up</b> to show the flow (style, sizes, body shape, pronouns, avatar, consent), then <b>Log in</b> → <b>Home</b> → <b>My closet</b>.</div>
+    <div class="path">In the closet, tap the <span class="chip">Shoes</span> / <span class="chip">Dresses</span> category chips and type in search — the grid filters live. Open an item to edit its details, favourite, archive, or delete.</div>
+    <div class="proves"><b>Proves:</b> photo-to-closet capture, AI item detection, and a real wardrobe the user can manage over time — the foundation the whole product sits on.</div>
+  </div>
+
+  <div class="scene">
+    <div class="h"><div class="num">2</div><div class="t">The core: AI outfit matching</div></div>
+    <div class="path">Home → <b>Match an outfit</b> → choose <b>from one item</b> or <b>whole closet</b> → pick an occasion → <b>Generate outfit</b>.</div>
+    <div class="path">On the result: <b>Swap</b> a piece, tap <b>Why this works</b>, use the <span class="chip">Cheaper</span>/<span class="chip">More formal</span> refine chips, and note the <b>missing item</b> row links to shopping.</div>
+    <div class="proves"><b>Proves:</b> the headline feature — closet-aware matching, on-avatar preview, explainable AI, and the affiliate shopping bridge for gaps.</div>
+  </div>
+
+  <div class="scene">
+    <div class="h"><div class="num">3</div><div class="t">Save, compare &amp; wear</div></div>
+    <div class="path">Save the look → <b>Saved</b>. Filter collections with the chips. Open <b>Compare looks</b> and change the <b>Look A / Look B</b> dropdowns — the table, costs and buttons rebuild live.</div>
+    <div class="path">On any outfit tap <b>Wear today</b> → it logs to <b>Home → History</b>, and item wear-counts build up over months.</div>
+    <div class="proves"><b>Proves:</b> the product gets more useful the longer it's used — saved looks, side-by-side decisions, and a real wear history.</div>
+  </div>
+
+  <div class="scene">
+    <div class="h"><div class="num">4</div><div class="t">Social &amp; feedback loop</div></div>
+    <div class="path">Outfit → <b>Share</b> → send to an in-app friend. Then <b>Profile → Social</b> to see <b>Shared with me</b>, give feedback (<span class="chip">Wear it</span>/<span class="chip">Not this one</span> + comments), and <b>add friends</b>.</div>
+    <div class="proves"><b>Proves:</b> the complete two-way sharing loop — send a look, get opinions back, and grow a friends network.</div>
+  </div>
+
+  <div class="scene">
+    <div class="h"><div class="num">5</div><div class="t">Monetization — the business model</div></div>
+    <div class="path">Note the <b>ad banner</b> on Home (free plan). Go to <b>credits pill → Plans → Subscribe to Plus</b> → pay. Watch the <b>ads disappear</b> and the plan flip to Plus.</div>
+    <div class="path">Then <b>Manage subscription</b>: cancel, auto-renew, the <b>payment-failed</b> banner → update card, and <b>invoices</b> under payment history.</div>
+    <div class="proves"><b>Proves:</b> all three revenue streams — credits, subscription (ad-free), and affiliate — plus the real billing lifecycle a long-term user hits.</div>
+  </div>
+
+  <h2>Part B · The admin panel</h2>
+  <p class="lead">Back to the chooser (Log out) → <b>Admin panel</b> → <b>Continue</b> → <b>Verify and log in</b> → Dashboard. On mobile, the <b>☰</b> menu opens navigation.</p>
+
+  <div class="cols">
+    <div class="scene">
+      <div class="h"><div class="num">6</div><div class="t">Operations</div></div>
+      <div class="path"><b>Users</b> (search, suspend), <b>Brands</b> → open a partner → pause/remove, <b>Products</b> &amp; <b>Taxonomy</b> management.</div>
+      <div class="proves"><b>Proves:</b> the team can run the catalogue and user base — every control resolves to a real action.</div>
+    </div>
+    <div class="scene">
+      <div class="h"><div class="num">7</div><div class="t">Revenue &amp; AI</div></div>
+      <div class="path"><b>Monetization</b> &amp; <b>Ads</b> toggles, <b>AI</b> tuning, <b>Reports</b>/moderation, and <b>Support</b> tickets (filter by status, reply, resolve).</div>
+      <div class="proves"><b>Proves:</b> the levers behind the customer app — pricing, ads, AI behaviour and support — are all operable.</div>
+    </div>
+  </div>
+
+  <h2>Reference map — feature → what it demonstrates</h2>
+  <table>
+    <tr><th>Area</th><th>Where</th><th>What it proves to the client</th></tr>
+    <tr><td><b>Closet</b></td><td>Home → My closet</td><td>Photo capture, AI tagging, searchable/filterable wardrobe, item lifecycle (edit/archive/delete)</td></tr>
+    <tr><td><b>AI matching</b></td><td>Match an outfit</td><td>Core value — closet-aware looks, avatar preview, explain + refine, missing-item shopping</td></tr>
+    <tr><td><b>Saved &amp; Compare</b></td><td>Saved tab</td><td>Collections, live side-by-side comparison with cost breakdown</td></tr>
+    <tr><td><b>Wear history</b></td><td>Home → History</td><td>Long-term value — logged wears, per-item counts, avoids repeats</td></tr>
+    <tr><td><b>Social</b></td><td>Profile → Social</td><td>Share a look, receive feedback/comments, friends system</td></tr>
+    <tr><td><b>Travel</b></td><td>Home → Pack for a trip</td><td>Smart packing list built from the closet</td></tr>
+    <tr><td><b>Monetization</b></td><td>Plans / Manage subscription</td><td>Credits, ad-free subscription, affiliate shopping, invoices &amp; billing states</td></tr>
+    <tr><td><b>Account</b></td><td>Profile → Settings</td><td>Editable preferences, measurements, pronouns, password, GDPR data export, delete account</td></tr>
+    <tr><td><b>Admin</b></td><td>Admin panel</td><td>Users, brands, products, AI, ads, reports, support — the full back office</td></tr>
+  </table>
+
+  <h2>Notes for the conversation</h2>
+  <div class="note"><b>Why greyscale?</b> This is a high-fidelity structural prototype, not a visual design. Presenting it in greyscale keeps the client focused on flow, completeness and logic; colour and branding come in the design phase.</div>
+  <div class="note"><b>Scope discipline.</b> The prototype maps to <b>98%</b> of in-scope proposal requirements (see the Coverage link up top). A few ideas were deliberately left out as future considerations — closet sort/bulk-select, a visible "your taste is learning" profile, and notifications mark-all-read — so scope stays tight for v1.</div>
+  <div class="note"><b>It's genuinely interactive.</b> Filters filter, dropdowns recompute, upgrading removes ads, logging a wear updates history. Verified: 0 broken buttons, 0 runtime errors, clean on mobile and desktop, customer and admin.</div>
+
+  <div class="foot">Made by <a href="https://www.DeepLearnHQ.tech" target="_blank" rel="noopener">www.DeepLearnHQ.tech</a> for Reginald Glover</div>
+</div>
+</body>
+</html>
