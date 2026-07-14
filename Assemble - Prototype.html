@@ -458,6 +458,8 @@ textarea{resize:vertical}
           <div class="tile" data-nav="addItem"><div style="font-weight:700;font-size:13px;margin-top:6px">Add item</div><div class="mut">Photo → closet</div></div>
           <div class="tile" data-nav="shop"><div style="font-weight:700;font-size:13px;margin-top:6px">Shop matches</div><div class="mut">Fill the gaps</div></div>
           <div class="tile" data-nav="saved"><div style="font-weight:700;font-size:13px;margin-top:6px">Saved looks</div><div class="mut">8 outfits</div></div>
+          <div class="tile" data-nav="genOccasion"><div style="font-weight:700;font-size:13px;margin-top:6px">Plan for an event</div><div class="mut">Dinner, work, club…</div></div>
+          <div class="tile" data-act="surprise"><div style="font-weight:700;font-size:13px;margin-top:6px">Surprise me</div><div class="mut">A random outfit idea</div></div>
         </div>
         <div class="ad adbanner"><div class="ph" style="width:44px;height:44px;border-radius:9px;flex:none">Ad</div><div style="flex:1"><div style="font-weight:700;font-size:12px">Sponsored · BrandCo</div><div class="mut">Up to 30% off belts and accessories</div></div><span class="mut" style="font-size:9.5px;border:1px solid var(--line-2);border-radius:5px;padding:1px 5px">AD</span></div>
         <div class="hrow"><div class="ttl" style="font-size:15px;flex:1">Recent outfits</div><div class="tlink" data-nav="saved">See all</div></div>
@@ -471,9 +473,9 @@ textarea{resize:vertical}
 
       <section class="screen" data-screen="closet"><div class="wrap wide">
         <div class="hrow"><div class="h2">Closet <span class="mut" style="font-weight:400">143 items</span></div><div class="pill-o" data-nav="addItem">＋ Add</div></div>
-        <div style="display:flex;gap:9px"><input placeholder="Search name, color, brand…" style="flex:1"><button class="btn-g small" data-open="filter">Filters</button></div>
+        <div style="display:flex;gap:9px"><input id="uClosetSearch" placeholder="Search name, color, brand…" style="flex:1"><button class="btn-g small" data-open="filter">Filters</button></div>
         <div class="chips scroll"><div class="chip" data-rg="cat" data-rv="all">All</div><div class="chip" data-rg="cat" data-rv="shirts">Shirts</div><div class="chip" data-rg="cat" data-rv="pants">Pants</div><div class="chip" data-rg="cat" data-rv="shoes">Shoes</div><div class="chip" data-rg="cat" data-rv="jackets">Jackets</div><div class="chip" data-rg="cat" data-rv="acc">Accessories</div><div class="chip" data-nav="archived">Archived</div></div>
-        <div class="grid g-110">
+        <div class="grid g-110" id="uClosetGrid">
           <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px;position:relative">item<div style="position:absolute;top:6px;right:8px;font-size:12px">♥</div></div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Green sneakers</div><div class="mut" style="font-size:10px">Shoes · Nike</div></div>
           <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">White tee</div><div class="mut" style="font-size:10px">Shirts</div></div>
           <div style="cursor:pointer" data-nav="itemDetail"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Black jeans</div><div class="mut" style="font-size:10px">Pants · Zara</div></div>
@@ -668,8 +670,8 @@ textarea{resize:vertical}
       </div></section>
 
       <section class="screen" data-screen="feedback"><div class="wrap">
-        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Reginald's dinner look</div></div>
-        <div class="sub">Shared with you · vote or comment to help decide</div>
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Give feedback</div></div>
+        <div class="sub">A friend shared this look — vote or comment to help them decide.</div>
         <div class="ph" style="height:240px;border-radius:16px">outfit on avatar</div>
         <div style="display:flex;gap:10px"><div class="chip" data-rg="vote" data-rv="yes" style="flex:1;text-align:center;padding:11px">Wear it</div><div class="chip" data-rg="vote" data-rv="no" style="flex:1;text-align:center;padding:11px">Not this one</div><div class="chip" data-open="swap" style="flex:1;text-align:center;padding:11px">Suggest a change</div></div>
         <div class="lbl">Comments · 2</div>
@@ -698,23 +700,78 @@ textarea{resize:vertical}
         <button class="btn-o" data-nav="outfitDetail">Open this outfit</button>
       </div></section>
 
+      <section class="screen" data-screen="social"><div class="wrap">
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Sharing and friends</div></div>
+        <div class="menurow" data-nav="inbox"><span style="flex:1">Shared with me</span><div class="badge">2</div></div>
+        <div class="menurow" data-nav="shared"><span style="flex:1">Shared by me</span><span class="arw">→</span></div>
+        <div class="menurow" data-nav="friends"><span style="flex:1">Friends</span><div class="badge">1</div></div>
+        <button class="btn-o" data-open="inviteFriend" style="margin-top:6px">Invite a friend</button>
+      </div></section>
+
+      <section class="screen" data-screen="inbox"><div class="wrap">
+        <div class="top"><div class="iconbtn" data-nav="social">←</div><div class="ttl">Shared with me</div></div>
+        <div class="sub">Outfits friends sent for your opinion.</div>
+        <div class="card click" data-nav="feedback" style="display:flex;gap:11px;align-items:center"><div class="ph" style="width:50px;height:60px;border-radius:9px;flex:none">look</div><div style="flex:1"><div style="font-weight:700;font-size:13px">Maya's dinner look</div><div class="mut">2h ago · awaiting your vote</div></div><div class="badge">new</div></div>
+        <div class="card click" data-nav="feedback" style="display:flex;gap:11px;align-items:center"><div class="ph" style="width:50px;height:60px;border-radius:9px;flex:none">look</div><div style="flex:1"><div style="font-weight:700;font-size:13px">Sam's work fit</div><div class="mut">1d ago · awaiting your vote</div></div><div class="badge">new</div></div>
+        <div class="card click flat" data-nav="feedback" style="display:flex;gap:11px;align-items:center"><div class="ph" style="width:50px;height:60px;border-radius:9px;flex:none">look</div><div style="flex:1"><div style="font-weight:700;font-size:13px">Alex's weekend look</div><div class="mut">You voted "wear it" · 3d ago</div></div></div>
+      </div></section>
+
+      <section class="screen" data-screen="friends"><div class="wrap">
+        <div class="top"><div class="iconbtn" data-nav="social">←</div><div class="ttl" style="flex:1">Friends</div><button class="btn small" data-open="addFriend">Add friend</button></div>
+        <div class="seclbl">Requests</div>
+        <div class="card flat" style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:38px;height:38px"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Priya Shah</div><div class="mut">wants to connect</div></div><button class="btn-g small" data-toast="Request declined.">Decline</button><button class="btn small" data-toast="You're now friends with Priya.">Accept</button></div>
+        <div class="seclbl" style="margin-top:6px">Your friends · 3</div>
+        <div class="card flat" style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:38px;height:38px"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Maya Lin</div><div class="mut">@maya</div></div><div class="tlink" data-open="friendActions">Manage</div></div>
+        <div class="card flat" style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:38px;height:38px"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Sam Osei</div><div class="mut">@sam</div></div><div class="tlink" data-open="friendActions">Manage</div></div>
+        <div class="card flat" style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:38px;height:38px"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Alex Rivera</div><div class="mut">@alexr</div></div><div class="tlink" data-open="friendActions">Manage</div></div>
+        <button class="btn-o" data-open="inviteFriend" style="margin-top:6px">Invite more friends</button>
+      </div></section>
+
+      <section class="screen" data-screen="manageSub"><div class="wrap">
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Manage subscription</div></div>
+        <div style="background:var(--primary);color:#fff;border-radius:16px;padding:18px"><div style="font-size:11px;color:#b9b9c2">CURRENT PLAN</div><div style="font-weight:800;font-size:22px"><span id="uPlanBig">Plus</span></div><div style="font-size:11px;color:#b9b9c2;margin-top:2px">$6.99/mo · renews Jul 30, 2026</div></div>
+        <div class="menurow" data-nav="plans"><span style="flex:1">Change plan</span><span class="arw">→</span></div>
+        <div class="menurow" data-nav="payments"><span style="flex:1">Payment history</span><span class="arw">→</span></div>
+        <div class="togglerow"><span>Auto-renew</span><div class="tgl on" data-chip="tAutoRenew"><i></i></div></div>
+        <div class="menurow" data-toast="A renewal reminder is sent 3 days before each charge."><span style="flex:1">Renewal reminders</span><span class="mut">On</span></div>
+        <button class="btn-g" data-open="cancelSub" style="margin-top:6px">Cancel subscription</button>
+      </div></section>
+
+      <section class="screen" data-screen="tickets"><div class="wrap">
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">My support tickets</div><button class="btn small" data-nav="support">New</button></div>
+        <div class="card click" data-nav="ticketView" style="display:flex;gap:10px;align-items:center"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">#4821 · Charged but credits missing</div><div class="mut">Billing · updated 2h ago</div></div><span class="chipbadge">Open</span></div>
+        <div class="card click" data-nav="ticketView" style="display:flex;gap:10px;align-items:center"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">#4780 · AI mislabeled my jacket</div><div class="mut">AI matching · replied 3d ago</div></div><span class="chipbadge">Answered</span></div>
+        <div class="card click" data-nav="ticketView" style="display:flex;gap:10px;align-items:center"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">#4712 · How do refunds work?</div><div class="mut">Resolved · 1w ago</div></div><span class="chipbadge">Resolved</span></div>
+      </div></section>
+
+      <section class="screen" data-screen="ticketView"><div class="wrap">
+        <div class="top"><div class="iconbtn" data-nav="tickets">←</div><div class="ttl" style="flex:1">#4821</div><span class="chipbadge">Open</span></div>
+        <div class="sub">Charged but credits missing · Billing</div>
+        <div class="card flat" style="font-size:12px"><b>You</b> <span class="mut">· 2d ago</span><br>I bought the 50 pack but my balance didn't update.</div>
+        <div class="card flat" style="font-size:12px;background:var(--surface-2)"><b>Assemble support</b> <span class="mut">· 2h ago</span><br>Thanks for flagging — we've re-credited your 50 credits. Sorry for the hassle!</div>
+        <div style="display:flex;gap:8px"><input placeholder="Add a reply…" style="flex:1"><button class="btn" data-toast="Reply sent to support." style="width:auto;padding:11px 16px">Send</button></div>
+        <button class="btn-g" data-toast="Ticket marked resolved.">Mark resolved</button>
+      </div></section>
+
       <section class="screen" data-screen="profile"><div class="wrap">
         <div class="hrow" style="padding:6px 0 10px"><div class="avatar" style="width:54px;height:54px"></div><div style="flex:1"><div class="ttl">Reginald Glover</div><div class="mut">reginald@email.com · <span id="uPlanLabel">Free</span> plan</div></div><div class="pill-o" data-nav="plans">Upgrade</div></div>
         <div class="card click" data-nav="credits" style="border:1.5px solid var(--ink);display:flex;align-items:center;gap:10px;box-shadow:none"><div style="flex:1"><div style="font-weight:700;font-size:13px"><span class="ucredits">12</span> credits</div><div class="mut">1 credit per outfit generation</div></div><div style="font-weight:700;font-size:12px">Top up →</div></div>
         <div class="menurow" data-nav="notifications"><span style="flex:1">Notifications</span><div class="badge">3</div></div>
-        <div class="menurow" data-nav="shared"><span style="flex:1">Shared looks and responses</span><div class="badge">2</div></div>
+        <div class="menurow" data-nav="social"><span style="flex:1">Sharing and friends</span><div class="badge">2</div></div>
         <div class="menurow" data-nav="prefs"><span style="flex:1">Style profile and preferences</span><span class="arw">→</span></div>
         <div class="menurow" data-nav="settings"><span style="flex:1">Settings and privacy</span><span class="arw">→</span></div>
         <div class="menurow" data-nav="help"><span style="flex:1">? Help center</span><span class="arw">→</span></div>
         <div class="menurow" data-nav="support"><span style="flex:1">Contact support</span><span class="arw">→</span></div>
-        <div class="menurow" data-open="share"><span style="flex:1">↗ Invite a friend</span><span class="arw">→</span></div>
+        <div class="menurow" data-open="inviteFriend"><span style="flex:1">Invite a friend</span><span class="arw">→</span></div>
         <button class="btn-g" data-open="logout" style="margin-top:6px">Log out</button>
       </div></section>
 
       <section class="screen" data-screen="credits"><div class="wrap">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Credits and plan</div></div>
         <div style="background:var(--primary);color:#fff;border-radius:16px;padding:18px;box-shadow:var(--sh2)"><div style="font-size:11px;color:#b9b9c2">BALANCE</div><div style="font-weight:800;font-size:30px"><span class="ucredits">12</span></div><div style="font-size:11px;color:#b9b9c2;margin-top:2px">1 credit = 1 outfit generation</div><button class="btn" data-open="buyCredits" style="background:#fff;color:var(--ink);margin-top:12px;width:100%">Buy credits</button></div>
+        <div class="mut" id="uFreeGens"></div>
         <div class="card click" data-nav="plans" style="border:1.5px solid var(--ink);display:flex;align-items:center;box-shadow:none"><div style="flex:1"><div style="font-weight:700;font-size:13px">Go unlimited with Plus</div><div class="mut">Monthly credits + no ads · from $6.99/mo</div></div><div>→</div></div>
+        <div class="menurow" data-nav="manageSub"><span style="flex:1">Manage subscription</span><span class="arw">→</span></div>
         <div class="menurow" data-nav="payments"><span style="flex:1">Payment history and invoices</span><span class="arw">→</span></div>
         <div class="lbl">Recent usage</div>
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Dinner</div><div class="mut">−1 · today</div></div>
@@ -738,12 +795,15 @@ textarea{resize:vertical}
           <div class="lrow" data-rg="plan" data-rv="pro" style="margin:0"><div style="font-weight:800;font-size:14px">Pro</div><div style="font-weight:800;font-size:20px;margin:4px 0">$14.99<span class="mut" style="font-weight:400">/mo</span></div><div class="mut" style="line-height:1.6">Unlimited generations<br>No ads<br>Priority support</div></div>
         </div>
         <button class="btn" data-act="paySub">Subscribe to <span id="uPlanName">Plus</span></button>
-        <div class="mut center">Cancel anytime · Restore purchases</div>
+        <div class="link" data-nav="manageSub">Manage current subscription</div>
+        <div class="mut center">Cancel anytime · <span class="tlink" data-toast="Purchases restored.">Restore purchases</span></div>
       </div></section>
 
       <section class="screen" data-screen="notifications"><div class="wrap">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Notifications</div><div class="tlink" data-nav="settings">Preferences</div></div>
         <div class="card click flat" data-nav="saved" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>New matches</b> for your saved "Dinner look" — 3 products in budget.</div><div class="mut" style="margin-top:3px">10m ago</div></div></div>
+        <div class="card click flat" data-nav="feedback" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Maya shared a look</b> for your opinion — tap to give feedback.</div><div class="mut" style="margin-top:3px">2h ago</div></div></div>
+        <div class="card click flat" data-nav="friends" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Priya Shah</b> sent you a friend request.</div><div class="mut" style="margin-top:3px">4h ago</div></div></div>
         <div class="card click flat" data-nav="sharedDetail" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Maya voted "wear it"</b> on the look you shared.</div><div class="mut" style="margin-top:3px">2h ago</div></div></div>
         <div class="card click flat" data-nav="sharedDetail" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Sam suggested a change</b> on "Clean and sharp".</div><div class="mut" style="margin-top:3px">5h ago</div></div></div>
         <div class="card click flat" data-nav="credits" style="border:1px solid var(--ink);display:flex;gap:9px"><div style="width:8px;height:8px;background:var(--ink);border-radius:50%;margin-top:5px;flex:none"></div><div><div style="font-size:12.5px"><b>Low credits:</b> 2 left. Top up or upgrade to keep matching.</div><div class="mut" style="margin-top:3px">1d ago</div></div></div>
@@ -775,16 +835,17 @@ textarea{resize:vertical}
 
       <section class="screen" data-screen="help"><div class="wrap">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Help center</div></div>
-        <input placeholder="Search help articles…">
+        <input id="uHelpSearch" placeholder="Search help articles…">
         <div class="card flat" data-acc="q1" style="cursor:pointer"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">How do credits work?</div><div class="acc-i">+</div></div><div class="acc-b" style="display:none;color:var(--ink-2);font-size:12px;margin-top:8px;line-height:1.5">Each outfit generation costs 1 credit. Free users get 3 per month; buy packs or subscribe for more.</div></div>
         <div class="card flat" data-acc="q2" style="cursor:pointer"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">The AI got my item wrong</div><div class="acc-i">+</div></div><div class="acc-b" style="display:none;color:var(--ink-2);font-size:12px;margin-top:8px;line-height:1.5">Open the item and edit the category, color, or tags — corrections improve future matches.</div></div>
         <div class="card flat" data-acc="q3" style="cursor:pointer"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">Are my photos private?</div><div class="acc-i">+</div></div><div class="acc-b" style="display:none;color:var(--ink-2);font-size:12px;margin-top:8px;line-height:1.5">Yes — closet photos are private by default and never shared without your action. Manage consent in Settings.</div></div>
         <div class="card flat" data-acc="q4" style="cursor:pointer"><div style="display:flex;font-size:12.5px;font-weight:600"><div style="flex:1">Returns and purchases</div><div class="acc-i">+</div></div><div class="acc-b" style="display:none;color:var(--ink-2);font-size:12px;margin-top:8px;line-height:1.5">Purchases happen at partner stores via affiliate links — delivery and returns follow the store's policy.</div></div>
+        <div class="menurow" data-nav="tickets"><span style="flex:1">My support tickets</span><span class="arw">→</span></div>
         <button class="btn" data-nav="support">Still stuck? Contact support</button>
       </div></section>
 
       <section class="screen" data-screen="support"><div class="wrap">
-        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Contact support</div></div>
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Contact support</div><div class="tlink" data-nav="tickets">My tickets</div></div>
         <div class="lbl">Topic</div>
         <select><option>Billing and credits</option><option>AI matching issue</option><option>Account access</option><option>Bug report</option><option>Other</option></select>
         <div class="lbl">Message</div>
@@ -843,6 +904,23 @@ textarea{resize:vertical}
       <div class="modal" data-modal="deleteAvatar"><div class="center"><div class="mttl">Delete avatar &amp; face data?</div><div class="sub" style="margin:8px 0 14px">This permanently removes your uploaded photo and the body-shape and skin-tone estimates derived from it. Outfit previews will use a generic avatar.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Keep</button><button class="btn" data-close style="flex:1">Delete data</button></div></div></div>
       <div class="modal" data-modal="deleteAcct"><div class="center"><div class="mttl">Delete your account?</div><div class="sub" style="margin:8px 0 12px">All wardrobe photos, outfits and credits will be permanently removed within 30 days. This cannot be undone.</div><input placeholder='Type "DELETE" to confirm' style="text-align:center;margin-bottom:4px"><div class="frow"><button class="btn" data-close style="flex:1">Keep account</button><button class="btn-g" data-act="deleteAcct" style="flex:1">Delete</button></div></div></div>
       <div class="modal" data-modal="logout"><div class="center"><div class="mttl">Log out?</div><div class="sub" style="margin:8px 0 14px">Your closet stays safe — log back in anytime.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-act="logout" style="flex:1">Log out</button></div></div></div>
+      <div class="modal" data-modal="cancelSub"><div class="center"><div class="mttl">Cancel your subscription?</div><div class="sub" style="margin:8px 0 14px">You'll keep your plan until Jul 30, 2026, then move to Free. No further charges.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Keep plan</button><button class="btn" data-act="cancelSubDone" style="flex:1">Cancel plan</button></div></div></div>
+      <div class="modal" data-modal="addFriend"><div class="mttl">Add a friend</div>
+        <div class="lbl">By username or email</div><input placeholder="@username or name@email.com">
+        <button class="btn" data-toast="Friend request sent." style="margin-top:8px">Send request</button>
+        <div class="hr" style="margin:12px 0"></div>
+        <div class="menurow" data-toast="Invite link copied — share it anywhere.">Share an invite link</div>
+        <div class="menurow" data-toast="Looking through your contacts…">Find friends from contacts</div>
+        <div class="link" data-close>Close</div></div>
+      <div class="modal" data-modal="friendActions"><div class="mttl">Friend options</div>
+        <div class="menurow" data-nav="inbox">See looks they shared</div>
+        <div class="menurow" data-toast="Friend removed.">Remove friend</div>
+        <div class="btn-g" data-toast="Blocked — they can no longer share with you." style="text-align:center">Block</div>
+        <div class="link" data-close>Cancel</div></div>
+      <div class="modal" data-modal="inviteFriend"><div class="mttl">Invite a friend</div>
+        <div class="sub">Send them a link. When they join, they're added to your friends and can see looks you share.</div>
+        <div class="card flat" style="font-family:ui-monospace,monospace;font-size:11.5px;word-break:break-all;margin:8px 0">https://assemble.app/i/reginald-3f7a</div>
+        <div class="frow"><button class="btn-o" data-toast="Invite link copied." style="flex:1">Copy link</button><button class="btn" data-toast="Invite sent." style="flex:1">Send</button></div></div>
       <div class="modal" data-modal="utoast"><div class="center"><div class="mttl" id="uToastMsg" style="font-weight:700;font-size:14px">Done</div><button class="btn" data-close style="margin-top:12px">OK</button></div></div>
       <div class="modal" data-modal="reportAI"><div class="mttl">Report this suggestion</div><div class="sub">Tell us what's off so we can improve matching.</div><div class="chips" style="margin:8px 0"><div class="chip" data-rg="rpt" data-rv="fit">Wrong fit</div><div class="chip" data-rg="rpt" data-rv="color">Colours clash</div><div class="chip" data-rg="rpt" data-rv="occasion">Wrong occasion</div><div class="chip" data-rg="rpt" data-rv="item">Wrong item</div></div><textarea placeholder="Anything else?" style="min-height:60px"></textarea><div class="frow" style="margin-top:8px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-toast="Thanks — your report helps improve future matches." style="flex:1">Submit report</button></div></div>
       <div class="modal" data-modal="reportComment"><div class="center"><div class="mttl">Report this comment?</div><div class="sub" style="margin:8px 0 14px">Our team will review it. Abusive content is removed and repeat offenders are blocked.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-toast="Reported — thanks for keeping Assemble kind." style="flex:1">Report</button></div></div></div>
@@ -1210,6 +1288,8 @@ textarea{resize:vertical}
       <div class="fsec"><h3>Customer · saved &amp; collections</h3><div class="fc"><div class="fbox hub">Home</div><div class="fconn"></div><div class="fbox ">Saved</div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Filter</div><div class="fbox ">Collection chips</div><div class="fconn"></div><div class="fbox ">Collection</div></div><div class="fpath"><div class="fplabel">New</div><div class="fbox ">New collection</div></div></div><div class="fconn"></div><div class="fbox ">Outfit ⋯ actions</div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Move</div><div class="fbox ">Move collection</div></div><div class="fpath"><div class="fplabel">Share</div><div class="fbox ">Share sheet</div></div><div class="fpath"><div class="fplabel">Delete</div><div class="fbox ">Delete outfit</div></div></div><div class="fconn"></div><div class="fbox hub">Outfit detail</div></div></div>
       <div class="fsec"><h3>Customer · share &amp; responses</h3><div class="fc"><div class="fbox hub">Outfit detail</div><div class="fconn"></div><div class="fbox ">Share</div><div class="fconn"></div><div class="fdec"><div class="dm"></div><div class="dt">Share how?</div></div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">In-app friend</div><div class="fbox ">Pick friend + message</div><div class="fconn"></div><div class="fbox ">Sent</div><div class="fconn"></div><div class="fbox ">Friend votes / comments / suggests</div><div class="fconn"></div><div class="fbox ">Notification</div><div class="fconn"></div><div class="fbox hub">Shared looks (list)</div><div class="fconn"></div><div class="fbox ">Look responses</div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Reply</div><div class="fbox ">Reply to friends</div></div><div class="fpath"><div class="fplabel">Apply</div><div class="fbox ">Swap suggested item</div></div></div></div><div class="fpath"><div class="fplabel">Link</div><div class="fbox ">Copy link</div><div class="fconn"></div><div class="fbox end">Recipient views</div></div><div class="fpath"><div class="fplabel">Message / social</div><div class="fbox end">External share</div></div></div></div></div>
       <div class="fsec"><h3>Customer · account, preferences &amp; billing</h3><div class="fc"><div class="fbox hub">Profile</div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Preferences</div><div class="fbox ">Style profile &amp; preferences</div><div class="fconn"></div><div class="fbox ">Pronouns · sizes · fit · colours · brands</div><div class="fconn"></div><div class="fbox ">Body type &amp; measurements</div><div class="fconn"></div><div class="fbox ">Avatar photo (change / remove)</div></div><div class="fpath"><div class="fplabel">Billing</div><div class="fbox ">Credits</div><div class="fconn"></div><div class="fbox ">Buy credits</div><div class="fconn"></div><div class="fbox ">Payment</div><div class="fconn"></div><div class="fbox ">Success</div></div><div class="fpath"><div class="fplabel">Plan</div><div class="fbox ">Plans</div><div class="fconn"></div><div class="fbox ">Subscribe</div><div class="fconn"></div><div class="fbox ">Payment</div><div class="fconn"></div><div class="fbox ">Ads removed</div></div></div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Alerts</div><div class="fbox ">Notifications</div><div class="fconn"></div><div class="fbox ">Deep-link: matches · responses · credits</div></div><div class="fpath"><div class="fplabel">Help</div><div class="fbox ">Help center</div><div class="fconn"></div><div class="fbox ">Contact support</div><div class="fconn"></div><div class="fbox ">Ticket sent</div></div><div class="fpath"><div class="fplabel">Settings</div><div class="fbox ">Privacy &amp; consent</div><div class="fconn"></div><div class="fbox ">Download data · delete avatar · delete account</div></div></div><div class="fconn"></div><div class="fbox end">Log out → Selection</div></div></div>
+      <div class="fsec"><h3>Customer · friends &amp; receiving shares</h3><div class="fc"><div class="fbox hub">Sharing &amp; friends</div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Friends</div><div class="fbox ">Add friend</div><div class="fconn"></div><div class="fdec"><div class="dm"></div><div class="dt">How?</div></div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Username / email</div><div class="fbox ">Request sent</div></div><div class="fpath"><div class="fplabel">Invite link</div><div class="fbox ">Friend joins</div><div class="fconn"></div><div class="fbox ">Added to friends</div></div><div class="fpath"><div class="fplabel">Incoming</div><div class="fbox ">Accept / decline</div></div></div><div class="fconn"></div><div class="fbox ">Manage: remove / block</div></div><div class="fpath"><div class="fplabel">Shared with me</div><div class="fbox ">Inbox</div><div class="fconn"></div><div class="fbox ">Open friend's look</div><div class="fconn"></div><div class="fbox ">Vote · comment · suggest</div><div class="fconn"></div><div class="fbox ">Friend sees your response</div></div><div class="fpath"><div class="fplabel">Shared by me</div><div class="fbox ">Shared looks</div><div class="fconn"></div><div class="fbox ">Responses</div></div></div></div></div>
+      <div class="fsec"><h3>Customer · subscription &amp; support</h3><div class="fc"><div class="fbox hub">Profile</div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Subscription</div><div class="fbox ">Manage subscription</div><div class="fconn"></div><div class="fdec"><div class="dm"></div><div class="dt">Action?</div></div><div class="fconn"></div><div class="fsplit"><div class="fpath"><div class="fplabel">Change</div><div class="fbox ">Plans</div></div><div class="fpath"><div class="fplabel">Cancel</div><div class="fbox ">Confirm</div><div class="fconn"></div><div class="fbox ">Active until renewal</div></div></div></div><div class="fpath"><div class="fplabel">Support</div><div class="fbox ">Help center</div><div class="fconn"></div><div class="fbox ">Contact support</div><div class="fconn"></div><div class="fbox ">My tickets</div><div class="fconn"></div><div class="fbox ">Ticket thread</div></div><div class="fpath"><div class="fplabel">Goals</div><div class="fbox ">Home: Plan event / Surprise me</div></div></div></div></div>
       <div class="fsec">
         <h3>Admin panel flow</h3>
         <div class="fc">
@@ -1258,8 +1338,8 @@ textarea{resize:vertical}
   /* ---------- USER ---------- */
   var U={
     AUTH:['welcome','signup','verify','login','forgot','reset','permissions','style1','style2','avatar'],
-    st:{screen:'welcome',modal:null,hist:[],credits:12,plan:'free',payCtx:'credits',refine:'',
-      sel:{casual:1,street:1,odinner:1,icasual:1,terms:1,aiconsent:1,permCam:1,permPhoto:1,permNotif:1,tPush:1,tAlerts:1,tFriend:1,tPrivate:1,tAiConsent:1,avConsent:0},
+    st:{screen:'welcome',modal:null,hist:[],credits:12,plan:'free',payCtx:'credits',refine:'',freeGens:2,
+      sel:{casual:1,street:1,odinner:1,icasual:1,terms:1,aiconsent:1,permCam:1,permPhoto:1,permNotif:1,tAutoRenew:1,tPush:1,tAlerts:1,tFriend:1,tPrivate:1,tAiConsent:1,avConsent:0},
       radio:{who:'w',budget:'2',body:'b',cat:'all',occ:'dinner',dress:'smart',time:'night',place:'in',mode:'mix',pb:'2',bold:'bal',base:'1',col:'all',plan:'plus',pack:'50',pay:'apple',sort:'match',sc:'dinner',sw:'1',fp:'2',vote:'',fr:'maya',pron:'they',fit:'regular',skin:'medium',rpt:'fit',weather:'mild',season:'summer'}},
     timer:null,
     main:function(){return userApp.querySelector('.main');},
@@ -1278,6 +1358,7 @@ textarea{resize:vertical}
       var occL={dinner:'Dinner',work:'Work',club:'Club',church:'Church',ball:'Ball',vacay:'Vacation',daily:'Everyday'},drL={casual:'Casual',smart:'Smart casual',formal:'Formal'},moL={closet:'Closet only',mix:'Closet + shopping',shop:'Shopping only'},pbL={'1':'Under $50','2':'$50–150','3':'$150+'},packL={'10':{p:'$2.99',c:10},'50':{p:'$9.99',c:50},'100':{p:'$16.99',c:100}},planL={free:{n:'Free',p:'$0'},plus:{n:'Plus',p:'$6.99'},pro:{n:'Pro',p:'$14.99'}},frN={maya:'Maya',sam:'Sam',alex:'Alex'};
       var rs=document.getElementById('uResSummary');if(rs)rs.textContent=(occL[st.radio.occ]||'Dinner')+' · '+(drL[st.radio.dress]||'Smart casual')+' · '+(moL[st.radio.mode]||'Closet + shopping')+' · '+(pbL[st.radio.pb]||'$50–150')+(st.refine?' · '+st.refine:'');
       var pll=document.getElementById('uPlanLabel');if(pll)pll.textContent=planL[st.plan].n;
+      var pbg=document.getElementById('uPlanBig');if(pbg)pbg.textContent=planL[st.plan].n;
       var sto=document.getElementById('uSentTo');if(sto)sto.textContent=frN[st.radio.fr]||'your friend';
       var payItem=document.getElementById('uPayItem'),payTotal=document.getElementById('uPayTotal'),payBtn=document.getElementById('uPayBtn');
       if(payItem&&payTotal&&payBtn){if(st.payCtx==='sub'){var pp=planL[st.radio.plan];payItem.textContent=pp.n+' subscription';payTotal.textContent=pp.p+'/mo';payBtn.textContent='Subscribe · '+pp.p+'/mo';}else{var kk=packL[st.radio.pack]||packL['50'];payItem.textContent=kk.c+' credits';payTotal.textContent=kk.p;payBtn.textContent='Pay '+kk.p;}}
@@ -1287,7 +1368,8 @@ textarea{resize:vertical}
       var sb=document.getElementById('uShopBtn');if(sb)sb.style.display=closet?'none':'';
       var ra=document.getElementById('uResA'),rb=document.getElementById('uResB'),rc=document.getElementById('uResC');
       if(ra&&rb&&rc){ra.textContent='4 items · all owned';rb.textContent=closet?'5 items · all owned':'5 items · 1 to buy · ~$68';rc.textContent=closet?'4 items · all owned':'4 items · 2 to buy · ~$115';}
-      var ga=document.getElementById('genArea');if(ga){if(st.credits<1){ga.innerHTML='<div class="note" style="border-color:var(--line-2)">You\'re out of credits. Top up to keep matching.</div><button class="btn" data-open="buyCredits" style="margin-top:8px">Out of credits — top up</button>';}else{ga.innerHTML='<button class="btn" data-act="generate">✦ Generate outfits · 1 credit</button><div class="mut center" style="margin-top:2px">You have '+st.credits+' credits · <span class="tlink" data-open="buyCredits">top up</span></div>';}}
+      var ga=document.getElementById('genArea');if(ga){if(st.plan==='free'&&st.freeGens>0){ga.innerHTML='<button class="btn" data-act="generate">Generate outfit</button><div class="mut center" style="margin-top:2px">'+st.freeGens+' of 3 free generations left this month · then 1 credit each</div>';}else if(st.credits<1){ga.innerHTML='<div class="note" style="border-color:var(--line-2)">You\'re out of credits. Top up to keep matching.</div><button class="btn" data-open="buyCredits" style="margin-top:8px">Out of credits — top up</button>';}else{ga.innerHTML='<button class="btn" data-act="generate">Generate outfit · 1 credit</button><div class="mut center" style="margin-top:2px">You have '+st.credits+' credits · <span class="tlink" data-open="buyCredits">top up</span></div>';}}
+      var fg=document.getElementById('uFreeGens');if(fg){if(st.plan==='free'){fg.style.display='';fg.textContent='Free plan: '+st.freeGens+' of 3 free generations left this month.';}else{fg.style.display='none';}}
       var scrim=document.getElementById('uScrim');scrim.classList.toggle('show',!!st.modal);
       userApp.querySelectorAll('.modal').forEach(function(el){el.classList.toggle('active',el.dataset.modal===st.modal);});
     },
@@ -1306,7 +1388,8 @@ textarea{resize:vertical}
       if(a.indexOf('refine:')===0){st.refine=a.split(':')[1];st.modal=null;this.go('genLoading');return;}
       switch(a){
       case 'saveItem':this.go('closet');break;
-      case 'generate':if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;st.refine='';this.go('genLoading');break;
+      case 'generate':if(st.plan==='free'&&st.freeGens>0){st.freeGens--;st.refine='';this.go('genLoading');break;}if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;st.refine='';this.go('genLoading');break;
+      case 'surprise':st.refine='';this.go('genLoading');break;
       case 'deleteItem':st.modal=null;this.go('closet');break;
       case 'saveTo':st.modal=null;this.go('saved');break;
       case 'purchased':st.modal=null;this.go('closet');break;
@@ -1318,6 +1401,7 @@ textarea{resize:vertical}
       case 'shareExt':st.modal=null;this.render();break;
       case 'sendFriend':st.modal='shareSent';this.render();break;
       case 'goShared':st.modal=null;this.go('shared');break;
+      case 'cancelSubDone':st.plan='free';st.modal='utoast';this.render();var cm=document.getElementById('uToastMsg');if(cm)cm.textContent='Subscription cancelled — you keep Plus until Jul 30, then move to Free.';break;
       case 'deleteAcct':st.modal=null;st.hist=[];st.screen='welcome';setMode('launcher');break;
       case 'logout':st.modal=null;st.hist=[];st.screen='welcome';setMode('launcher');break;
       case 'sentOk':st.modal=null;this.go('profile');break;
@@ -1383,6 +1467,8 @@ textarea{resize:vertical}
     else if(mode==='admin')A.click(e);
   });
 
+  var cs=document.getElementById('uClosetSearch');if(cs)cs.addEventListener('input',function(){var qv=cs.value.toLowerCase();document.querySelectorAll('#uClosetGrid > div').forEach(function(el){if(el.classList.contains('dashed'))return;el.style.display=el.textContent.toLowerCase().indexOf(qv)>=0?'':'none';});});
+  var hs=document.getElementById('uHelpSearch');if(hs)hs.addEventListener('input',function(){var qv=hs.value.toLowerCase();document.querySelectorAll('#userApp [data-screen="help"] .card.flat[data-acc]').forEach(function(el){el.style.display=el.textContent.toLowerCase().indexOf(qv)>=0?'':'none';});});
   U.render();A.render();setMode('launcher');
 })();
 </script>
