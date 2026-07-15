@@ -248,6 +248,35 @@ textarea{resize:vertical}
 #adminApp .scrim{align-items:center;padding:16px}
 #adminApp .dlg{background:var(--surface);width:100%;max-width:480px;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:11px;max-height:86vh;overflow:auto;box-shadow:var(--sh3)}
 @media(min-width:900px){ #userApp .scrim{align-items:center} #userApp .sheet{border-radius:18px;max-width:480px} #userApp .grab{display:none} }
+
+/* ===== UX friendliness pass (responsive) — added 2026-07-15 ===== */
+/* #3 consistent, visible keyboard focus (native controls) */
+.btn:focus-visible,.btn-o:focus-visible,.btn-g:focus-visible,.pill-o:focus-visible,.chip:focus-visible,.menurow:focus-visible,.tab:focus-visible,.rl:focus-visible,.tlink:focus-visible,.card.click:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+/* #4 clear the home indicator on notched phones */
+.tabbar{padding-bottom:env(safe-area-inset-bottom,0px)}
+/* touch-first tuning (phones & small tablets) */
+@media(max-width:900px){
+  /* #1 stop iOS auto-zoom on input focus */
+  input,select,textarea,.field,.topbar input,.toolbar input{font-size:16px}
+  /* #2 comfortable tap targets */
+  .chip{min-height:44px;display:inline-flex;align-items:center;padding-top:0;padding-bottom:0}
+  .pill-o{min-height:40px;display:inline-flex;align-items:center}
+  .menurow{min-height:52px}
+  .tlink{display:inline-block;padding:9px 2px}
+  .tab{padding:11px 0 13px}
+  /* #7 lift the smallest meta text for readability */
+  .mut{font-size:12px}
+  /* #5 signal that chip rows scroll sideways */
+  .chips.scroll{scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 20px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 20px),transparent)}
+  .chips.scroll>*{scroll-snap-align:start}
+}
+/* #6 don't stretch the phone layout across a tablet */
+@media(min-width:620px) and (max-width:899px){
+  #userApp .wrap{max-width:600px}
+  #userApp .wrap.wide{max-width:720px}
+}
+/* #8 make better use of large desktops */
+@media(min-width:1200px){ .wrap.wide{max-width:960px} }
 </style>
 </head>
 <body>
