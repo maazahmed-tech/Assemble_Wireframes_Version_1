@@ -233,7 +233,7 @@ textarea{resize:vertical}
 .adbanner{display:flex;align-items:center;gap:11px;border:1px dashed var(--line-3);border-radius:12px;padding:11px 13px;background:var(--surface-2)}
 
 /* auth (admin) */
-.auth-wrap{height:100%;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--canvas)}
+.auth-wrap{height:100%;flex:1 1 100%;min-width:0;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--canvas)}
 .auth-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:11px;box-shadow:var(--sh2)}
 .authsub{display:none}.authsub.active{display:flex;flex-direction:column;gap:11px}
 
@@ -1267,7 +1267,7 @@ textarea{resize:vertical}
         <div class="tlink" data-home style="align-self:flex-start">← Back to selection</div>
         <div class="logo" style="font-weight:800;font-size:17px;letter-spacing:-.02em">ASSEMBLE <span style="font-weight:400;font-size:10px;color:var(--muted)">ADMIN</span></div>
         <div class="authsub" data-auth="login"><div class="sub">Single secure admin login</div><div><div class="lbl">Email</div><input placeholder="owner@assemble.app"></div><div><div class="lbl">Password</div><input type="password" placeholder="••••••••"></div><div class="btn" data-authgo="twofa" style="padding:12px">Continue</div><div class="center" style="font-size:11.5px;text-decoration:underline;color:var(--ink-2);cursor:pointer" data-authgo="forgot">Forgot password?</div></div>
-        <div class="authsub" data-auth="twofa"><div class="sub">Two-factor authentication</div><div style="font-size:12.5px">Enter the code from your authenticator app.</div><input placeholder="6-digit code" style="text-align:center;letter-spacing:.3em;font-size:14px"><div class="btn" data-act="loginGo" style="padding:12px">Verify and log in</div><div class="center" style="font-size:11.5px;text-decoration:underline;color:var(--ink-2);cursor:pointer" data-authgo="login">Back</div></div>
+        <div class="authsub" data-auth="twofa"><div class="sub">Two-factor authentication</div><div style="font-size:12.5px">Enter the code from your authenticator app.</div><input placeholder="6-digit code" inputmode="numeric" style="text-align:center;letter-spacing:.3em;font-size:16px"><div class="btn" data-act="loginGo" style="padding:12px">Verify and log in</div><div class="center" style="font-size:11.5px;text-decoration:underline;color:var(--ink-2);cursor:pointer" data-authgo="login">Back</div></div>
         <div class="authsub" data-auth="forgot"><div class="sub">Reset admin password</div><div><div class="lbl">Email</div><input placeholder="owner@assemble.app"></div><div class="btn" data-authgo="login" style="padding:12px">Send reset link</div><div class="center" style="font-size:11.5px;text-decoration:underline;color:var(--ink-2);cursor:pointer" data-authgo="login">Back to login</div></div>
       </div>
     </div>
