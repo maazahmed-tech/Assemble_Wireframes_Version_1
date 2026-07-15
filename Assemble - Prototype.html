@@ -279,6 +279,8 @@ textarea{resize:vertical}
 @media(min-width:1200px){ .wrap.wide{max-width:960px} }
 .side .slh{font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:13px 12px 3px}
 .mgrp{font-weight:800;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:9px 0 4px}
+.ph.phimg{background-repeat:no-repeat;background-position:center;background-size:contain;background-origin:content-box;padding:10%}
+.avatar.phimg{background-repeat:no-repeat;background-position:center;background-size:74%;background-origin:content-box}
 </style>
 </head>
 <body>
@@ -1575,6 +1577,50 @@ textarea{resize:vertical}
   function updateCompare(){var A=document.getElementById("uCmpA"),B=document.getElementById("uCmpB");if(!A||!B)return;var la=LOOKS[A.value],lb=LOOKS[B.value];if(!la||!lb)return;var P=["Shoes","Top","Bottom","Extra"];var h='<div class="tr" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:10.5px;font-weight:700;color:var(--muted);border:none;background:var(--surface-2)"><div>PIECE</div><div>LOOK A</div><div>LOOK B</div></div>';P.forEach(function(p,i){var a=la.items[p],b=lb.items[p],d=a!==b;h+='<div class="tr" style="grid-template-columns:1fr 1.3fr 1.3fr;gap:8px;font-size:12px;border-top:1px solid var(--line)'+(i%2?";background:var(--surface-2)":"")+'"><div class="mut">'+p+'</div><div'+(d?' style="font-weight:700"':"")+'>'+a+'</div><div'+(d?' style="font-weight:700"':"")+'>'+b+'</div></div>';});document.getElementById("uCmpTable").innerHTML=h;function sm(l){return '<b>'+(l.buy?l.buy+" to buy":"All owned")+'</b><div class="mut">'+(l.cost?"~$"+l.cost+" to complete":"$0 to complete")+'</div>';}document.getElementById("uCmpSumA").innerHTML=sm(la);document.getElementById("uCmpSumB").innerHTML=sm(lb);document.getElementById("uCmpChooseA").textContent="Choose "+A.value;document.getElementById("uCmpChooseB").textContent="Choose "+B.value;document.getElementById("uCmpImgA").textContent=A.value;document.getElementById("uCmpImgB").textContent=B.value;}
   var _ca=document.getElementById("uCmpA"),_cb=document.getElementById("uCmpB");if(_ca)_ca.addEventListener("change",updateCompare);if(_cb)_cb.addEventListener("change",updateCompare);updateCompare();
   U.render();A.render();setMode('launcher');
+  /* ---- demo placeholder imagery (greyscale icon grid) ---- */
+  (function(){
+    var CAT={shoes:'sneaker',shirts:'tshirt',pants:'trousers',jackets:'jacket',dresses:'dress',
+             hats:'hat',jewelry:'necklace',bags:'bag',belts:'belt',watches:'watch',
+             acc:'sunglasses',accessories:'sunglasses'};
+    function pick(ph){
+      var host=ph.closest('[data-cat]'); if(host&&CAT[host.dataset.cat])return CAT[host.dataset.cat];
+      var t=(ph.textContent||'').trim().toLowerCase();
+      if(t.indexOf('camera')>=0||t.indexOf('viewfinder')>=0)return null;
+      if(t.indexOf('on avatar')>=0||t.indexOf('wearing outfit')>=0)return 'mannequin';
+      if(t.indexOf('avatar')>=0)return 'person';
+      if(t.indexOf('look')===0||t.indexOf('outfit')>=0)return 'outfit';
+      if(t.indexOf('product')>=0)return 'product';
+      if(t==='ad')return 'product';
+      if(t.indexOf('hero')>=0)return 'outfit';
+      var pn=(ph.parentElement?ph.parentElement.textContent:'').toLowerCase();
+      if(/sneaker|boot|\bshoe/.test(pn))return 'sneaker';
+      if(/\btee\b|t-shirt|shirt|top/.test(pn))return 'tshirt';
+      if(/jean|trouser|pant|chino/.test(pn))return 'trousers';
+      if(/jacket|coat|denim/.test(pn))return 'jacket';
+      if(/watch/.test(pn))return 'watch';
+      if(/belt/.test(pn))return 'belt';
+      if(/bag|purse/.test(pn))return 'bag';
+      if(/dress/.test(pn))return 'dress';
+      if(t.indexOf('item')>=0)return 'tshirt';
+      if(/\d+\s*items?|·\s*(work|dinner|club|casual|vacation)/.test(pn))return 'outfit';
+      if(t==='')return 'outfit';
+      return null;
+    }
+    function clearText(el){Array.prototype.slice.call(el.childNodes).forEach(function(n){if(n.nodeType===3)n.textContent='';});}
+    function apply(){
+      document.querySelectorAll('.ph').forEach(function(ph){
+        if(ph.classList.contains('phimg'))return;
+        var ic=pick(ph); if(!ic)return;
+        ph.classList.add('phimg'); ph.style.backgroundImage="url('assets/icon-"+ic+".png')"; clearText(ph);
+      });
+      document.querySelectorAll('.avatar').forEach(function(a){
+        if(a.classList.contains('phimg'))return;
+        a.classList.add('phimg'); a.style.backgroundImage="url('assets/icon-person.png')";
+      });
+    }
+    apply();
+  })();
+
 })();
 </script>
 </body>
