@@ -149,6 +149,9 @@ b,strong{font-weight:700}
 .iconbtn:hover{border-color:var(--ink)}
 .btn{background:var(--primary);color:#fff;border:none;border-radius:var(--rbtn);padding:13px;text-align:center;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:var(--sh1)}
 .btn:hover{background:#000}
+.modal .btn,.modal .btn-o,.modal .btn-g{width:100%}
+.modal .frow .btn,.modal .frow .btn-o,.modal .frow .btn-g{width:auto}
+.modal .small{width:auto}
 .btn-o{background:var(--surface);color:var(--ink);border:1.5px solid var(--ink);border-radius:var(--rbtn);padding:12px;text-align:center;font-weight:600;font-size:13px;cursor:pointer}
 .btn-o:hover{background:var(--surface-2)}
 .btn-g{background:var(--surface);color:var(--ink-2);border:1.5px solid var(--line-2);border-radius:var(--rbtn);padding:12px;text-align:center;font-weight:600;font-size:13px;cursor:pointer}
@@ -855,14 +858,14 @@ textarea{resize:vertical}
 
       <section class="screen" data-screen="manageSub"><div class="wrap">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Manage subscription</div></div>
-        <div style="background:var(--primary);color:#fff;border-radius:16px;padding:18px"><div style="font-size:11px;color:#b9b9c2">CURRENT PLAN</div><div style="font-weight:800;font-size:22px"><span id="uPlanBig">Plus</span></div><div style="font-size:11px;color:#b9b9c2;margin-top:2px">$6.99/mo · renews Jul 30, 2026</div></div>
-        <div class="card flat" style="border:1px solid var(--ink);display:flex;gap:10px;align-items:center"><div style="flex:1;font-size:12.5px"><b>Last payment failed</b><div class="mut">Card ending 4242 was declined on Jul 1.</div></div><button class="btn small" data-open="updateCard" style="width:auto">Update card</button></div>
+        <div style="background:var(--primary);color:#fff;border-radius:16px;padding:18px"><div style="font-size:11px;color:#b9b9c2">CURRENT PLAN</div><div style="font-weight:800;font-size:22px"><span id="uPlanBig">Plus</span></div><div id="uSubMeta" style="font-size:11px;color:#b9b9c2;margin-top:2px">$6.99/mo · renews Jul 30, 2026</div></div>
+        <div id="uPayFailCard" class="card flat" style="border:1px solid var(--ink);display:flex;gap:10px;align-items:center"><div style="flex:1;font-size:12.5px"><b>Last payment failed</b><div class="mut">Card ending 4242 was declined on Jul 1.</div></div><button class="btn small" data-open="updateCard" style="width:auto">Update card</button></div>
         <div class="menurow" data-nav="plans"><span style="flex:1">Change plan</span><span class="arw">→</span></div>
         <div class="menurow" data-nav="payments"><span style="flex:1">Payment history</span><span class="arw">→</span></div>
         <div class="menurow" data-open="manageCards"><span style="flex:1">Payment methods</span><span class="arw">→</span></div>
         <div class="togglerow"><span>Auto-renew</span><div class="tgl on" data-chip="tAutoRenew"><i></i></div></div>
         <div class="menurow" data-toast="A renewal reminder is sent 3 days before each charge."><span style="flex:1">Renewal reminders</span><span class="mut">On</span></div>
-        <button class="btn-g" data-open="cancelSub" style="margin-top:6px">Cancel subscription</button>
+        <button class="btn-g" id="uCancelSub" data-open="cancelSub" style="margin-top:6px">Cancel subscription</button>
       </div></section>
 
       <section class="screen" data-screen="tickets"><div class="wrap">
@@ -1105,7 +1108,7 @@ textarea{resize:vertical}
         <div class="toolbar"><input placeholder="Search name, email…"><select><option>All plans</option><option>Free</option><option>Plus</option><option>Pro</option></select><select><option>All statuses</option><option>Active</option><option>Suspended</option></select></div>
         <div class="tbl">
           <div class="tr th" style="grid-template-columns:2fr 1fr 1fr 1fr 30px">USER<div>PLAN</div><div>CREDITS</div><div>STATUS</div><div></div></div>
-          <div class="tr click" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>Jane Doe</b><br><span class="mut">jane@email.com</span></div><div>Plus</div><div>61</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
+          <div class="tr click" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>Jane Doe</b><br><span class="mut">jane@email.com</span></div><div>Plus</div><div>18</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
           <div class="tr click" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>Sam Osei</b><br><span class="mut">sam@email.com</span></div><div>Free</div><div>2</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
           <div class="tr click" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>Maya Lin</b><br><span class="mut">maya@email.com</span></div><div>Pro</div><div>100</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
           <div class="tr click alt" data-open="userDetail" style="grid-template-columns:2fr 1fr 1fr 1fr 30px"><div><b>D. Krum</b><br><span class="mut">dk@email.com</span></div><div>Free</div><div>0</div><div><span class="chipbadge dark">Suspended</span></div><div>›</div></div>
@@ -1471,6 +1474,9 @@ textarea{resize:vertical}
       var rs=document.getElementById('uResSummary');if(rs)rs.textContent=(occL[st.radio.occ]||'Dinner')+' · '+(drL[st.radio.dress]||'Smart casual')+' · '+(moL[st.radio.mode]||'Closet + shopping')+' · '+(pbL[st.radio.pb]||'$50–150')+(st.refine?' · '+st.refine:'');
       var pll=document.getElementById('uPlanLabel');if(pll)pll.textContent=planL[st.plan].n;
       var pbg=document.getElementById('uPlanBig');if(pbg)pbg.textContent=planL[st.plan].n;
+      var _sm=document.getElementById('uSubMeta');if(_sm){var _mm={plus:'$6.99/mo · renews Jul 30, 2026',pro:'$14.99/mo · renews Jul 30, 2026'};_sm.textContent=_mm[st.plan]||'No active subscription';}
+      var _cs=document.getElementById('uCancelSub');if(_cs)_cs.style.display=(st.plan==='free')?'none':'';
+      var _pf=document.getElementById('uPayFailCard');if(_pf)_pf.style.display=(st.plan==='free')?'none':'';
       var sto=document.getElementById('uSentTo');if(sto)sto.textContent=frN[st.radio.fr]||'your friend';
       var payItem=document.getElementById('uPayItem'),payTotal=document.getElementById('uPayTotal'),payBtn=document.getElementById('uPayBtn');
       if(payItem&&payTotal&&payBtn){if(st.payCtx==='sub'){var pp=planL[st.radio.plan];var _yr=(st.radio.plan==='pro'&&st.radio.billing==='yr');var _pt=_yr?'$149.90/yr':pp.p+'/mo';payItem.textContent=pp.n+' subscription'+(_yr?' (annual)':'');payTotal.textContent=_pt;payBtn.textContent='Subscribe · '+_pt;}else{var kk=packL[st.radio.pack]||packL['50'];payItem.textContent=kk.c+' credits';payTotal.textContent=kk.p;payBtn.textContent='Pay '+kk.p;}}
