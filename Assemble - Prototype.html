@@ -287,6 +287,7 @@ textarea{resize:vertical}
 .favstar::after{content:"\2606";font-size:16px;line-height:1}.favstar.on::after{content:"\2605"}
 #userApp .ad{border:2px solid #d64541 !important}
 @media(max-width:900px){#genArea>.btn,#packArea>.btn,#genArea,#packArea{display:block;width:100%;margin-left:auto;margin-right:auto;text-align:center}}
+#genArea>.btn,#packArea>.btn{display:block;width:100%}#genArea,#packArea{text-align:center}
 </style>
 </head>
 <body>
@@ -318,7 +319,6 @@ textarea{resize:vertical}
       <div class="rl" data-nav="closet"><span class="g">▦</span> Closet</div>
       <div class="rl" data-nav="genPick"><span class="g">✚</span> Match outfit</div>
       <div class="rl" data-nav="saved"><span class="g">♥︎</span> Saved</div>
-      <div class="rl" data-nav="shop"><span class="g">⬦</span> Shop</div>
       <div class="rl" data-nav="profile"><span class="g">●</span> Profile</div>
       <div class="creditcard" data-nav="credits"><b class="ucredits">12</b> credits<br><span>Tap to top up</span></div>
     </nav>
@@ -515,11 +515,11 @@ textarea{resize:vertical}
         <div style="display:flex;gap:9px"><input id="uClosetSearch" placeholder="Search name, color, brand…" style="flex:1"><button class="btn-g small" data-open="filter">Filters</button></div>
         <div class="chips scroll"><div class="chip" data-rg="cat" data-rv="all">All</div><div class="chip" data-rg="cat" data-rv="shirts">Shirts</div><div class="chip" data-rg="cat" data-rv="pants">Pants</div><div class="chip" data-rg="cat" data-rv="shoes">Shoes</div><div class="chip" data-rg="cat" data-rv="jackets">Jackets</div><div class="chip" data-rg="cat" data-rv="dresses">Dresses</div><div class="chip" data-rg="cat" data-rv="hats">Hats</div><div class="chip" data-rg="cat" data-rv="jewelry">Jewelry</div><div class="chip" data-rg="cat" data-rv="bags">Bags</div><div class="chip" data-rg="cat" data-rv="belts">Belts</div><div class="chip" data-rg="cat" data-rv="watches">Watches</div><div class="chip" data-rg="cat" data-rv="acc">Accessories</div><div class="chip" data-nav="archived">Archived</div></div>
         <div class="grid g-110" id="uClosetGrid">
-          <div style="cursor:pointer" data-nav="itemDetail" data-cat="shoes"><div class="ph" style="height:110px;position:relative">item<div style="position:absolute;top:6px;right:8px;font-size:12px">♥</div></div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Green sneakers</div><div class="mut" style="font-size:10px">Shoes · Nike</div></div>
-          <div style="cursor:pointer" data-nav="itemDetail" data-cat="shirts"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">White tee</div><div class="mut" style="font-size:10px">Shirts</div></div>
-          <div style="cursor:pointer" data-nav="itemDetail" data-cat="pants"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Black jeans</div><div class="mut" style="font-size:10px">Pants · Zara</div></div>
-          <div style="cursor:pointer" data-nav="itemDetail" data-cat="jackets"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Denim jacket</div><div class="mut" style="font-size:10px">Jackets</div></div>
-          <div style="cursor:pointer" data-nav="itemDetail" data-cat="watches"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Silver watch</div><div class="mut" style="font-size:10px">Accessories</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="shoes" data-iname="Green sneakers" data-ibrand="Nike" data-ilabel="Shoes" data-iicon="sneaker"><div class="ph" style="height:110px;position:relative">item<div style="position:absolute;top:6px;right:8px;font-size:12px">♥</div></div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Green sneakers</div><div class="mut" style="font-size:10px">Shoes · Nike</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="shirts" data-iname="White tee" data-ibrand="—" data-ilabel="Shirts" data-iicon="tshirt"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">White tee</div><div class="mut" style="font-size:10px">Shirts</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="pants" data-iname="Black jeans" data-ibrand="Zara" data-ilabel="Pants" data-iicon="trousers"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Black jeans</div><div class="mut" style="font-size:10px">Pants · Zara</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="jackets" data-iname="Denim jacket" data-ibrand="—" data-ilabel="Jackets" data-iicon="jacket"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Denim jacket</div><div class="mut" style="font-size:10px">Jackets</div></div>
+          <div style="cursor:pointer" data-nav="itemDetail" data-cat="watches" data-iname="Silver watch" data-ibrand="—" data-ilabel="Watches" data-iicon="watch"><div class="ph" style="height:110px">item</div><div style="font-size:11.5px;font-weight:600;margin-top:5px">Silver watch</div><div class="mut" style="font-size:10px">Accessories</div></div>
           <div class="dashed" data-nav="addItem" style="height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11.5px"><div style="font-size:18px">＋</div>Add item</div>
         </div>
       </div></section>
@@ -552,13 +552,13 @@ textarea{resize:vertical}
       </div></section>
 
       <section class="screen" data-screen="itemDetail"><div class="wrap">
-        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Green sneakers</div><div class="chip favstar" data-chip="fav" title="Favourite" aria-label="Favourite"></div><button class="btn-g small" data-open="deleteItem">Delete</button></div>
-        <div class="ph" style="height:190px;border-radius:14px">item photo</div>
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1" id="uItemTitle">Green sneakers</div><div class="chip favstar" data-chip="fav" title="Favourite" aria-label="Favourite"></div><button class="btn-g small" data-open="deleteItem">Delete</button></div>
+        <div class="ph" style="height:190px;border-radius:14px" id="uItemPhoto">item photo</div>
         <button class="btn-g" data-nav="addItem" style="width:100%;padding:9px">Retake photo</button>
         <div class="mut" style="font-size:11.5px;margin-top:2px">Worn 12 times · last worn Sat · added Mar 2026</div>
         <div class="frow">
-          <div><div class="lbl">Category</div><select><option>Shoes</option><option>Shirts</option></select></div>
-          <div><div class="lbl">Brand</div><input value="Nike"></div>
+          <div><div class="lbl">Category</div><select id="uItemCat"><option>Shoes</option><option>Shirts</option></select></div>
+          <div><div class="lbl">Brand</div><input value="Nike" id="uItemBrand"></div>
           <div><div class="lbl">Size</div><input value="10"></div>
         </div>
         <div class="lbl">Notes</div><input placeholder="e.g. bought 2025, worn twice">
@@ -625,7 +625,7 @@ textarea{resize:vertical}
       </div></section>
 
       <section class="screen" data-screen="genResults"><div class="wrap wide">
-        <div class="top"><div class="iconbtn" data-nav="genPrefs">←</div><div class="ttl" style="flex:1">3 outfit options</div><div class="tlink" data-nav="genPrefs">Tweak</div></div>
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">3 outfit options</div><div class="tlink" data-nav="genPrefs">Tweak</div></div>
         <div class="sub" id="uResSummary">Dinner · Smart casual · Closet + shopping · $50–150</div>
         
         <div class="grid g-170">
@@ -658,7 +658,7 @@ textarea{resize:vertical}
       </div></section>
 
       <section class="screen" data-screen="packing"><div class="wrap">
-        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Pack for a trip</div></div>
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Pack for a trip</div><div class="tlink" data-nav="packHistory">Past lists</div></div>
         <div class="sub">Assemble builds a smart packing list from your closet — mixing and matching so you carry less.</div>
         <div class="lbl">Destination</div><input placeholder="e.g. Lisbon">
         <div class="frow"><div><div class="lbl">Days</div><select><option>3</option><option>5</option><option>7</option><option>10</option></select></div><div><div class="lbl">Weather</div><select><option>Hot</option><option>Mild</option><option>Cold</option><option>Rainy</option></select></div></div>
@@ -682,8 +682,19 @@ textarea{resize:vertical}
         <div class="card flat" style="font-size:12.5px;line-height:1.7">Green sneakers · White tee · Black jeans · Denim jacket · Oxford shirt · Beige chinos · Silver watch · Swim shorts · Linen shirt</div>
         <div id="uPackBuy"><div class="lbl">Suggested to buy</div>
         <div style="border:1.5px dashed var(--line-3);border-radius:11px;padding:10px;background:var(--surface-2);display:flex;gap:9px;align-items:center"><div class="ph" style="width:40px;height:40px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Packable rain jacket — missing</div><div class="mut">~$60 · 4 store options</div></div><button class="btn-o" data-nav="shop" style="padding:6px 10px;font-size:11px">Shop</button></div></div>
-        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn" data-toast="Packing list saved to Saved, Trips." style="flex:1;min-width:120px">Save list</button><button class="btn-o" data-open="share" style="flex:1;min-width:110px">Share</button><button class="btn-o" data-toast="Missing items added to your shopping list." id="uPackShopBtn" style="flex:1;min-width:130px">Shop missing</button></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn" data-open="savePack" style="flex:1;min-width:120px">Save list</button><button class="btn-o" data-toast="Missing items added to your shopping list." id="uPackShopBtn" style="flex:1;min-width:130px">Shop missing</button></div>
       </div></section>
+
+      <section class="screen" data-screen="packHistory"><div class="wrap wide">
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Past packing lists</div></div>
+        <div class="sub">Your saved trips, most recent first.</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div class="card click" data-nav="packingList" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Lisbon · 5 days</div><div class="mut">Saved Jul 12 · 3 outfits · 9 items</div></div><button class="btn-o" data-nav="packingList" style="padding:6px 10px;font-size:11px">Open</button></div>
+          <div class="card click" data-nav="packingList" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Business trip · NYC · 3 days</div><div class="mut">Saved Jun 30 · 3 outfits · 8 items</div></div><button class="btn-o" data-nav="packingList" style="padding:6px 10px;font-size:11px">Open</button></div>
+          <div class="card click" data-nav="packingList" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Beach week · 7 days</div><div class="mut">Saved Jun 8 · 4 outfits · 11 items</div></div><button class="btn-o" data-nav="packingList" style="padding:6px 10px;font-size:11px">Open</button></div>
+        </div>
+      </div></section>
+
 
       <section class="screen" data-screen="outfitDetail"><div class="wrap wide">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl" style="flex:1">Clean and sharp</div><div class="pill-o" data-open="why">Why this works?</div></div>
@@ -718,6 +729,7 @@ textarea{resize:vertical}
         <div class="top"><div class="iconbtn" data-back>←</div><div class="h2" style="flex:1">Shop matches</div><button class="btn-g small" data-open="filter">Filters</button></div>
         <div class="sub">Matching: <b style="color:var(--ink)">Minimal belt</b> for "Clean and sharp" · Budget $50–150</div>
         <div class="chips scroll"><div class="chip" data-open="filter">Price ▾</div><div class="chip" data-open="filter">Brand ▾</div><div class="chip" data-open="filter">Color ▾</div><div class="chip" data-open="filter">Size ▾</div></div>
+        <div class="ad adbanner"><div class="ph" style="width:44px;height:44px;border-radius:9px;flex:none">Ad</div><div style="flex:1"><div style="font-weight:700;font-size:12px">Sponsored · BrandCo</div><div class="mut">Up to 30% off belts and accessories</div></div><span class="mut" style="font-size:9.5px;border:1px solid var(--line-2);border-radius:5px;padding:1px 5px">AD</span></div>
         <div class="grid g-140">
           <div class="card click" data-nav="productDetail" style="padding:9px;position:relative"><div class="ph" style="height:110px;border-radius:9px">product</div><div style="font-size:12px;font-weight:600;margin-top:6px">Premium belt, black</div><div class="mut" style="font-size:10.5px">StoreX · $60</div></div>
           <div class="card click ad" data-nav="productDetail" style="padding:9px;position:relative"><div class="tag" style="position:absolute;top:14px;left:14px;z-index:1">FEATURED</div><div class="ph" style="height:110px;border-radius:9px">product</div><div style="font-size:12px;font-weight:600;margin-top:6px">Leather belt, tan</div><div class="mut" style="font-size:10.5px">BrandCo · $28</div></div>
@@ -869,13 +881,20 @@ textarea{resize:vertical}
         <div class="card click" data-nav="plans" style="border:1.5px solid var(--ink);display:flex;align-items:center;box-shadow:none"><div style="flex:1"><div style="font-weight:700;font-size:13px">Go unlimited with Plus</div><div class="mut">Monthly credits + no ads · from $6.99/mo</div></div><div>→</div></div>
         <div class="menurow" data-nav="manageSub"><span style="flex:1">Manage subscription</span><span class="arw">→</span></div>
         <div class="menurow" data-nav="payments"><span style="flex:1">Payment history and invoices</span><span class="arw">→</span></div>
-        <div class="lbl">Recent usage</div>
+        <div class="lbl">Recent usage <span class="mut" style="font-weight:400">· most recent 10 shown</span></div>
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Dinner</div><div class="mut">−1 · today</div></div>
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Work</div><div class="mut">−1 · Thu</div></div>
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Starter pack purchase</div><div class="mut">+10 · Mon</div></div>
+        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Club</div><div class="mut">−1 · Sun</div></div>
+        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Vacation</div><div class="mut">−1 · Sat</div></div>
+        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Packing list — Lisbon</div><div class="mut">−1 · Fri</div></div>
+        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Everyday</div><div class="mut">−1 · Wed</div></div>
+        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Plus subscription credits</div><div class="mut">+30 · Jul 1</div></div>
+        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Work</div><div class="mut">−1 · Jun 28</div></div>
+        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Dinner</div><div class="mut">−1 · Jun 27</div></div>
       </div></section>
       <section class="screen" data-screen="payments"><div class="wrap">
-        <div class="top"><div class="iconbtn" data-nav="credits">←</div><div class="ttl">Payment history</div></div>
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Payment history</div></div>
         <div class="sub">Your purchases and invoices.</div>
         <div class="card flat" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Plus subscription</div><div class="mut">Jul 1, 2026 · Visa •• 4242</div></div><div style="font-weight:700">$6.99</div><button class="btn-g" data-toast="Invoice downloaded as PDF." style="padding:6px 10px;font-size:11px">Invoice</button></div>
         <div class="card flat" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">50-credit pack</div><div class="mut">Jun 22, 2026 · Apple Pay</div></div><div style="font-weight:700">$9.99</div><button class="btn-g" data-toast="Invoice downloaded as PDF." style="padding:6px 10px;font-size:11px">Invoice</button></div>
@@ -890,7 +909,7 @@ textarea{resize:vertical}
           <div class="lrow" data-rg="plan" data-rv="plus" style="margin:0"><div style="display:flex;align-items:center;gap:6px"><div style="font-weight:800;font-size:14px">Plus</div><div class="tag">POPULAR</div></div><div style="font-weight:800;font-size:20px;margin:4px 0">$6.99<span class="mut" style="font-weight:400">/mo</span></div><div class="mut" style="line-height:1.6">30 credits/mo<br>No ads<br>Early features</div></div>
           <div class="lrow" data-rg="plan" data-rv="pro" style="margin:0"><div style="font-weight:800;font-size:14px">Pro</div><div style="font-weight:800;font-size:20px;margin:4px 0">$14.99<span class="mut" style="font-weight:400">/mo</span></div><div class="mut" style="line-height:1.6">Unlimited generations<br>No ads<br>Priority support</div></div>
         </div>
-        <button class="btn" data-act="paySub">Subscribe to <span id="uPlanName">Plus</span></button>
+        <button class="btn" data-act="paySub" style="width:100%">Subscribe to <span id="uPlanName">Plus</span></button>
         <div class="link" data-nav="manageSub">Manage current subscription</div>
         <div class="mut center">Cancel anytime · <span class="tlink" data-toast="Purchases restored.">Restore purchases</span></div>
       </div></section>
@@ -912,7 +931,7 @@ textarea{resize:vertical}
         <div class="lbl">Email</div><input value="reginald@email.com" readonly style="color:var(--muted);background:var(--surface-2)"><div class="mut" style="font-size:11px;margin-top:-4px">Email can't be changed.</div>
         <div class="menurow" data-open="changePw"><span style="flex:1">Change password</span><span class="arw">→</span></div>
         <div class="seclbl" style="margin-top:6px">Notifications</div>
-        <div class="togglerow"><span>Push notifications</span><div class="tgl" data-chip="tPush"><i></i></div></div>
+        <div class="togglerow"><span>Notifications</span><div class="tgl" data-chip="tPush"><i></i></div></div>
         <div class="seclbl" style="margin-top:6px">Privacy, consent and data</div>
         <div class="togglerow"><span>AI photo analysis consent <span class="mut">(item detection)</span></span><div class="tgl" data-chip="tAiConsent"><i></i></div></div>
         <button class="btn-g" data-open="deleteAcct" style="margin-top:6px">Delete account</button>
@@ -986,7 +1005,8 @@ textarea{resize:vertical}
       <div class="modal" data-modal="updateCard"><div class="mttl">Update payment method</div><div class="sub" style="margin:6px 0 10px">Your last charge was declined. Add a new card to keep your Plus plan active.</div><input placeholder="Card number"><div class="frow" style="margin-top:8px"><input placeholder="MM / YY"><input placeholder="CVC"></div><div class="frow" style="margin-top:10px"><button class="btn-o" data-close style="flex:1">Later</button><button class="btn" data-toast="Card updated — we'll retry the charge shortly." style="flex:1">Save card</button></div></div>
       <div class="modal" data-modal="deleteOutfit"><div class="mttl">"Office fit"</div><div class="menurow" data-close>Move to another collection</div><div class="menurow" data-open="share">Share</div><div class="btn-g" data-close style="text-align:center">Delete outfit</div><div class="link" data-close>Cancel</div></div>
       <div class="modal" data-modal="buyCredits"><div class="mttl">Buy credits</div><div class="lrow" data-rg="pack" data-rv="10">10 credits — $2.99</div><div class="lrow" data-rg="pack" data-rv="50">50 credits — $9.99 · best value</div><div class="lrow" data-rg="pack" data-rv="100">100 credits — $16.99</div><button class="btn" data-act="payCredits" style="margin-top:4px">Continue to payment</button><div class="link" data-nav="plans">Or subscribe for monthly credits</div></div>
-      <div class="modal" data-modal="payment"><div class="mttl">Payment</div><div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1" id="uPayItem">50 credits</div><b id="uPayTotal">$9.99</b></div><div class="lrow" data-rg="pay" data-rv="apple"> Apple Pay / Google Pay</div><div class="lrow" data-rg="pay" data-rv="card">Card ending •• 4242</div><div class="lrow" data-rg="pay" data-rv="new">＋ New card</div><button class="btn" data-act="payNow" id="uPayBtn" style="margin-top:4px">Pay $9.99</button><div class="mut center">Secured checkout · receipts by email</div></div>
+      <div class="modal" data-modal="savePack"><div class="mttl">Save packing list</div><div class="lbl">List name</div><input value="Lisbon · 5 days" placeholder="e.g. Lisbon trip"><div class="frow" style="margin-top:10px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-toast="Packing list saved to Past packing lists." style="flex:1">Save</button></div></div>
+      <div class="modal" data-modal="payment"><div class="mttl">Payment</div><div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1" id="uPayItem">50 credits</div><b id="uPayTotal">$9.99</b></div><div class="lrow" data-rg="pay" data-rv="card">Card ending •• 4242</div><div class="lrow" data-rg="pay" data-rv="new">＋ New card</div><button class="btn" data-act="payNow" id="uPayBtn" style="margin-top:4px;width:100%">Pay $9.99</button><div class="mut center">Secured checkout · receipts by email</div></div>
       <div class="modal" data-modal="paid"><div class="center"><div style="width:54px;height:54px;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:6px auto">✓</div><div class="mttl">Payment successful</div><div class="sub" id="uPaidMsg" style="margin:6px 0 14px">50 credits added.</div><button class="btn" data-close>Done</button></div></div>
       <div class="modal" data-modal="changePw"><div class="mttl">Change password</div><input type="password" placeholder="Current password"><input type="password" placeholder="New password"><input type="password" placeholder="Repeat new password"><div class="frow" style="margin-top:4px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-close style="flex:1">Update</button></div></div>
       <div class="modal" data-modal="deleteAcct"><div class="center"><div class="mttl">Delete your account?</div><div class="sub" style="margin:8px 0 12px">All wardrobe photos, outfits and credits will be permanently removed within 30 days. This cannot be undone.</div><input placeholder='Type "DELETE" to confirm' style="text-align:center;margin-bottom:4px"><div class="frow"><button class="btn" data-close style="flex:1">Keep account</button><button class="btn-g" data-act="deleteAcct" style="flex:1">Delete</button></div></div></div>
@@ -1015,20 +1035,20 @@ textarea{resize:vertical}
       <div class="slh">Operations</div>
       <div class="sl" data-nav="dashboard"><span class="g">▦</span> Dashboard</div>
       <div class="sl" data-nav="users"><span class="g">◉</span> Users</div>
-      <div class="sl" data-nav="support"><span class="g">?</span> Support inbox</div>
+      <div class="sl" data-nav="support"><span class="g">?</span> Support Inbox</div>
       <div class="slh">Catalog</div>
-      <div class="sl" data-nav="taxonomy"><span class="g">≣</span> Style &amp; categories</div>
-      <div class="sl" data-nav="products"><span class="g">⬦</span> Products &amp; affiliates</div>
-      <div class="sl" data-nav="brands"><span class="g">◈</span> Brand partners</div>
+      <div class="sl" data-nav="brands"><span class="g">◈</span> Brand Partners</div>
+      <div class="sl" data-nav="products"><span class="g">⬦</span> Products and Affiliates</div>
+      <div class="sl" data-nav="taxonomy"><span class="g">≣</span> Style and Categories</div>
       <div class="slh">Growth</div>
-      <div class="sl" data-nav="monetize"><span class="g">⬡</span> Credits &amp; plans</div>
-      <div class="sl" data-nav="ads"><span class="g">▣</span> Ads &amp; featured</div>
-      <div class="sl" data-nav="ai"><span class="g">✦</span> AI &amp; cost control</div>
+      <div class="sl" data-nav="monetize"><span class="g">⬡</span> Credits and Plans</div>
+      <div class="sl" data-nav="ads"><span class="g">▣</span> Ads and Featured</div>
+      <div class="sl" data-nav="ai"><span class="g">✦</span> AI and Cost Control</div>
       <div class="slh">System</div>
-      <div class="sl" data-nav="content"><span class="g">✉︎</span> Notifications &amp; content</div>
+      <div class="sl" data-nav="content"><span class="g">✉︎</span> Notifications and Content</div>
       <div class="sl" data-nav="reports"><span class="g">◫</span> Reports</div>
       <div class="sp"></div>
-      <div class="sl" data-nav="settings"><span class="g">⚙︎</span> Admin settings</div>
+      <div class="sl" data-nav="settings"><span class="g">⚙︎</span> Admin Settings</div>
       <div class="out" data-open="logout">← Log out</div>
     </nav>
     <div class="col">
@@ -1046,14 +1066,12 @@ textarea{resize:vertical}
           
           
           
-          <div class="stat" data-nav="support"><div class="k">OPEN TICKETS</div><div class="v">6</div></div>
+          <div class="stat" data-nav="support"><div class="k">OPEN TICKETS</div><div class="v">6</div></div><div class="stat" data-nav="brands"><div class="k">BRAND PARTNERS</div><div class="v">3</div></div><div class="stat" data-nav="products"><div class="k">AFFILIATE PRODUCTS</div><div class="v">205</div></div><div class="stat" data-nav="ads"><div class="k">CAMPAIGNS RUNNING</div><div class="v">2</div></div><div class="stat" data-nav="products"><div class="k">FEATURED PRODUCTS</div><div class="v">6</div></div>
           
           
           
         </div>
-        <div class="grid g-280">
-          <div class="card"><div style="display:flex;align-items:center;margin-bottom:10px"><div class="h" style="flex:1">Generations · last 14 days</div></div>
-            <div class="bars" style="height:110px"><div class="b" style="height:34%"></div><div class="b" style="height:48%"></div><div class="b" style="height:41%"></div><div class="b" style="height:56%"></div><div class="b" style="height:50%"></div><div class="b" style="height:64%"></div><div class="b" style="height:58%"></div><div class="b m" style="height:70%"></div><div class="b m" style="height:62%"></div><div class="b m" style="height:75%"></div><div class="b m" style="height:68%"></div><div class="b h" style="height:84%"></div><div class="b h" style="height:78%"></div><div class="b h" style="height:92%"></div></div></div>
+        
           
         </div>
       </div></section>
@@ -1088,19 +1106,19 @@ textarea{resize:vertical}
         <div class="toolbar"><input placeholder="Search products…"><select><option>All categories</option><option>Shoes</option><option>Belts</option><option>Shirts</option></select><select><option>All states</option><option>Active</option><option>Featured</option><option>Out of stock</option></select><div class="btn small" data-open="productForm">＋ Add product</div></div>
         <div class="note">Bulk CSV upload and product feeds are marked for a later phase — manual add only in MVP.</div>
         <div class="tbl">
-          <div class="tr th" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 1fr 30px"><div></div>PRODUCT<div>PRICE</div><div>CLICKS</div><div>STATE</div><div>AI TAGS</div><div></div></div>
-          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Leather belt, tan</b><br><span class="mut">BrandCo · PartnerStore</span></div><div>$28</div><div>412</div><div><span class="chipbadge dark">Featured</span></div><div class="mut">belt · tan · smart</div><div>›</div></div>
-          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Woven belt, black</b><br><span class="mut">StoreX</span></div><div>$34</div><div>187</div><div><span class="chipbadge">Active</span></div><div class="mut">belt · black</div><div>›</div></div>
-          <div class="tr click alt" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Linen shirt</b><br><span class="mut">StoreX · ⚠ broken link</span></div><div>$45</div><div>93</div><div><span class="chipbadge" style="color:var(--muted)">Inactive</span></div><div class="mut">shirt · linen</div><div>›</div></div>
+          <div class="tr th" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 30px"><div></div>PRODUCT<div>PRICE</div><div>STATE</div><div>AI TAGS</div><div></div></div>
+          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Leather belt, tan</b><br><span class="mut">BrandCo · PartnerStore</span></div><div>$28</div><div><span class="chipbadge dark">Featured</span></div><div class="mut">belt · tan · smart</div><div>›</div></div>
+          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Woven belt, black</b><br><span class="mut">StoreX</span></div><div>$34</div><div><span class="chipbadge">Active</span></div><div class="mut">belt · black</div><div>›</div></div>
+          <div class="tr click alt" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 30px"><div class="thumb"></div><div><b>Linen shirt</b><br><span class="mut">StoreX · ⚠ broken link</span></div><div>$45</div><div><span class="chipbadge" style="color:var(--muted)">Inactive</span></div><div class="mut">shirt · linen</div><div>›</div></div>
         </div>
       </div></section>
 
       <section class="screen" data-screen="brands"><div class="pg">
         <div style="display:flex;align-items:center;gap:9px"><div class="h" style="flex:1">Brand and affiliate partners</div><div class="btn small" data-open="brandForm">＋ Add partner</div></div>
         <div class="grid g-230">
-          <div class="card click" data-nav="brandDetail"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>PartnerStore</b><br><span class="mut">Affiliate network · 7% comm.</span></div><span class="chipbadge">Active</span></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>128</b> products</span><span><b>1,204</b> clicks</span></div></div>
-          <div class="card click" data-nav="brandDetail"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>BrandCo</b><br><span class="mut">Direct partner</span></div><span class="chipbadge">Active</span></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>46</b> products</span><span><b>689</b> clicks</span></div></div>
-          <div class="card click" data-nav="brandDetail" style="opacity:.6"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>StoreX</b><br><span class="mut">Paused</span></div><span class="chipbadge">Paused</span></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>31</b> products</span><span><b>447</b> clicks</span></div></div>
+          <div class="card click" data-nav="brandDetail"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>PartnerStore</b><br><span class="mut">Affiliate network</span></div><span class="chipbadge">Active</span></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>128</b> products</span></div></div>
+          <div class="card click" data-nav="brandDetail"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>BrandCo</b><br><span class="mut">Direct partner</span></div><span class="chipbadge">Active</span></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>46</b> products</span></div></div>
+          <div class="card click" data-nav="brandDetail" style="opacity:.6"><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:9px;background:var(--img)"></div><div style="flex:1"><b>StoreX</b><br><span class="mut">Paused</span></div><span class="chipbadge">Paused</span></div><div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--ink-2)"><span><b>31</b> products</span></div></div>
         </div>
       </div></section>
 
@@ -1108,27 +1126,22 @@ textarea{resize:vertical}
         <div class="top"><div class="iconbtn" data-nav="brands">←</div><div style="width:44px;height:44px;border-radius:11px;background:var(--img);flex:none"></div><div style="flex:1"><div class="h" style="font-size:16px">BrandCo</div><div class="mut">Direct partner · joined Feb 2026</div></div><div class="btn-o small" data-open="brandForm">Edit partner</div></div>
         <div class="grid g-150">
           <div class="card flat center"><div style="font-weight:800;font-size:20px">46</div><div class="mut">PRODUCTS</div></div>
-          <div class="card flat center"><div style="font-weight:800;font-size:20px">689</div><div class="mut">CLICKS (30d)</div></div>
           
-          <div class="card flat center"><div style="font-weight:800;font-size:20px">7%</div><div class="mut">COMMISSION</div></div>
+          
+          
         </div>
         <div class="card"><div class="h" style="margin-bottom:9px">Partner status</div>
           <div class="chips"><div class="chip" data-rg="brandStatus" data-rv="pending">Pending</div><div class="chip" data-rg="brandStatus" data-rv="active">Active</div><div class="chip" data-rg="brandStatus" data-rv="paused">Paused</div><div class="chip" data-rg="brandStatus" data-rv="rejected">Rejected</div></div>
           <div class="mut" style="margin-top:8px">Paused or rejected partners are hidden from matches and shop results. Featured placement is set under Ads &amp; featured.</div>
         </div>
         <div class="card"><div style="display:flex;align-items:center;margin-bottom:9px"><div class="h" style="flex:1">Products from this brand</div><div class="btn-o small" data-open="productForm">＋ Add</div></div>
-          <div class="tr th" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 30px;padding:8px 0;border-bottom:1px solid var(--line)"><div></div>PRODUCT<div>PRICE</div><div>CLICKS</div><div>STATE</div><div></div></div>
-          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 30px;border:none;border-bottom:1px solid var(--line)"><div class="thumb"></div><div><b>Leather belt, tan</b></div><div>$28</div><div>412</div><div><span class="chipbadge dark">Featured</span></div><div>›</div></div>
-          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 30px;border:none;border-bottom:1px solid var(--line)"><div class="thumb"></div><div><b>Slim belt, tan</b></div><div>$52</div><div>96</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
-          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 1fr 30px;border:none"><div class="thumb"></div><div><b>Canvas belt, olive</b></div><div>$24</div><div>44</div><div><span class="chipbadge" style="color:var(--muted)">Inactive</span></div><div>›</div></div>
+          <div class="tr th" style="grid-template-columns:44px 2fr 1fr 1fr 30px;padding:8px 0;border-bottom:1px solid var(--line)"><div></div>PRODUCT<div>PRICE</div><div>STATE</div><div></div></div>
+          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 30px;border:none;border-bottom:1px solid var(--line)"><div class="thumb"></div><div><b>Leather belt, tan</b></div><div>$28</div><div><span class="chipbadge dark">Featured</span></div><div>›</div></div>
+          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 30px;border:none;border-bottom:1px solid var(--line)"><div class="thumb"></div><div><b>Slim belt, tan</b></div><div>$52</div><div><span class="chipbadge">Active</span></div><div>›</div></div>
+          <div class="tr click" data-open="productForm" style="grid-template-columns:44px 2fr 1fr 1fr 30px;border:none"><div class="thumb"></div><div><b>Canvas belt, olive</b></div><div>$24</div><div><span class="chipbadge" style="color:var(--muted)">Inactive</span></div><div>›</div></div>
         </div>
-        <div class="card"><div style="display:flex;align-items:center;margin-bottom:9px"><div class="h" style="flex:1">Campaigns</div><div class="btn-o small" data-open="campaignForm">＋ New</div></div>
-          <div class="rowline" data-open="campaignForm"><div style="flex:1"><b>BrandCo spring belts</b> <span class="mut">· Jul 1–28 · 48k impr · 1,120 clicks</span></div><div>›</div></div>
-        </div>
-        <div class="card"><div class="h" style="margin-bottom:9px">Contact &amp; commission notes</div>
-          <div class="kv" style="margin-bottom:6px"><div class="mut">Contact</div><div>partners@brandco.com</div></div>
-          <div class="kv" style="margin-bottom:6px"><div class="mut">Website</div><div>brandco.com</div></div>
-          <div class="kv"><div class="mut">Notes</div><div>Net-30 · 7% on all categories, 10% on featured.</div></div>
+        <div class="card"><div style="display:flex;align-items:center;margin-bottom:9px"><div class="h" style="flex:1">Campaigns</div><div class="btn-o small" data-open="campaignNew">＋ New</div></div>
+          <div class="rowline" data-open="campaignForm"><div style="flex:1"><b>BrandCo spring belts</b> <span class="mut">· Jul 1–28</span></div><div>›</div></div>
         </div>
         <div class="frow"><button class="btn-g" data-open="pausePartner" style="flex:1">Pause partner</button><button class="btn-g" data-open="removeBrand" style="flex:1">Remove partner</button></div>
       </div></section>
@@ -1179,15 +1192,11 @@ textarea{resize:vertical}
       </div></section>
 
       <section class="screen" data-screen="ads"><div class="pg" style="max-width:1000px">
-        <div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="h">Ad placements (free users)</div>
-          <div class="togglerow"><span>Promoted brand — homepage</span><div class="tgl on" data-chip="adHome"><i></i></div></div>
-          <div class="togglerow"><span>Promoted product — shop list</span><div class="tgl" data-chip="adShop"><i></i></div></div>
-        </div>
-        <div style="display:flex;align-items:center"><div class="h" style="flex:1">Featured and promoted campaigns</div><div class="btn small" data-open="campaignForm">＋ New campaign</div></div>
+        <div style="display:flex;align-items:center"><div class="h" style="flex:1">Featured and promoted campaigns</div><div class="btn small" data-open="campaignNew">＋ New campaign</div></div>
         <div class="tbl">
-          <div class="tr th" style="grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 90px">CAMPAIGN<div>TYPE</div><div>DATES</div><div>IMPR.</div><div>CLICKS</div><div></div></div>
-          <div class="tr" style="grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 90px"><div><b>BrandCo spring belts</b></div><div>Featured product</div><div>Jul 1–28</div><div>48k</div><div>1,120</div><div class="btn-g small" data-open="campaignForm" style="text-align:center">Edit</div></div>
-          <div class="tr alt" style="grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 90px"><div><b>StoreX summer</b> <span class="mut">ends in 2 days</span></div><div>Promoted brand</div><div>Jun 20 – Jul 16</div><div>102k</div><div>2,904</div><div class="btn-g small" data-open="campaignForm" style="text-align:center">Edit</div></div>
+          <div class="tr th" style="grid-template-columns:1.6fr 1fr 1fr 90px">CAMPAIGN<div>TYPE</div><div>DATES</div><div></div></div>
+          <div class="tr" style="grid-template-columns:1.6fr 1fr 1fr 90px"><div><b>BrandCo spring belts</b></div><div>Featured product</div><div>Jul 1–28</div><div class="btn-g small" data-open="campaignForm" style="text-align:center">Edit</div></div>
+          <div class="tr alt" style="grid-template-columns:1.6fr 1fr 1fr 90px"><div><b>StoreX summer</b> <span class="mut">ends in 2 days</span></div><div>Promoted brand</div><div>Jun 20 – Jul 16</div><div class="btn-g small" data-open="campaignForm" style="text-align:center">Edit</div></div>
         </div>
       </div></section>
 
@@ -1210,7 +1219,7 @@ textarea{resize:vertical}
       <section class="screen" data-screen="reports"><div class="pg">
         <div class="toolbar"><select style="width:auto"><option>Last 30 days</option><option>Last 7 days</option><option>This year</option></select><div style="flex:1"></div><div class="btn-o small" data-toast="CSV export started — the file will be emailed to you.">Export CSV</div></div>
         <div class="grid g-300">
-          <div class="card"><div class="h" style="margin-bottom:8px">User growth and retention</div><div class="bars" style="height:90px;margin-bottom:8px"><div class="b" style="height:30%"></div><div class="b" style="height:42%"></div><div class="b m" style="height:55%"></div><div class="b m" style="height:61%"></div><div class="b h" style="height:74%"></div><div class="b h" style="height:88%"></div></div><div class="sub">Weekly active <b>1,908</b></div></div>
+          <div class="card"><div class="h" style="margin-bottom:8px">User growth and retention</div><div style="display:flex;flex-direction:column;gap:7px"><div class="kv"><div>New users (30d)</div><b>312</b></div><div class="kv"><div>Returning users</div><b>1,596</b></div><div class="kv"><div>Weekly active</div><b>1,908</b></div></div></div>
           <div class="card"><div class="h" style="margin-bottom:8px">Credits and AI cost</div><div style="display:flex;flex-direction:column;gap:7px"><div class="kv"><div>Credits spent</div><b>9,412</b></div><div class="kv"><div>Credits purchased</div><b>11,030</b></div><div class="kv"><div>AI cost</div><b>$1,238</b></div></div></div>
           
           
@@ -1258,7 +1267,7 @@ textarea{resize:vertical}
 
     <!-- ADMIN MODALS -->
     <div class="scrim" id="aScrim"><div class="dlg">
-      <div class="modal" data-modal="menu"><div class="mttl">Menu</div><div class="mut mgrp">Operations</div><div class="rowline" data-nav="dashboard" style="margin-bottom:7px">▦ Dashboard</div><div class="rowline" data-nav="users" style="margin-bottom:7px">◉ Users</div><div class="rowline" data-nav="support" style="margin-bottom:7px">? Support inbox</div><div class="mut mgrp">Catalog</div><div class="rowline" data-nav="taxonomy" style="margin-bottom:7px">≣ Style &amp; categories</div><div class="rowline" data-nav="products" style="margin-bottom:7px">⬦ Products &amp; affiliates</div><div class="rowline" data-nav="brands" style="margin-bottom:7px">◈ Brand partners</div><div class="mut mgrp">Growth</div><div class="rowline" data-nav="monetize" style="margin-bottom:7px">⬡ Credits &amp; plans</div><div class="rowline" data-nav="ads" style="margin-bottom:7px">▣ Ads &amp; featured</div><div class="rowline" data-nav="ai" style="margin-bottom:7px">✦ AI &amp; cost control</div><div class="mut mgrp">System</div><div class="rowline" data-nav="content" style="margin-bottom:7px">✉ Notifications &amp; content</div><div class="rowline" data-nav="reports" style="margin-bottom:7px">◫ Reports</div><div class="rowline" data-nav="settings">⚙ Admin settings</div>
+      <div class="modal" data-modal="menu"><div class="mttl">Menu</div><div class="mut mgrp">Operations</div><div class="rowline" data-nav="dashboard" style="margin-bottom:7px">▦ Dashboard</div><div class="rowline" data-nav="users" style="margin-bottom:7px">◉ Users</div><div class="rowline" data-nav="support" style="margin-bottom:7px">? Support Inbox</div><div class="mut mgrp">Catalog</div><div class="rowline" data-nav="brands" style="margin-bottom:7px">◈ Brand Partners</div><div class="rowline" data-nav="products" style="margin-bottom:7px">⬦ Products and Affiliates</div><div class="rowline" data-nav="taxonomy" style="margin-bottom:7px">≣ Style and Categories</div><div class="mut mgrp">Growth</div><div class="rowline" data-nav="monetize" style="margin-bottom:7px">⬡ Credits and Plans</div><div class="rowline" data-nav="ads" style="margin-bottom:7px">▣ Ads and Featured</div><div class="rowline" data-nav="ai" style="margin-bottom:7px">✦ AI and Cost Control</div><div class="mut mgrp">System</div><div class="rowline" data-nav="content" style="margin-bottom:7px">✉ Notifications and Content</div><div class="rowline" data-nav="reports" style="margin-bottom:7px">◫ Reports</div><div class="rowline" data-nav="settings">⚙ Admin Settings</div>
       </div>
       <div class="modal" data-modal="userDetail">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><div class="avatar" style="width:42px;height:42px"></div><div style="flex:1"><b style="font-size:14px">Jane Doe</b><br><span class="mut">jane@email.com · joined Mar 2026</span></div><span class="chipbadge">Active</span></div>
@@ -1273,10 +1282,11 @@ textarea{resize:vertical}
       <div class="modal" data-modal="adjustCredits"><div class="mttl">Adjust credits — Jane Doe</div><div class="chips" style="margin-bottom:8px"><div class="chip" data-rg="adj" data-rv="add">＋ Add</div><div class="chip" data-rg="adj" data-rv="rem">− Remove</div></div><input placeholder="Amount, e.g. 10" style="margin-bottom:8px"><input placeholder="Reason (kept in activity log)" style="margin-bottom:4px"><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Apply</div></div></div>
       <div class="modal" data-modal="suspend"><div class="center"><div class="mttl">Suspend this account?</div><div class="sub" style="margin:8px 0 12px">The user loses access immediately; credits and data are kept. You can reactivate anytime.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Suspend</div></div></div></div>
       <div class="modal" data-modal="productForm"><div class="mttl">Product</div><div class="lbl">Photos <span class="mut">(add up to 5)</span></div><div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px"><div style="width:58px;height:58px;border-radius:9px;background:var(--img);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted)">image 1</div><div style="width:58px;height:58px;border-radius:9px;background:var(--img);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted)">image 2</div><div style="width:58px;height:58px;border-radius:9px;border:1.5px dashed var(--line-3);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:var(--muted);cursor:pointer"><div style="font-size:15px">＋</div>add</div></div><div class="lbl">Product name</div><input value="Leather belt, tan" style="margin-bottom:8px"><div class="frow" style="margin-bottom:8px"><div style="flex:1"><div class="lbl">Brand</div><select><option>BrandCo</option><option>PartnerStore</option><option>StoreX</option></select></div><div style="flex:1"><div class="lbl">Category</div><select><option>Belts</option><option>Shirts</option><option>Pants</option><option>Shoes</option><option>Jackets</option><option>Dresses</option><option>Hats</option><option>Bags</option><option>Watches</option><option>Jewelry</option><option>Accessories</option></select></div></div><div class="frow" style="margin-bottom:8px"><div style="flex:1"><div class="lbl">Price</div><input value="$28"></div><div style="flex:1"><div class="lbl">Sizes</div><input value="S · M · L" placeholder="e.g. S, M, L"></div></div><div class="lbl">Colours</div><input value="Tan · Brown" placeholder="e.g. tan, brown" style="margin-bottom:8px"><div class="lbl">Affiliate link</div><input class="mono" value="https://partner.store/belt-tan?aff=assemble" style="margin-bottom:8px;font-size:11px"><div class="lbl">AI matching tags</div><input value="belt, tan, leather, smart casual, dinner" style="margin-bottom:8px"><div class="lbl">Availability</div><div class="chips" style="margin-bottom:8px"><div class="chip" data-rg="pst" data-rv="active">Active</div><div class="chip" data-rg="pst" data-rv="feat">Featured</div><div class="chip" data-rg="pst" data-rv="out">Out of stock</div><div class="chip" data-rg="pst" data-rv="off">Inactive</div></div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Delete</div><div class="btn" data-close style="flex:2;text-align:center">Save product</div></div></div>
-      <div class="modal" data-modal="brandForm"><div class="mttl">Brand partner</div><input value="BrandCo" style="margin-bottom:8px"><div style="display:flex;gap:7px;margin-bottom:8px"><select style="flex:1"><option>Direct partner</option><option>Affiliate network</option></select><input value="7%" style="width:70px"></div><input placeholder="Contact email" value="partners@brandco.com" style="margin-bottom:8px"><div class="togglerow" style="margin-bottom:4px"><span>Partnership active</span><div class="tgl on" data-chip="tBrandOn"><i></i></div></div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Save</div></div></div>
+      <div class="modal" data-modal="brandForm"><div class="mttl">Brand partner</div><input value="BrandCo" style="margin-bottom:8px"><select style="margin-bottom:8px"><option>Direct partner</option><option>Affiliate network</option></select><input placeholder="Contact email" value="partners@brandco.com" style="margin-bottom:8px"><div class="togglerow" style="margin-bottom:4px"><span>Partnership active</span><div class="tgl on" data-chip="tBrandOn"><i></i></div></div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Save</div></div></div>
       <div class="modal" data-modal="pausePartner"><div class="center"><div class="mttl">Pause this partner?</div><div class="sub" style="margin:8px 0 12px">Their products stop appearing in matches and shop results until you reactivate. Existing links stay tracked.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Pause partner</div></div></div></div>
-      <div class="modal" data-modal="removeBrand"><div class="center"><div class="mttl">Remove BrandCo?</div><div class="sub" style="margin:8px 0 12px">This removes the partner and hides its 46 products from the app. Historical click and commission records are kept. This can't be undone.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-act="removedBrand" style="flex:1;text-align:center">Remove</div></div></div></div>
-      <div class="modal" data-modal="campaignForm"><div class="mttl">Campaign</div><div class="lbl">Campaign name</div><input value="BrandCo spring belts" style="margin-bottom:8px"><div class="lbl">Type &amp; placement</div><select style="margin-bottom:8px"><option>Promoted brand — homepage banner</option><option>Featured product — shop list slot</option></select><div class="frow" style="margin-bottom:8px"><div style="flex:1"><div class="lbl">Brand <span class="mut">(uses its logo)</span></div><select><option>BrandCo</option><option>PartnerStore</option><option>StoreX</option></select></div><div style="flex:1"><div class="lbl">Product <span class="mut">(uses its image)</span></div><select><option>Leather belt, tan — BrandCo</option><option>Slim belt, tan — BrandCo</option><option>Premium belt, black — StoreX</option></select></div></div><div class="frow" style="margin-bottom:8px"><div style="flex:1"><div class="lbl">Start</div><input type="date"></div><div style="flex:1"><div class="lbl">End</div><input type="date"></div></div><div class="note" style="margin-bottom:8px">The homepage banner automatically uses the selected brand's logo; the shop slot uses the selected product's image — no separate upload needed.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">End campaign</div><div class="btn" data-close style="flex:2;text-align:center">Save campaign</div></div></div>
+      <div class="modal" data-modal="removeBrand"><div class="center"><div class="mttl">Remove BrandCo?</div><div class="sub" style="margin:8px 0 12px">This removes the partner and hides its 46 products from the app. This can't be undone.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-act="removedBrand" style="flex:1;text-align:center">Remove</div></div></div></div>
+      <div class="modal" data-modal="campaignForm"><div class="mttl">Campaign</div><div class="lbl">Campaign name</div><input value="BrandCo spring belts" style="margin-bottom:8px"><div class="frow" style="margin-bottom:8px"><div style="flex:1"><div class="lbl">Brand <span class="mut">(uses its logo)</span></div><select><option>BrandCo</option><option>PartnerStore</option><option>StoreX</option></select></div><div style="flex:1"><div class="lbl">Product <span class="mut">(uses its image)</span></div><select><option>Leather belt, tan — BrandCo</option><option>Slim belt, tan — BrandCo</option><option>Premium belt, black — StoreX</option></select></div></div><div class="frow" style="margin-bottom:8px"><div style="flex:1"><div class="lbl">Start</div><input type="date"></div><div style="flex:1"><div class="lbl">End</div><input type="date"></div></div><div class="note" style="margin-bottom:8px">The homepage banner automatically uses the selected brand's logo; the shop slot uses the selected product's image — no separate upload needed.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">End campaign</div><div class="btn" data-close style="flex:2;text-align:center">Save campaign</div></div></div>
+      <div class="modal" data-modal="campaignNew"><div class="mttl">New campaign</div><div class="lbl">Campaign name</div><input placeholder="e.g. Spring belts push" style="margin-bottom:8px"><div class="frow" style="margin-bottom:8px"><div style="flex:1"><div class="lbl">Brand <span class="mut">(uses its logo)</span></div><select><option>BrandCo</option><option>PartnerStore</option><option>StoreX</option></select></div><div style="flex:1"><div class="lbl">Product <span class="mut">(uses its image)</span></div><select><option>— none —</option><option>Leather belt, tan — BrandCo</option><option>Premium belt, black — StoreX</option></select></div></div><div class="frow" style="margin-bottom:8px"><div style="flex:1"><div class="lbl">Start</div><input type="date"></div><div style="flex:1"><div class="lbl">End</div><input type="date"></div></div><div class="note" style="margin-bottom:8px">Pick a brand to promote on the homepage (uses its logo) or a product to feature in the shop list (uses its image) — no upload needed.</div><div class="frow"><div class="btn" data-close style="width:100%;text-align:center">Create campaign</div></div></div>
       <div class="modal" data-modal="broadcast"><div class="center"><div class="mttl">Send to 4,120 users?</div><div class="sub" style="margin:8px 0 12px">Push + in-app notification. This can't be recalled once sent.</div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Cancel</div><div class="btn" data-close style="flex:1;text-align:center">Send now</div></div></div></div>
       <div class="modal" data-modal="articleForm"><div class="mttl">Help article</div><input value="How do credits work?" style="margin-bottom:8px"><textarea style="min-height:90px;margin-bottom:8px">Each outfit generation costs 1 credit. Free users get 3 per month…</textarea><div class="chips" style="margin-bottom:4px"><div class="chip" data-rg="art" data-rv="pub">Published</div><div class="chip" data-rg="art" data-rv="draft">Draft</div></div><div class="frow"><div class="btn-g" data-close style="flex:1;text-align:center">Delete</div><div class="btn" data-close style="flex:2;text-align:center">Save article</div></div></div>
       <div class="modal" data-modal="ticket"><div class="mttl">#4821 · Charged but credits missing</div><div class="mut" style="margin-bottom:8px">jane@email.com · Billing · opened 2h ago</div><div class="card flat" style="padding:11px;font-size:12px;margin-bottom:7px"><b>Jane:</b> I bought the 50 pack, money left my account but balance still shows 11.</div><div class="card flat" style="padding:11px;font-size:12px;background:var(--surface-2);margin-bottom:8px"><b>Note (internal):</b> payment provider shows success — likely webhook missed. Re-credit manually.</div><textarea placeholder="Write a reply…" style="min-height:64px;margin-bottom:8px"></textarea><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><div class="btn-o small" data-open="adjustCredits">± Adjust credits</div><div style="flex:1"></div><div class="btn-g small" data-close>Mark resolved</div><div class="btn small" data-close>Send reply</div></div></div>
@@ -1417,7 +1427,7 @@ textarea{resize:vertical}
       radio:{who:'w',budget:'2',body:'b',cat:'all',occ:'dinner',dress:'smart',time:'night',place:'in',mode:'mix',pb:'2',bold:'bal',base:'1',col:'all',plan:'plus',pack:'50',pay:'apple',sort:'match',sc:'dinner',sw:'1',fp:'2',vote:'',fr:'maya',pron:'they',fit:'regular',skin:'medium',rpt:'fit',weather:'mild',season:'summer',trip:'leisure',packmode:'closet'}},
     timer:null,
     main:function(){return userApp.querySelector('.main');},
-    go:function(s){var st=this.st;if(st.screen!==s){if(st.hist.length&&st.hist[st.hist.length-1]===s){st.hist.pop();}else{st.hist.push(st.screen);if(st.hist.length>25)st.hist.shift();}}st.screen=s;st.modal=null;var m=this.main();if(m)m.scrollTop=0;clearTimeout(this.timer);if(s==='genLoading'){var self=this;this.timer=setTimeout(function(){self.go('genResults');},1800);}this.render();},
+    go:function(s){var st=this.st;if(st.screen!==s){if(st.hist.length&&st.hist[st.hist.length-1]===s){st.hist.pop();}else if(st.screen!=='genLoading'){st.hist.push(st.screen);if(st.hist.length>25)st.hist.shift();}}st.screen=s;st.modal=null;var m=this.main();if(m)m.scrollTop=0;clearTimeout(this.timer);if(s==='genLoading'){var self=this;this.timer=setTimeout(function(){self.go('genResults');},1800);}this.render();},
     back:function(){var st=this.st;var p=st.hist.pop()||'home';st.screen=p;st.modal=null;var m=this.main();if(m)m.scrollTop=0;this.render();},
     render:function(){var st=this.st;
       userApp.classList.toggle('authmode',this.AUTH.indexOf(st.screen)>=0);
@@ -1442,6 +1452,7 @@ textarea{resize:vertical}
       var _col=st.radio.col;userApp.querySelectorAll('#uSavedGrid > div[data-col]').forEach(function(el){el.style.display=(_col==='all'||el.dataset.col===_col)?'':'none';});
       var _oc=document.getElementById('uOpenCol');if(_oc)_oc.style.display=(_col&&_col!=='all')?'':'none';
       var _pc=(st.radio.packmode==='closet');['uPackBuy','uPackShopBtn'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display=_pc?'none':'';});
+      if(st.screen==='itemDetail'&&st.item){var _it=st.item;var _t=document.getElementById('uItemTitle');if(_t)_t.textContent=_it.name;var _b=document.getElementById('uItemBrand');if(_b)_b.value=(_it.brand&&_it.brand!=='—')?_it.brand:'';var _c=document.getElementById('uItemCat');if(_c)_c.innerHTML='<option>'+_it.label+'</option>';var _ph=document.getElementById('uItemPhoto');if(_ph&&_it.icon){_ph.classList.add('phimg');_ph.style.backgroundImage="url('assets/icon-"+_it.icon+".png')";_ph.textContent='';}}
       var closet=(st.radio.mode==='closet');
       var mr=document.getElementById('uMissRow');if(mr)mr.style.display=closet?'none':'flex';
       var sb=document.getElementById('uShopBtn');if(sb)sb.style.display=closet?'none':'';
@@ -1456,7 +1467,7 @@ textarea{resize:vertical}
     click:function(e){var t=e.target.closest('[data-nav],[data-back],[data-open],[data-close],[data-chip],[data-rg],[data-act],[data-acc],[data-toast]');if(!t)return;
       if(t.dataset.toast){var tm=document.getElementById('uToastMsg');if(tm)tm.textContent=t.dataset.toast;this.st.modal='utoast';this.render();return;}
       if(t.hasAttribute('data-back')){this.back();return;}
-      if(t.dataset.nav){this.go(t.dataset.nav);return;}
+      if(t.dataset.nav){if(t.dataset.nav==='itemDetail'&&t.dataset.iname){this.st.item={name:t.dataset.iname,brand:t.dataset.ibrand,label:t.dataset.ilabel,icon:t.dataset.iicon};}this.go(t.dataset.nav);return;}
       if(t.dataset.open){this.st.modal=t.dataset.open;this.render();return;}
       if(t.hasAttribute('data-close')){this.st.modal=null;this.render();return;}
       if(t.dataset.acc){var b=t.querySelector('.acc-b'),i=t.querySelector('.acc-i');if(b){var o=b.style.display!=='none';b.style.display=o?'none':'block';if(i)i.textContent=o?'+':'−';}return;}
@@ -1495,7 +1506,7 @@ textarea{resize:vertical}
 
   /* ---------- ADMIN ---------- */
   var A={
-    TITLES:{dashboard:'Dashboard',users:'Users',taxonomy:'Style & categories',products:'Products & affiliate links',brands:'Brand partners',brandDetail:'Brand partner',ai:'AI & cost control',monetize:'Credits & subscription plans',ads:'Ads & featured placements',content:'Notifications & content',reports:'Reports & analytics',support:'Support inbox',settings:'Admin settings'},
+    TITLES:{dashboard:'Dashboard',users:'Users',taxonomy:'Style and Categories',products:'Products and Affiliates',brands:'Brand Partners',brandDetail:'Brand Partner',ai:'AI and Cost Control',monetize:'Credits and Plans',ads:'Ads and Featured',content:'Notifications and Content',reports:'Reports and Analytics',support:'Support Inbox',settings:'Admin Settings'},
     st:{authed:false,authScreen:'login',screen:'dashboard',modal:null,
       sel:{tSafety:1,tFlag:1,adHome:1,adInter:1,adShop:0,t2fa:1,tTimeout:1,tBrandOn:1,tPackOn:1,tPackBest:1},
       radio:{tk:'open',adj:'add',pst:'feat',art:'pub',brandStatus:'active'}},
