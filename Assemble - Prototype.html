@@ -334,7 +334,21 @@ textarea{resize:vertical}
         <button class="btn" data-nav="signup" style="margin-top:8px">Create account</button>
         <button class="btn-o" data-nav="login">Log in</button>
         <button class="btn-g" data-nav="permissions">Continue with Google</button>
-        <div class="mut center">By continuing you agree to the Terms and Privacy Policy</div>
+        <div class="mut center">By continuing you agree to the <span class="tlink" data-nav="terms">Terms</span> and <span class="tlink" data-nav="privacy">Privacy Policy</span></div>
+      </div></section>
+
+      <section class="screen" data-screen="terms"><div class="wrap">
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Terms of Service</div></div>
+        <div class="mut">Last updated March 2026 · placeholder copy for the prototype</div>
+        <div class="card flat" style="font-size:12.5px;line-height:1.7;color:var(--ink-2)"><b style="color:var(--ink)">1. Using Assemble</b><br>Assemble helps you organise your wardrobe and suggests outfit combinations from items you add. You are responsible for the items and details you enter.<br><br><b style="color:var(--ink)">2. Accounts</b><br>Keep your login details secure. You must be 16 or older to use Assemble.<br><br><b style="color:var(--ink)">3. Purchases &amp; credits</b><br>Credits and subscriptions are billed as shown at checkout. Shopping links may lead to partner stores; purchases there are governed by that store's terms.<br><br><b style="color:var(--ink)">4. Your content</b><br>Photos you upload stay private to your account and are processed by AI only to detect and match clothing, with your consent.<br><br><b style="color:var(--ink)">5. Changes</b><br>We may update these terms and will notify you of material changes in the app.</div>
+        <div class="mut center">Full legal text is provided by the client's attorney.</div>
+      </div></section>
+
+      <section class="screen" data-screen="privacy"><div class="wrap">
+        <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Privacy Policy</div></div>
+        <div class="mut">Last updated March 2026 · placeholder copy for the prototype</div>
+        <div class="card flat" style="font-size:12.5px;line-height:1.7;color:var(--ink-2)"><b style="color:var(--ink)">What we collect</b><br>Your account details, the wardrobe items and photos you add, your style preferences, and how you use the app.<br><br><b style="color:var(--ink)">How we use it</b><br>To detect and match clothing, generate outfit suggestions, and improve the service. Photos are analysed by AI only with your consent.<br><br><b style="color:var(--ink)">Sharing</b><br>We do not sell your data. Outfits are only shared with friends you choose. Partner stores receive an anonymous referral when you tap a shopping link.<br><br><b style="color:var(--ink)">Your controls</b><br>You can edit or delete items, remove avatar data, or delete your account at any time in Settings.<br><br><b style="color:var(--ink)">Contact</b><br>privacy@assemble.app</div>
+        <div class="mut center">Full legal text is provided by the client's attorney.</div>
       </div></section>
 
       <section class="screen" data-screen="signup"><div class="wrap">
@@ -343,7 +357,7 @@ textarea{resize:vertical}
         <div class="lbl">Email</div><input placeholder="name@email.com">
         <div class="lbl">Password</div><input type="password" placeholder="••••••••">
         <div class="mut">Min 8 characters · 1 number · 1 symbol</div>
-        <div class="consentrow" data-chip="terms"><div class="check">✓</div><span>I agree to the <u>Terms</u> and <u>Privacy Policy</u>.</span></div>
+        <div class="consentrow" data-chip="terms"><div class="check">✓</div><span>I agree to the <u class="tlink" data-nav="terms">Terms</u> and <u class="tlink" data-nav="privacy">Privacy Policy</u>.</span></div>
         <div class="consentrow" data-chip="aiconsent"><div class="check">✓</div><span>I allow Assemble to use AI to analyze photos I upload to detect and match clothing items.</span></div>
         <button class="btn" data-nav="verify">Continue</button>
         <div class="link" data-nav="login">Already have an account? Log in</div>
