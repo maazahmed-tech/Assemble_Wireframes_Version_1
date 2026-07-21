@@ -911,14 +911,14 @@ textarea{resize:vertical}
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Vacation</div><div class="mut">−1 · Sat</div></div>
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Packing list — Lisbon</div><div class="mut">−1 · Fri</div></div>
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Everyday</div><div class="mut">−1 · Wed</div></div>
-        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Plus subscription credits</div><div class="mut">+30 · Jul 1</div></div>
+        <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">100-credit pack</div><div class="mut">+100 · Jul 1</div></div>
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Work</div><div class="mut">−1 · Jun 28</div></div>
         <div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1">Outfit generation — Dinner</div><div class="mut">−1 · Jun 27</div></div>
       </div></section>
       <section class="screen" data-screen="payments"><div class="wrap">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Payment history</div></div>
         <div class="sub">Your purchases and invoices.</div>
-        <div class="card flat" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Plus subscription</div><div class="mut">Jul 1, 2026 · Visa •• 4242</div></div><div style="font-weight:700">$6.99</div></div>
+        <div class="card flat" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">100-credit pack</div><div class="mut">Jul 1, 2026 · Visa •• 4242</div></div><div style="font-weight:700">$16.99</div></div>
         <div class="card flat" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">50-credit pack</div><div class="mut">Jun 22, 2026 · Apple Pay</div></div><div style="font-weight:700">$9.99</div></div>
         <div class="card flat" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Starter pack (10 credits)</div><div class="mut">Jun 3, 2026 · Visa •• 4242</div></div><div style="font-weight:700">$2.99</div></div>
         <div class="mut center">Card payments are processed securely. Receipts are also emailed.</div>
@@ -1451,7 +1451,7 @@ textarea{resize:vertical}
   /* ---------- USER ---------- */
   var U={
     AUTH:['welcome','signup','verify','login','forgot','reset','permissions','style1','style2','avatar','terms','privacy'],
-    st:{screen:'welcome',modal:null,hist:[],credits:3,plan:'free',payCtx:'credits',refine:'',
+    st:{screen:'welcome',modal:null,hist:[],credits:3,plan:'free',term:'mo',payCtx:'credits',refine:'',
       sel:{casual:1,street:1,odinner:1,icasual:1,terms:1,aiconsent:1,permCam:1,permPhoto:1,permNotif:1,tAutoRenew:1,tPush:1,tAlerts:1,tFriend:1,tPrivate:1,tAiConsent:1,avConsent:0},
       radio:{who:'w',budget:'2',body:'b',cat:'all',occ:'dinner',dress:'smart',time:'night',place:'in',mode:'mix',pb:'2',bold:'bal',base:'1',col:'all',plan:'plus',billing:'mo',pack:'50',pay:'apple',sort:'match',sc:'dinner',sw:'1',fp:'2',vote:'',fr:'maya',pron:'they',fit:'regular',skin:'medium',rpt:'fit',weather:'mild',season:'summer',trip:'leisure',packmode:'closet'}},
     timer:null,
@@ -1474,7 +1474,7 @@ textarea{resize:vertical}
       var rs=document.getElementById('uResSummary');if(rs)rs.textContent=(occL[st.radio.occ]||'Dinner')+' · '+(drL[st.radio.dress]||'Smart casual')+' · '+(moL[st.radio.mode]||'Closet + shopping')+' · '+(pbL[st.radio.pb]||'$50–150')+(st.refine?' · '+st.refine:'');
       var pll=document.getElementById('uPlanLabel');if(pll)pll.textContent=planL[st.plan].n;
       var pbg=document.getElementById('uPlanBig');if(pbg)pbg.textContent=planL[st.plan].n;
-      var _sm=document.getElementById('uSubMeta');if(_sm){var _mm={plus:'$6.99/mo · renews Jul 30, 2026',pro:'$14.99/mo · renews Jul 30, 2026'};_sm.textContent=_mm[st.plan]||'No active subscription';}
+      var _sm=document.getElementById('uSubMeta');if(_sm){var _meta='No active subscription';if(st.plan==='plus')_meta='$6.99/mo · renews Jul 30, 2026';else if(st.plan==='pro')_meta=(st.term==='yr')?'$149.90/yr · renews Jul 30, 2027':'$14.99/mo · renews Jul 30, 2026';_sm.textContent=_meta;}
       var _cs=document.getElementById('uCancelSub');if(_cs)_cs.style.display=(st.plan==='free')?'none':'';
       var _pf=document.getElementById('uPayFailCard');if(_pf)_pf.style.display=(st.plan==='free')?'none':'';
       var sto=document.getElementById('uSentTo');if(sto)sto.textContent=frN[st.radio.fr]||'your friend';
@@ -1530,7 +1530,7 @@ textarea{resize:vertical}
       case 'newCollection':st.modal=null;this.go('saved');break;
       case 'payCredits':st.payCtx='credits';st.modal='payment';this.render();break;
       case 'paySub':st.payCtx='sub';st.modal='payment';this.render();break;
-      case 'payNow':{var packN={'10':10,'50':50,'100':100},planN={free:'Free',plus:'Plus',pro:'Pro'},planCr={plus:30,pro:100};if(st.payCtx==='sub'){st.plan=st.radio.plan;if(planCr[st.plan])st.credits=planCr[st.plan];st.modal='paid';this.render();var m=document.getElementById('uPaidMsg');if(m)m.textContent="You're now on "+planN[st.plan]+" — "+(planCr[st.plan]?planCr[st.plan]+" credits a month, ad-free.":"enjoy Assemble.");}else{var add=packN[st.radio.pack]||50;st.credits+=add;st.modal='paid';this.render();var m2=document.getElementById('uPaidMsg');if(m2)m2.textContent=add+" credits added — new balance "+st.credits+".";}break;}
+      case 'payNow':{var packN={'10':10,'50':50,'100':100},planN={free:'Free',plus:'Plus',pro:'Pro'},planCr={plus:30,pro:100};if(st.payCtx==='sub'){st.plan=st.radio.plan;st.term=st.radio.billing||'mo';if(planCr[st.plan])st.credits=planCr[st.plan];st.modal='paid';this.render();var m=document.getElementById('uPaidMsg');if(m)m.textContent="You're now on "+planN[st.plan]+" — "+(planCr[st.plan]?planCr[st.plan]+" credits a month, ad-free.":"enjoy Assemble.");}else{var add=packN[st.radio.pack]||50;st.credits+=add;st.modal='paid';this.render();var m2=document.getElementById('uPaidMsg');if(m2)m2.textContent=add+" credits added — new balance "+st.credits+".";}break;}
       case 'copyLink':st.modal='linkCopied';this.render();break;
       case 'shareExt':st.modal=null;this.render();break;
       case 'sendFriend':st.modal='shareSent';this.render();break;
