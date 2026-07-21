@@ -405,10 +405,10 @@ textarea{resize:vertical}
       <section class="screen" data-screen="permissions"><div class="wrap">
         <div class="top"><div class="iconbtn" data-nav="verify">←</div><div class="ttl">Permissions</div></div>
         <div class="sub">Assemble works best with a few permissions. You control each one and can change them anytime in Settings.</div>
-        <div class="card flat" style="display:flex;gap:11px;align-items:center"><div style="flex:1"><div style="font-weight:700;font-size:13px">Camera</div><div class="mut">Photograph wardrobe items and avatar selfies.</div></div><div class="chip on" data-chip="permCam">Allowed</div></div>
-        <div class="card flat" style="display:flex;gap:11px;align-items:center"><div style="flex:1"><div style="font-weight:700;font-size:13px">Photos</div><div class="mut">Upload existing photos of your clothes.</div></div><div class="chip on" data-chip="permPhoto">Allowed</div></div>
-        <div class="card flat" style="display:flex;gap:11px;align-items:center"><div style="flex:1"><div style="font-weight:700;font-size:13px">Notifications</div><div class="mut">Saved-outfit updates, new matches, friend feedback.</div></div><div class="chip on" data-chip="permNotif">Allowed</div></div>
-        <div class="card flat" style="display:flex;gap:11px;align-items:center"><div style="flex:1"><div style="font-weight:700;font-size:13px">Location <span class="mut">(optional)</span></div><div class="mut">Weather-based outfit suggestions.</div></div><div class="chip" data-chip="permLoc">Ask later</div></div>
+        <div class="card flat" style="display:flex;gap:11px;align-items:center"><div style="flex:1"><div style="font-weight:700;font-size:13px">Camera</div><div class="mut">Photograph wardrobe items and avatar selfies.</div></div><div class="chip on" data-chip="permCam" data-onlabel="Allowed" data-offlabel="Ask later">Allowed</div></div>
+        <div class="card flat" style="display:flex;gap:11px;align-items:center"><div style="flex:1"><div style="font-weight:700;font-size:13px">Photos</div><div class="mut">Upload existing photos of your clothes.</div></div><div class="chip on" data-chip="permPhoto" data-onlabel="Allowed" data-offlabel="Ask later">Allowed</div></div>
+        <div class="card flat" style="display:flex;gap:11px;align-items:center"><div style="flex:1"><div style="font-weight:700;font-size:13px">Notifications</div><div class="mut">Saved-outfit updates, new matches, friend feedback.</div></div><div class="chip on" data-chip="permNotif" data-onlabel="Allowed" data-offlabel="Ask later">Allowed</div></div>
+        <div class="card flat" style="display:flex;gap:11px;align-items:center"><div style="flex:1"><div style="font-weight:700;font-size:13px">Location <span class="mut">(optional)</span></div><div class="mut">Weather-based outfit suggestions.</div></div><div class="chip" data-chip="permLoc" data-onlabel="Allowed" data-offlabel="Ask later">Ask later</div></div>
         <button class="btn" data-nav="style1">Continue</button>
         <div class="link" data-nav="style1">Skip — decide later</div>
       </div></section>
@@ -1456,7 +1456,7 @@ textarea{resize:vertical}
       userApp.querySelectorAll('.tab').forEach(function(el){el.classList.toggle('on',el.dataset.nav===st.screen);});
       userApp.querySelectorAll('.ucredits').forEach(function(el){el.textContent=st.credits;});
       userApp.querySelectorAll('.ucredits-next').forEach(function(el){el.textContent=st.credits+50;});
-      userApp.querySelectorAll('[data-chip]').forEach(function(el){var on=!!st.sel[el.dataset.chip];el.classList.toggle('on',on);var c=el.querySelector('.check');if(c)c.classList.toggle('on',on);});
+      userApp.querySelectorAll('[data-chip]').forEach(function(el){var on=!!st.sel[el.dataset.chip];el.classList.toggle('on',on);var c=el.querySelector('.check');if(c)c.classList.toggle('on',on);if(el.dataset.onlabel)el.textContent=on?el.dataset.onlabel:el.dataset.offlabel;});
       userApp.querySelectorAll('[data-rg]').forEach(function(el){el.classList.toggle('on',st.radio[el.dataset.rg]===el.dataset.rv);});
       var pn=document.getElementById('uPlanName');if(pn){var mp={free:'Free',plus:'Plus',pro:'Pro'};pn.textContent=mp[st.radio.plan]||'Plus';}
       var occL={dinner:'Dinner',work:'Work',club:'Club',church:'Church',ball:'Ball',vacay:'Vacation',daily:'Everyday'},drL={casual:'Casual',smart:'Smart casual',formal:'Formal'},moL={closet:'Closet only',mix:'Closet + shopping',shop:'Shopping only'},pbL={'1':'Under $50','2':'$50–150','3':'$150+'},packL={'10':{p:'$2.99',c:10},'50':{p:'$9.99',c:50},'100':{p:'$16.99',c:100}},planL={free:{n:'Free',p:'$0'},plus:{n:'Plus',p:'$6.99'},pro:{n:'Pro',p:'$14.99'}},frN={maya:'Maya',sam:'Sam',alex:'Alex'};
