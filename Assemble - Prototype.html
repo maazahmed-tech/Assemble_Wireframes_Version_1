@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <title>Assemble</title>
 <style>
 :root{
@@ -682,16 +682,16 @@ textarea{resize:vertical}
         <div class="card flat" style="font-size:12.5px;line-height:1.7">Green sneakers · White tee · Black jeans · Denim jacket · Oxford shirt · Beige chinos · Silver watch · Swim shorts · Linen shirt</div>
         <div id="uPackBuy"><div class="lbl">Suggested to buy</div>
         <div style="border:1.5px dashed var(--line-3);border-radius:11px;padding:10px;background:var(--surface-2);display:flex;gap:9px;align-items:center"><div class="ph" style="width:40px;height:40px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Packable rain jacket — missing</div><div class="mut">~$60 · 4 store options</div></div><button class="btn-o" data-nav="shop" style="padding:6px 10px;font-size:11px">Shop</button></div></div>
-        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn" data-open="savePack" style="flex:1;min-width:120px">Save list</button><button class="btn-o" data-toast="Missing items added to your shopping list." id="uPackShopBtn" style="flex:1;min-width:130px">Shop missing</button></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn" data-open="savePack" id="uPackSaveBtn" style="flex:1;min-width:120px">Save list</button><button class="btn-g" data-open="deletePackList" id="uPackDelBtn" style="flex:1;min-width:120px;display:none">Delete list</button><button class="btn-o" data-toast="Missing items added to your shopping list." id="uPackShopBtn" style="flex:1;min-width:130px">Shop missing</button></div>
       </div></section>
 
       <section class="screen" data-screen="packHistory"><div class="wrap wide">
         <div class="top"><div class="iconbtn" data-back>←</div><div class="ttl">Past packing lists</div></div>
         <div class="sub">Your saved trips, most recent first.</div>
         <div style="display:flex;flex-direction:column;gap:9px">
-          <div class="card click" data-nav="packingList" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Lisbon · 5 days</div><div class="mut">Saved Jul 12 · 3 outfits · 9 items</div></div><button class="btn-o" data-nav="packingList" style="padding:6px 10px;font-size:11px">Open</button></div>
-          <div class="card click" data-nav="packingList" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Business trip · NYC · 3 days</div><div class="mut">Saved Jun 30 · 3 outfits · 8 items</div></div><button class="btn-o" data-nav="packingList" style="padding:6px 10px;font-size:11px">Open</button></div>
-          <div class="card click" data-nav="packingList" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Beach week · 7 days</div><div class="mut">Saved Jun 8 · 4 outfits · 11 items</div></div><button class="btn-o" data-nav="packingList" style="padding:6px 10px;font-size:11px">Open</button></div>
+          <div class="card click" data-nav="packingList" data-saved="1" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Lisbon · 5 days</div><div class="mut">Saved Jul 12 · 3 outfits · 9 items</div></div><button class="btn-o" data-nav="packingList" data-saved="1" style="padding:6px 10px;font-size:11px">Open</button></div>
+          <div class="card click" data-nav="packingList" data-saved="1" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Business trip · NYC · 3 days</div><div class="mut">Saved Jun 30 · 3 outfits · 8 items</div></div><button class="btn-o" data-nav="packingList" data-saved="1" style="padding:6px 10px;font-size:11px">Open</button></div>
+          <div class="card click" data-nav="packingList" data-saved="1" style="display:flex;gap:10px;align-items:center"><div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">Beach week · 7 days</div><div class="mut">Saved Jun 8 · 4 outfits · 11 items</div></div><button class="btn-o" data-nav="packingList" data-saved="1" style="padding:6px 10px;font-size:11px">Open</button></div>
         </div>
       </div></section>
 
@@ -839,6 +839,7 @@ textarea{resize:vertical}
         <div class="card flat" style="border:1px solid var(--ink);display:flex;gap:10px;align-items:center"><div style="flex:1;font-size:12.5px"><b>Last payment failed</b><div class="mut">Card ending 4242 was declined on Jul 1.</div></div><button class="btn small" data-open="updateCard" style="width:auto">Update card</button></div>
         <div class="menurow" data-nav="plans"><span style="flex:1">Change plan</span><span class="arw">→</span></div>
         <div class="menurow" data-nav="payments"><span style="flex:1">Payment history</span><span class="arw">→</span></div>
+        <div class="menurow" data-open="manageCards"><span style="flex:1">Payment methods</span><span class="arw">→</span></div>
         <div class="togglerow"><span>Auto-renew</span><div class="tgl on" data-chip="tAutoRenew"><i></i></div></div>
         <div class="menurow" data-toast="A renewal reminder is sent 3 days before each charge."><span style="flex:1">Renewal reminders</span><span class="mut">On</span></div>
         <button class="btn-g" data-open="cancelSub" style="margin-top:6px">Cancel subscription</button>
@@ -1005,6 +1006,8 @@ textarea{resize:vertical}
       <div class="modal" data-modal="updateCard"><div class="mttl">Update payment method</div><div class="sub" style="margin:6px 0 10px">Your last charge was declined. Add a new card to keep your Plus plan active.</div><input placeholder="Card number"><div class="frow" style="margin-top:8px"><input placeholder="MM / YY"><input placeholder="CVC"></div><div class="frow" style="margin-top:10px"><button class="btn-o" data-close style="flex:1">Later</button><button class="btn" data-toast="Card updated — we'll retry the charge shortly." style="flex:1">Save card</button></div></div>
       <div class="modal" data-modal="deleteOutfit"><div class="mttl">"Office fit"</div><div class="menurow" data-close>Move to another collection</div><div class="menurow" data-open="share">Share</div><div class="btn-g" data-close style="text-align:center">Delete outfit</div><div class="link" data-close>Cancel</div></div>
       <div class="modal" data-modal="buyCredits"><div class="mttl">Buy credits</div><div class="lrow" data-rg="pack" data-rv="10">10 credits — $2.99</div><div class="lrow" data-rg="pack" data-rv="50">50 credits — $9.99 · best value</div><div class="lrow" data-rg="pack" data-rv="100">100 credits — $16.99</div><button class="btn" data-act="payCredits" style="margin-top:4px">Continue to payment</button><div class="link" data-nav="plans">Or subscribe for monthly credits</div></div>
+      <div class="modal" data-modal="deletePackList"><div class="center"><div class="mttl">Delete this packing list?</div><div class="sub" style="margin:8px 0 14px">It will be removed from Past packing lists. This can't be undone.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Keep</button><button class="btn" data-act="delPackDone" style="flex:1">Delete list</button></div></div></div>
+      <div class="modal" data-modal="manageCards"><div class="mttl">Payment methods</div><div style="border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:7px"><span style="flex:1">Visa •• 4242 <span class="mut">· default</span></span><button class="btn-g small" data-toast="Card removed." style="width:auto">Remove</button></div><div style="border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:7px"><span style="flex:1">Mastercard •• 1881</span><button class="btn-g small" data-toast="Card removed." style="width:auto">Remove</button></div><button class="btn-o" data-toast="Add a card — enter the details securely." style="margin-top:6px">＋ Add a card</button><div class="link" data-close>Done</div></div>
       <div class="modal" data-modal="savePack"><div class="mttl">Save packing list</div><div class="lbl">List name</div><input value="Lisbon · 5 days" placeholder="e.g. Lisbon trip"><div class="frow" style="margin-top:10px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-toast="Packing list saved to Past packing lists." style="flex:1">Save</button></div></div>
       <div class="modal" data-modal="payment"><div class="mttl">Payment</div><div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1" id="uPayItem">50 credits</div><b id="uPayTotal">$9.99</b></div><div class="lrow" data-rg="pay" data-rv="card">Card ending •• 4242</div><div class="lrow" data-rg="pay" data-rv="new">＋ New card</div><button class="btn" data-act="payNow" id="uPayBtn" style="margin-top:4px;width:100%">Pay $9.99</button><div class="mut center">Secured checkout · receipts by email</div></div>
       <div class="modal" data-modal="paid"><div class="center"><div style="width:54px;height:54px;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:6px auto">✓</div><div class="mttl">Payment successful</div><div class="sub" id="uPaidMsg" style="margin:6px 0 14px">50 credits added.</div><button class="btn" data-close>Done</button></div></div>
@@ -1453,6 +1456,7 @@ textarea{resize:vertical}
       var _oc=document.getElementById('uOpenCol');if(_oc)_oc.style.display=(_col&&_col!=='all')?'':'none';
       var _pc=(st.radio.packmode==='closet');['uPackBuy','uPackShopBtn'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display=_pc?'none':'';});
       if(st.screen==='itemDetail'&&st.item){var _it=st.item;var _t=document.getElementById('uItemTitle');if(_t)_t.textContent=_it.name;var _b=document.getElementById('uItemBrand');if(_b)_b.value=(_it.brand&&_it.brand!=='—')?_it.brand:'';var _c=document.getElementById('uItemCat');if(_c)_c.innerHTML='<option>'+_it.label+'</option>';var _ph=document.getElementById('uItemPhoto');if(_ph&&_it.icon){_ph.classList.add('phimg');_ph.style.backgroundImage="url('assets/icon-"+_it.icon+".png')";_ph.textContent='';}}
+      var _sv=document.getElementById('uPackSaveBtn'),_dl=document.getElementById('uPackDelBtn');if(_sv&&_dl){var _ps=!!st.packSaved;_sv.style.display=_ps?'none':'';_dl.style.display=_ps?'':'none';}
       var closet=(st.radio.mode==='closet');
       var mr=document.getElementById('uMissRow');if(mr)mr.style.display=closet?'none':'flex';
       var sb=document.getElementById('uShopBtn');if(sb)sb.style.display=closet?'none':'';
@@ -1467,7 +1471,7 @@ textarea{resize:vertical}
     click:function(e){var t=e.target.closest('[data-nav],[data-back],[data-open],[data-close],[data-chip],[data-rg],[data-act],[data-acc],[data-toast]');if(!t)return;
       if(t.dataset.toast){var tm=document.getElementById('uToastMsg');if(tm)tm.textContent=t.dataset.toast;this.st.modal='utoast';this.render();return;}
       if(t.hasAttribute('data-back')){this.back();return;}
-      if(t.dataset.nav){if(t.dataset.nav==='itemDetail'&&t.dataset.iname){this.st.item={name:t.dataset.iname,brand:t.dataset.ibrand,label:t.dataset.ilabel,icon:t.dataset.iicon};}this.go(t.dataset.nav);return;}
+      if(t.dataset.nav){if(t.dataset.nav==='itemDetail'&&t.dataset.iname){this.st.item={name:t.dataset.iname,brand:t.dataset.ibrand,label:t.dataset.ilabel,icon:t.dataset.iicon};}if(t.dataset.nav==='packingList')this.st.packSaved=(t.dataset.saved==='1');this.go(t.dataset.nav);return;}
       if(t.dataset.open){this.st.modal=t.dataset.open;this.render();return;}
       if(t.hasAttribute('data-close')){this.st.modal=null;this.render();return;}
       if(t.dataset.acc){var b=t.querySelector('.acc-b'),i=t.querySelector('.acc-i');if(b){var o=b.style.display!=='none';b.style.display=o?'none':'block';if(i)i.textContent=o?'+':'−';}return;}
@@ -1481,9 +1485,10 @@ textarea{resize:vertical}
       case 'saveItem':this.go('closet');break;
       case 'generate':if(st.plan==='free'&&st.freeGens>0){st.freeGens--;st.refine='';this.go('genLoading');break;}if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;st.refine='';this.go('genLoading');break;
       case 'surprise':st.refine='';this.go('genLoading');break;
-      case 'packGen':if(st.plan==='free'&&st.freeGens>0){st.freeGens--;this.go('packingList');break;}if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;this.go('packingList');break;
+      case 'packGen':st.packSaved=false;if(st.plan==='free'&&st.freeGens>0){st.freeGens--;this.go('packingList');break;}if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;this.go('packingList');break;
       case 'wearToday':{var hl=document.getElementById('uHistList');if(hl){var nm=(document.querySelector('#userApp .screen.active .ttl')||{}).textContent||'Outfit';var c=document.createElement('div');c.className='card flat';c.style.cssText='display:flex;gap:10px;align-items:center;border:1px solid var(--ink)';c.innerHTML='<div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">'+nm+'</div><div class="mut">Today · just now</div></div><button class="btn-o" data-nav="outfitDetail" style="padding:6px 10px;font-size:11px">View</button>';hl.insertBefore(c,hl.firstChild);}this.go('history');break;}
       case 'delCollDone':st.modal=null;this.go('saved');break;
+      case 'delPackDone':st.modal=null;this.go('packHistory');break;
       case 'dismissGetStarted':{var g=document.getElementById('uGetStarted');if(g)g.style.display='none';break;}
       case 'deleteItem':st.modal=null;this.go('closet');break;
       case 'saveTo':st.modal=null;this.go('saved');break;
