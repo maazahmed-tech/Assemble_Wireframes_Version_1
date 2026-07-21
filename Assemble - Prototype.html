@@ -288,6 +288,7 @@ textarea{resize:vertical}
 #userApp .ad{border:2px solid #d64541 !important}
 @media(max-width:900px){#genArea>.btn,#packArea>.btn,#genArea,#packArea{display:block;width:100%;margin-left:auto;margin-right:auto;text-align:center}}
 #genArea>.btn,#packArea>.btn{display:block;width:100%}#genArea,#packArea{text-align:center}
+.btn-o.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 </style>
 </head>
 <body>
@@ -701,16 +702,17 @@ textarea{resize:vertical}
         <div style="display:flex;gap:12px;flex-wrap:wrap">
           <div class="ph" style="flex:1;min-width:200px;min-height:280px;border-radius:16px;text-align:center;line-height:1.4">avatar preview<br>wearing outfit</div>
           <div style="flex:1.2;min-width:230px;display:flex;flex-direction:column;gap:8px">
-            <div class="card flat" style="padding:9px;display:flex;gap:9px;align-items:center"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Green sneakers</div><div class="mut" style="font-size:10px">Owned · base item</div></div><div class="tlink" data-open="swap">Swap</div></div>
-            <div class="card flat" style="padding:9px;display:flex;gap:9px;align-items:center"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">White oxford shirt</div><div class="mut" style="font-size:10px">Owned</div></div><div class="tlink" data-open="swap">Swap</div></div>
-            <div class="card flat" style="padding:9px;display:flex;gap:9px;align-items:center"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Beige chinos</div><div class="mut" style="font-size:10px">Owned</div></div><div class="tlink" data-open="swap">Swap</div></div>
+            <div class="card flat" style="padding:9px;display:flex;gap:9px;align-items:center"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Green sneakers</div><div class="mut" style="font-size:10px">Owned · base item · <span class="wc" data-base="12">worn 12×</span></div></div><div class="tlink" data-open="swap">Swap</div></div>
+            <div class="card flat" style="padding:9px;display:flex;gap:9px;align-items:center"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">White oxford shirt</div><div class="mut" style="font-size:10px">Owned · <span class="wc" data-base="8">worn 8×</span></div></div><div class="tlink" data-open="swap">Swap</div></div>
+            <div class="card flat" style="padding:9px;display:flex;gap:9px;align-items:center"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Beige chinos</div><div class="mut" style="font-size:10px">Owned · <span class="wc" data-base="5">worn 5×</span></div></div><div class="tlink" data-open="swap">Swap</div></div>
             <div style="border:1.5px dashed var(--line-3);border-radius:11px;padding:9px;display:flex;gap:9px;align-items:center;background:var(--surface-2)" id="uMissRow"><div class="ph" style="width:42px;height:42px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-size:12.5px;font-weight:600">Minimal belt — missing</div><div class="mut" style="font-size:10px">~$28 · 6 store options</div></div><div class="pill-o" data-nav="shop" style="padding:5px 10px;font-size:11px">Shop</div></div>
           </div>
         </div>
         <div class="lbl">Refine this look</div>
         <div class="chips"><div class="chip" data-act="refine:cheaper">Cheaper</div><div class="chip" data-act="refine:more formal">More formal</div><div class="chip" data-act="refine:more casual">More casual</div><div class="chip" data-act="refine:bolder">Bolder</div><div class="chip" data-act="refine:simpler">Simpler</div></div>
         <div class="tlink" data-open="reportAI" style="align-self:flex-start">Report a wrong suggestion</div>
-        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn-o" data-act="wearToday" style="flex:1;min-width:130px">Wear today</button><button class="btn" data-open="saveTo" style="flex:1;min-width:130px">Save outfit</button><button class="btn-o" data-open="share" style="flex:1;min-width:130px">Share</button><button class="btn-o" data-nav="shop" id="uShopBtn" style="flex:1;min-width:130px">Shop missing (1)</button></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn-o" data-act="wearToday" id="uWearBtn" style="flex:1;min-width:130px">Wear today</button><button class="btn" data-open="saveTo" style="flex:1;min-width:130px">Save outfit</button><button class="btn-o" data-open="share" style="flex:1;min-width:130px">Share</button><button class="btn-o" data-nav="shop" id="uShopBtn" style="flex:1;min-width:130px">Shop missing (1)</button></div>
+        <div id="uWornNote" class="mut center" style="display:none;font-size:11px;margin-top:2px">✓ Logged to your outfit history · each item's wear count went up</div>
       </div></section>
 
       <section class="screen" data-screen="history"><div class="wrap wide">
@@ -1458,6 +1460,7 @@ textarea{resize:vertical}
       var _pc=(st.radio.packmode==='closet');['uPackBuy','uPackShopBtn'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display=_pc?'none':'';});
       if(st.screen==='itemDetail'&&st.item){var _it=st.item;var _t=document.getElementById('uItemTitle');if(_t)_t.textContent=_it.name;var _b=document.getElementById('uItemBrand');if(_b)_b.value=(_it.brand&&_it.brand!=='—')?_it.brand:'';var _c=document.getElementById('uItemCat');if(_c)_c.innerHTML='<option>'+_it.label+'</option>';var _ph=document.getElementById('uItemPhoto');if(_ph&&_it.icon){_ph.classList.add('phimg');_ph.style.backgroundImage="url('assets/icon-"+_it.icon+".png')";_ph.textContent='';}}
       var _sv=document.getElementById('uPackSaveBtn'),_dl=document.getElementById('uPackDelBtn');if(_sv&&_dl){var _ps=!!st.packSaved;_sv.style.display=_ps?'none':'';_dl.style.display=_ps?'':'none';}
+      if(st.screen==='outfitDetail'){var _wb=document.getElementById('uWearBtn');if(_wb){_wb.textContent=st.wornToday?'✓ Worn today':'Wear today';_wb.classList.toggle('on',!!st.wornToday);}var _wn=document.getElementById('uWornNote');if(_wn)_wn.style.display=st.wornToday?'':'none';document.querySelectorAll('#userApp [data-screen="outfitDetail"] .wc').forEach(function(w){var b=+w.dataset.base||0;w.textContent='worn '+(b+(st.wornToday?1:0))+'×';});}
       var closet=(st.radio.mode==='closet');
       var mr=document.getElementById('uMissRow');if(mr)mr.style.display=closet?'none':'flex';
       var sb=document.getElementById('uShopBtn');if(sb)sb.style.display=closet?'none':'';
@@ -1487,7 +1490,7 @@ textarea{resize:vertical}
       case 'generate':if(st.plan==='free'&&st.freeGens>0){st.freeGens--;st.refine='';this.go('genLoading');break;}if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;st.refine='';this.go('genLoading');break;
       case 'surprise':st.refine='';this.go('genLoading');break;
       case 'packGen':st.packSaved=false;if(st.plan==='free'&&st.freeGens>0){st.freeGens--;this.go('packingList');break;}if(st.credits<1){st.modal='buyCredits';this.render();break;}st.credits--;this.go('packingList');break;
-      case 'wearToday':{var hl=document.getElementById('uHistList');if(hl){var nm=(document.querySelector('#userApp .screen.active .ttl')||{}).textContent||'Outfit';var c=document.createElement('div');c.className='card flat';c.style.cssText='display:flex;gap:10px;align-items:center;border:1px solid var(--ink)';c.innerHTML='<div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">'+nm+'</div><div class="mut">Today · just now</div></div><button class="btn-o" data-nav="outfitDetail" style="padding:6px 10px;font-size:11px">View</button>';hl.insertBefore(c,hl.firstChild);}this.go('history');break;}
+      case 'wearToday':{st.wornToday=!st.wornToday;var hl=document.getElementById('uHistList');if(hl){var ex=hl.querySelector('.today-log');if(st.wornToday&&!ex){var nm=(document.querySelector('#userApp .screen.active .ttl')||{}).textContent||'Outfit';var c=document.createElement('div');c.className='card flat today-log';c.style.cssText='display:flex;gap:10px;align-items:center;border:1px solid var(--ink)';c.innerHTML='<div class="ph" style="width:46px;height:46px;border-radius:8px;flex:none"></div><div style="flex:1"><div style="font-weight:600;font-size:12.5px">'+nm+'</div><div class="mut">Today · just now</div></div><button class="btn-o" data-nav="outfitDetail" style="padding:6px 10px;font-size:11px">View</button>';hl.insertBefore(c,hl.firstChild);}else if(!st.wornToday&&ex){ex.remove();}}this.render();break;}
       case 'delCollDone':st.modal=null;this.go('saved');break;
       case 'delPackDone':st.modal=null;this.go('packHistory');break;
       case 'dismissGetStarted':{var g=document.getElementById('uGetStarted');if(g)g.style.display='none';break;}
