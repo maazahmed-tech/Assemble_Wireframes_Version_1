@@ -289,6 +289,8 @@ textarea{resize:vertical}
 @media(max-width:900px){#genArea>.btn,#packArea>.btn,#genArea,#packArea{display:block;width:100%;margin-left:auto;margin-right:auto;text-align:center}}
 #genArea>.btn,#packArea>.btn{display:block;width:100%}#genArea,#packArea{text-align:center}
 .btn-o.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.locked{position:relative}
+.locked::after{content:"PRO";position:absolute;top:5px;right:5px;font-size:8px;font-weight:800;letter-spacing:.03em;background:var(--ink);color:#fff;border-radius:4px;padding:1px 4px;z-index:3;pointer-events:none;line-height:1.4}
 </style>
 </head>
 <body>
@@ -319,7 +321,7 @@ textarea{resize:vertical}
       <div class="rl" data-nav="home"><span class="g">⌂</span> Home</div>
       <div class="rl" data-nav="closet"><span class="g">▦</span> Closet</div>
       <div class="rl" data-nav="genPick"><span class="g">✚</span> Match outfit</div>
-      <div class="rl" data-nav="saved"><span class="g">♥︎</span> Saved</div>
+      <div class="rl" data-nav="saved" data-lock="1"><span class="g">♥︎</span> Saved</div>
       <div class="rl" data-nav="profile"><span class="g">●</span> Profile</div>
       <div class="creditcard" data-nav="credits"><b class="ucredits">12</b> credits<br><span>Tap to top up</span></div>
     </nav>
@@ -509,10 +511,10 @@ textarea{resize:vertical}
         <div class="grid g-qa">
           <div class="tile" data-nav="addItem"><div style="font-weight:700;font-size:13px;margin-top:6px">Add item</div><div class="mut">Photo → closet</div></div>
           <div class="tile" data-nav="shop"><div style="font-weight:700;font-size:13px;margin-top:6px">Shop matches</div><div class="mut">Fill the gaps</div></div>
-          <div class="tile" data-nav="saved"><div style="font-weight:700;font-size:13px;margin-top:6px">Saved looks</div><div class="mut">8 outfits</div></div>
+          <div class="tile" data-nav="saved" data-lock="1"><div style="font-weight:700;font-size:13px;margin-top:6px">Saved looks</div><div class="mut">8 outfits</div></div>
           <div class="tile" data-nav="genOccasion"><div style="font-weight:700;font-size:13px;margin-top:6px">Plan for an event</div><div class="mut">Dinner, work, club…</div></div>
-          <div class="tile" data-act="surprise"><div style="font-weight:700;font-size:13px;margin-top:6px">Surprise me</div><div class="mut">A random outfit idea</div></div>
-          <div class="tile" data-nav="packing"><div style="font-weight:700;font-size:13px;margin-top:6px">Pack for a trip</div><div class="mut">Build a travel packing list</div></div>
+          <div class="tile" data-act="surprise" data-lock="1"><div style="font-weight:700;font-size:13px;margin-top:6px">Surprise me</div><div class="mut">A random outfit idea</div></div>
+          <div class="tile" data-nav="packing" data-lock="1"><div style="font-weight:700;font-size:13px;margin-top:6px">Pack for a trip</div><div class="mut">Build a travel packing list</div></div>
         </div>
         <div class="ad adbanner"><div class="ph" style="width:44px;height:44px;border-radius:9px;flex:none">Ad</div><div style="flex:1"><div style="font-weight:700;font-size:12px">Sponsored · BrandCo</div><div class="mut">Up to 30% off belts and accessories</div></div><span class="mut" style="font-size:9.5px;border:1px solid var(--line-2);border-radius:5px;padding:1px 5px">AD</span></div>
         <div class="card click" data-nav="social" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-weight:700;font-size:13px">Friends &amp; shared looks</div><div class="mut">2 looks shared with you · give feedback</div></div><div class="badge">2</div></div>
@@ -725,7 +727,7 @@ textarea{resize:vertical}
         <div class="lbl">Refine this look</div>
         <div class="chips"><div class="chip" data-act="refine:cheaper">Cheaper</div><div class="chip" data-act="refine:more formal">More formal</div><div class="chip" data-act="refine:more casual">More casual</div><div class="chip" data-act="refine:bolder">Bolder</div><div class="chip" data-act="refine:simpler">Simpler</div></div>
         <div class="tlink" data-open="reportAI" style="align-self:flex-start">Report a wrong suggestion</div>
-        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn-o" data-act="wearToday" id="uWearBtn" style="flex:1;min-width:130px">Wear today</button><button class="btn" data-open="saveTo" style="flex:1;min-width:130px">Save outfit</button><button class="btn-o" data-open="share" style="flex:1;min-width:130px">Share</button><button class="btn-o" data-nav="shop" id="uShopBtn" style="flex:1;min-width:130px">Shop missing (1)</button></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn-o" data-act="wearToday" id="uWearBtn" style="flex:1;min-width:130px">Wear today</button><button class="btn" data-open="saveTo" data-lock="1" style="flex:1;min-width:130px">Save outfit</button><button class="btn-o" data-open="share" style="flex:1;min-width:130px">Share</button><button class="btn-o" data-nav="shop" id="uShopBtn" style="flex:1;min-width:130px">Shop missing (1)</button></div>
         <div id="uWornNote" class="mut center" style="display:none;font-size:11px;margin-top:2px">✓ Logged to your outfit history · each item's wear count went up</div>
       </div></section>
 
@@ -983,7 +985,7 @@ textarea{resize:vertical}
         <div class="tab" data-nav="home"><div class="g">⌂</div>Home</div>
         <div class="tab" data-nav="closet"><div class="g">▦</div>Closet</div>
         <div class="tab center" data-nav="genPick"><div class="fab">✚</div>Match</div>
-        <div class="tab" data-nav="saved"><div class="g">♥︎</div>Saved</div>
+        <div class="tab" data-nav="saved" data-lock="1"><div class="g">♥︎</div>Saved</div>
         <div class="tab" data-nav="profile"><div class="g">●</div>Profile</div>
       </div>
     </div>
@@ -1028,6 +1030,7 @@ textarea{resize:vertical}
       <div class="modal" data-modal="savePack"><div class="mttl">Save packing list</div><div class="lbl">List name</div><input value="Lisbon · 5 days" placeholder="e.g. Lisbon trip"><div class="frow" style="margin-top:10px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-toast="Packing list saved to Past packing lists." style="flex:1">Save</button></div></div>
       <div class="modal" data-modal="payment"><div class="mttl">Payment</div><div class="card flat" style="padding:11px;display:flex;font-size:12.5px"><div style="flex:1" id="uPayItem">50 credits</div><b id="uPayTotal">$9.99</b></div><div class="lrow" data-rg="pay" data-rv="card">Card ending •• 4242</div><div class="lrow" data-rg="pay" data-rv="new">＋ New card</div><button class="btn" data-act="payNow" id="uPayBtn" style="margin-top:4px;width:100%">Pay $9.99</button><div class="mut center">Secured checkout · receipts by email</div></div>
       <div class="modal" data-modal="paid"><div class="center"><div style="width:54px;height:54px;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:6px auto">✓</div><div class="mttl">Payment successful</div><div class="sub" id="uPaidMsg" style="margin:6px 0 14px">50 credits added.</div><button class="btn" data-close>Done</button></div></div>
+      <div class="modal" data-modal="unlockPro"><div class="center"><div style="width:50px;height:50px;border:2px solid var(--ink);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;letter-spacing:.04em;margin:2px auto 8px">PRO</div><div class="mttl">A Pro feature</div><div class="sub" style="margin:8px 0 14px">Saved looks, Surprise me and Pack for a trip are part of <b>Assemble Pro</b>. Upgrade to unlock them — plus unlimited generations and no ads.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Not now</button><button class="btn" data-nav="plans" style="flex:1">See plans</button></div></div></div>
       <div class="modal" data-modal="changePw"><div class="mttl">Change password</div><input type="password" placeholder="Current password"><input type="password" placeholder="New password"><input type="password" placeholder="Repeat new password"><div class="frow" style="margin-top:4px"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-close style="flex:1">Update</button></div></div>
       <div class="modal" data-modal="deleteAcct"><div class="center"><div class="mttl">Delete your account?</div><div class="sub" style="margin:8px 0 12px">All wardrobe photos, outfits and credits will be permanently removed within 30 days. This cannot be undone.</div><input placeholder='Type "DELETE" to confirm' style="text-align:center;margin-bottom:4px"><div class="frow"><button class="btn" data-close style="flex:1">Keep account</button><button class="btn-g" data-act="deleteAcct" style="flex:1">Delete</button></div></div></div>
       <div class="modal" data-modal="logout"><div class="center"><div class="mttl">Log out?</div><div class="sub" style="margin:8px 0 14px">Your closet stays safe — log back in anytime.</div><div class="frow"><button class="btn-o" data-close style="flex:1">Cancel</button><button class="btn" data-act="logout" style="flex:1">Log out</button></div></div></div>
@@ -1467,6 +1470,7 @@ textarea{resize:vertical}
       var payItem=document.getElementById('uPayItem'),payTotal=document.getElementById('uPayTotal'),payBtn=document.getElementById('uPayBtn');
       if(payItem&&payTotal&&payBtn){if(st.payCtx==='sub'){var pp=planL[st.radio.plan];payItem.textContent=pp.n+' subscription';payTotal.textContent=pp.p+'/mo';payBtn.textContent='Subscribe · '+pp.p+'/mo';}else{var kk=packL[st.radio.pack]||packL['50'];payItem.textContent=kk.c+' credits';payTotal.textContent=kk.p;payBtn.textContent='Pay '+kk.p;}}
       userApp.querySelectorAll('.ad').forEach(function(el){el.style.display=st.plan==='free'?'':'none';});
+      userApp.querySelectorAll('[data-lock]').forEach(function(el){el.classList.toggle('locked',st.plan!=='pro');});
       var _csv=((document.getElementById('uClosetSearch')||{}).value||'').toLowerCase(),_cat=st.radio.cat;
       userApp.querySelectorAll('#uClosetGrid > div[data-cat]').forEach(function(el){var okc=(_cat==='all'||el.dataset.cat===_cat);var oks=el.textContent.toLowerCase().indexOf(_csv)>=0;el.style.display=(okc&&oks)?'':'none';});
       var _col=st.radio.col;userApp.querySelectorAll('#uSavedGrid > div[data-col]').forEach(function(el){el.style.display=(_col==='all'||el.dataset.col===_col)?'':'none';});
@@ -1487,6 +1491,7 @@ textarea{resize:vertical}
       userApp.querySelectorAll('.modal').forEach(function(el){el.classList.toggle('active',el.dataset.modal===st.modal);});
     },
     click:function(e){var t=e.target.closest('[data-nav],[data-back],[data-open],[data-close],[data-chip],[data-rg],[data-act],[data-acc],[data-toast]');if(!t)return;
+      if(this.st.plan!=='pro'){var _ln=['saved','collection','packing','packingList','packHistory'],_lo=['saveTo','savePack','newCollection'];if((t.dataset.nav&&_ln.indexOf(t.dataset.nav)>=0)||t.dataset.act==='surprise'||(t.dataset.open&&_lo.indexOf(t.dataset.open)>=0)){this.st.modal='unlockPro';this.render();return;}}
       if(t.dataset.toast){var tm=document.getElementById('uToastMsg');if(tm)tm.textContent=t.dataset.toast;this.st.modal='utoast';this.render();return;}
       if(t.hasAttribute('data-back')){this.back();return;}
       if(t.dataset.nav){if(t.dataset.nav==='itemDetail'&&t.dataset.iname){this.st.item={name:t.dataset.iname,brand:t.dataset.ibrand,label:t.dataset.ilabel,icon:t.dataset.iicon};}if(t.dataset.nav==='packingList')this.st.packSaved=(t.dataset.saved==='1');this.go(t.dataset.nav);return;}
